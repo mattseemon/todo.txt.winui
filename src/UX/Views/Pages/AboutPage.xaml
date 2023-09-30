@@ -14,44 +14,56 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" x:Uid="About_Title" Style="{StaticResource PageTitleStyle}" />
-        <ScrollViewer Grid.Row="1">
-            <Grid VerticalAlignment="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Image Width="150" Source="/Assets/Todo-256.png" HorizontalAlignment="Left" Margin="{StaticResource XSmallTopMargin}" />
-                <StackPanel Grid.Row="0" Grid.Column="1" Margin="{StaticResource MediumLeftRightMargin}">
-                    <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource SubtitleTextBlockStyle}" />
-                    <TextBlock Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource SubtitleTextBlockStyle}">
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Width="150" Source="/Assets/Todo-256.png" HorizontalAlignment="Left" Margin="{StaticResource XSmallTopMargin}" />
+            <StackPanel Grid.Row="0" Grid.Column="1" Margin="{StaticResource MediumLeftRightMargin}">
+                <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource SubtitleTextBlockStyle}">
                         <Run>Version</Run> <Run Text="{x:Bind ViewModel.Version, Mode=OneWay}" />
-                    </TextBlock>
-                    <TextBlock Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}">
+                </TextBlock>
+                <TextBlock Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}">
                         <Run FontWeight="SemiBold">Author:</Run> <Run Text="{x:Bind ViewModel.Author, Mode=OneWay}" />
-                    </TextBlock>
-                    <TextBlock Text="{x:Bind ViewModel.Copyright, Mode=OneWay}" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
-                </StackPanel>
-                <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
-                    <TextBlock x:Uid="AboutPage_Intro" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
-                    <TextBlock x:Uid="AboutPage_Source_Title" Margin="{StaticResource SmallTopMargin}" Style="{StaticResource BodyStrongTextBlockStyle}" />
-                    <TextBlock x:Uid="AboutPage_Source_Text" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
-                    <TextBlock x:Uid="AboutPage_Privacy_Title" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyStrongTextBlockStyle}" />
-                    <TextBlock x:Uid="AboutPage_Privacy_Text" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
-                    <StackPanel Orientation="Horizontal" Margin="{StaticResource XSmallTopMargin}">
-                        <HyperlinkButton x:Uid="AboutPage_todotxtspec" />
-                        <HyperlinkButton x:Uid="AboutPage_todotxtnet" />
-                        <HyperlinkButton x:Uid="AboutPage_privacy" />
-                        <HyperlinkButton x:Uid="AboutPage_source" />
-                        <HyperlinkButton x:Uid="AboutPage_license" />
-                        <HyperlinkButton x:Uid="AboutPage_credits" />
+                </TextBlock>
+                <TextBlock Text="{x:Bind ViewModel.Copyright, Mode=OneWay}" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
+            </StackPanel>
+            <Border BorderThickness="1" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}" Grid.Row="1" Grid.ColumnSpan="2" Margin="{StaticResource SmallTopBottomMargin}" CornerRadius="8">
+                <ScrollViewer Padding="0 0 12 0" VerticalScrollBarVisibility="Auto" Margin="{StaticResource XXSmallLeftTopRightBottomMargin}" >
+                    <StackPanel >
+                        <TextBlock x:Uid="AboutPage_Intro" TextAlignment="Justify" TextWrapping="Wrap" Style="{StaticResource BodyTextStyle}" />
+                        <StackPanel Orientation="Horizontal">
+                            <HyperlinkButton x:Uid="AboutPage_todotxtspec" />
+                            <HyperlinkButton x:Uid="AboutPage_todotxtnet" />
+                        </StackPanel>
+                        <TextBlock x:Uid="AboutPage_Privacy_Title" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                        <TextBlock x:Uid="AboutPage_Privacy_Text" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
+                        <StackPanel Orientation="Horizontal">
+                            <HyperlinkButton x:Uid="AboutPage_privacy" />
+                        </StackPanel>
+                        <TextBlock x:Uid="AboutPage_license_Title" Margin="{StaticResource SmallTopMargin}" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                        <TextBlock x:Uid="AboutPage_license_Text" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
+                        <StackPanel Orientation="Horizontal">
+                            <HyperlinkButton x:Uid="AboutPage_license" />
+                            <HyperlinkButton x:Uid="AboutPage_todotxtnet_license" />
+                        </StackPanel>
+                        <TextBlock x:Uid="AboutPage_Source_Title" Margin="{StaticResource SmallTopMargin}" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                        <TextBlock x:Uid="AboutPage_Source_Text" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
+                        <StackPanel Orientation="Horizontal">
+                            <HyperlinkButton x:Uid="AboutPage_source" />
+                            <HyperlinkButton x:Uid="AboutPage_contributing" />
+                            <HyperlinkButton x:Uid="AboutPage_credits" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </Grid>
-        </ScrollViewer>
+                </ScrollViewer>
+            </Border>
+        </Grid>
         <Grid Grid.Row="2" HorizontalAlignment="Right" Margin="{StaticResource MediumBottomMargin}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
