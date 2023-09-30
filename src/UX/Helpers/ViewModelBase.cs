@@ -44,4 +44,9 @@ public class ViewModelBase : ObservableValidator, IViewModel
         base.OnPropertyChanged(e);
         RaiseCommandCanExecute();
     }
+
+    public virtual bool ShellKeyEventTriggered(object parameter) 
+    {
+        return true; 
+    }
 }

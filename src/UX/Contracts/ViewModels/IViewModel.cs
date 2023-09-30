@@ -7,4 +7,6 @@ public interface IViewModel
     void RaiseCommandCanExecute();
 
     void SetModel(object model);
+
+    bool ShellKeyEventTriggered(object parameter);
 }

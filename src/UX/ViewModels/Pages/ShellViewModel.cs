@@ -1,10 +1,12 @@
 ﻿using System.Windows.Input;
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers;
+using Windows.System;
 
 namespace Seemon.Todo.ViewModels.Pages;
 
@@ -40,4 +42,21 @@ public class ShellViewModel : ViewModelBase
     private void OnMenuFileExit() => Application.Current.Exit();
 
     private void OnMenuSettings() => NavigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
+
+    public override bool ShellKeyEventTriggered(object parameter)
+    {
+        var result = false;
+        var args = parameter as KeyboardAcceleratorInvokedEventArgs;
+        switch (args.KeyboardAccelerator.Key)
+        {
+            case VirtualKey.F10:
+                OnMenuSettings();
+                result = true;
+                break;
+            default:
+                result = true;
+                break;
+        }
+        return false;
+    }
 }
