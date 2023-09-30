@@ -1,52 +1,36 @@
 ﻿using System.Windows.Input;
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
 
 using Seemon.Todo.Contracts.Services;
+using Seemon.Todo.Helpers;
 
 namespace Seemon.Todo.ViewModels.Pages;
 
-public partial class ShellViewModel : ObservableRecipient
+public class ShellViewModel : ViewModelBase
 {
     private bool _isBackEnabled;
+
+    private ICommand _goBackCommand = null;
+    private ICommand _menuFileExitCommand = null;
+    private ICommand _menuSettingsCommand = null;
 
     public bool IsBackEnabled
     {
         get => _isBackEnabled; set => SetProperty(ref _isBackEnabled, value);
     }
 
-    public ICommand GoBackCommand
-    {
-        get;
-    }
+    public ICommand GoBackCommand => _goBackCommand ??= RegisterCommand(OnGoBack);
+    public ICommand MenuFileExitCommand => _menuFileExitCommand ??= RegisterCommand(OnMenuFileExit);
+    public ICommand MenuSettingsCommand => _menuSettingsCommand ??= RegisterCommand(OnMenuSettings);
 
-    public ICommand MenuFileExitCommand
-    {
-        get;
-    }
-
-    public ICommand MenuSettingsCommand
-    {
-        get;
-    }
-
-    public INavigationService NavigationService
-    {
-        get;
-    }
+    public INavigationService NavigationService { get; }
 
     public ShellViewModel(INavigationService navigationService)
     {
         NavigationService = navigationService;
         NavigationService.Navigated += OnNavigated;
-
-        GoBackCommand = new RelayCommand(OnGoBack);
-        MenuFileExitCommand = new RelayCommand(OnMenuFileExit);
-        MenuSettingsCommand = new RelayCommand(OnMenuSettings);
     }
 
     private void OnGoBack() => NavigationService.GoBack();
