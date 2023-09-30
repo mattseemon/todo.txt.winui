@@ -36,7 +36,7 @@ _definitely_ responsible for the issue.
 A good bug report shouldn't leave others needing to chase you up for more
 information. Please try to be as detailed as possible in your report.
 
- * Use the following [template to report bugs](https://github.com/mattseemon/todo.txt.winui/blob/main/.github/ISSUE_TEMPLATE/bug_report.md)
+ * Use the following [template to report bugs](/.github/ISSUE_TEMPLATE/bug_report.md)
 
 <a name="features"></a>
 ## Feature requests
@@ -46,7 +46,7 @@ fits with the scope and aims of the project. It's up to *you* to make a strong
 case to convince the project developers of the merits of this feature. Please
 provide as much detail and context as possible.
 
- * Use the following [template to request for new features](https://github.com/mattseemon/todo.txt.winui/blob/main/.github/ISSUE_TEMPLATE/feature_request.md)
+ * Use the following [template to request for new features](/.github/ISSUE_TEMPLATE/feature_request.md)
 
 <a name="pull-requests"></a>
 ## Pull requests
