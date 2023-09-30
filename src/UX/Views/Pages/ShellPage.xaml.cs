@@ -41,6 +41,7 @@ public sealed partial class ShellPage : Page
 
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Back));
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.F10));
+        KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.F1));
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)

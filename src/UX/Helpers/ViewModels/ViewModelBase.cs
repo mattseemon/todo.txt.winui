@@ -4,7 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Seemon.Todo.Contracts.ViewModels;
 
-namespace Seemon.Todo.Helpers;
+namespace Seemon.Todo.Helpers.ViewModels;
+
 public class ViewModelBase : ObservableValidator, IViewModel
 {
     private readonly IList<ICommand> _commands;

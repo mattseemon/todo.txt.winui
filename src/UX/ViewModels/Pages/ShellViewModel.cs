@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 
 using Seemon.Todo.Contracts.Services;
-using Seemon.Todo.Helpers;
+using Seemon.Todo.Helpers.ViewModels;
 using Windows.System;
 
 namespace Seemon.Todo.ViewModels.Pages;
@@ -17,6 +17,7 @@ public class ShellViewModel : ViewModelBase
     private ICommand _goBackCommand = null;
     private ICommand _menuFileExitCommand = null;
     private ICommand _menuSettingsCommand = null;
+    private ICommand _showAboutCommand = null;
 
     public bool IsBackEnabled
     {
@@ -26,6 +27,7 @@ public class ShellViewModel : ViewModelBase
     public ICommand GoBackCommand => _goBackCommand ??= RegisterCommand(OnGoBack);
     public ICommand MenuFileExitCommand => _menuFileExitCommand ??= RegisterCommand(OnMenuFileExit);
     public ICommand MenuSettingsCommand => _menuSettingsCommand ??= RegisterCommand(OnMenuSettings);
+    public ICommand ShowAboutCommand => _showAboutCommand ??= RegisterCommand(OnShowAbout);
 
     public INavigationService NavigationService { get; }
 
@@ -43,12 +45,17 @@ public class ShellViewModel : ViewModelBase
 
     private void OnMenuSettings() => NavigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
 
+    private void OnShowAbout() => NavigationService.NavigateTo(typeof(AboutViewModel).FullName!);
+
     public override bool ShellKeyEventTriggered(object parameter)
     {
         var result = false;
         var args = parameter as KeyboardAcceleratorInvokedEventArgs;
         switch (args.KeyboardAccelerator.Key)
         {
+            case VirtualKey.F1:
+                OnShowAbout();
+                break;
             case VirtualKey.F10:
                 OnMenuSettings();
                 result = true;
