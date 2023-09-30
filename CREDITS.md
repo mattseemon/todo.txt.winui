@@ -1,7 +1,7 @@
 # Complete list of credits for [Todo](https://github.com/mattseemon/todo.txt.winui)
 
 ## Source
-A big part of the work is inspired by the work of Ben Hughes on [todo.txt.net](https://github.com/benrhughes/todotxt.net). While this is mostly a complete re-write, there are blocks of code that were replicated from his work. Hence credit has to be given where credit is due. His work is covered by the FreeBSD License found [here](https://github.com/benrhughes/todotxt.net/blob/dev/BSD_LICENSE.txt).
+A big part of the work is inspired by the work of Ben Hughes on [todotxt.net](https://github.com/benrhughes/todotxt.net). While this is mostly a complete re-write, there are blocks of code that were replicated from his work. Hence credit has to be given where credit is due. His work is covered by the FreeBSD License found [here](https://github.com/benrhughes/todotxt.net/blob/dev/BSD_LICENSE.txt).
 
 ### Declared License
   * FreeBSD License

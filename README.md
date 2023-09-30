@@ -19,7 +19,7 @@ An implementation of todo.txt client for Windows.
 7. [License](#license)
 
 ---
-This is an implementation of [todo.txt](http://todotxt.org/) for Windows using the .NET Framework. This is inspired by [todotxt.net](https://github.com/benrhughes/todotxt.net) built by Ben Hughes.
+This is an implementation of [todo.txt](http://todotxt.org/) for Windows using the .NET Framework and Win UI 3. This is inspired by [todotxt.net](https://github.com/benrhughes/todotxt.net) built by Ben Hughes.
 
 This implementation conforms to the [todo.txt format specfication](https://github.com/todotxt/todo.txt) defined by Gina Trapani.
 
