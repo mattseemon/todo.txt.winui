@@ -52,7 +52,7 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
-        <Grid Grid.Row="2" HorizontalAlignment="Right" Margin="{StaticResource XSmallBottomRightMargin}">
+        <Grid Grid.Row="2" HorizontalAlignment="Right" Margin="{StaticResource MediumBottomMargin}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
