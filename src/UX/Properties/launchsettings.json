@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "Seemon.Todo (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "Seemon.Todo (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
