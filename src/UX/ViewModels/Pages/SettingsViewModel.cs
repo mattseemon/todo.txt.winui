@@ -4,9 +4,9 @@ using System.Windows.Input;
 using Microsoft.UI.Xaml;
 
 using Seemon.Todo.Contracts.Services;
-using Seemon.Todo.Helpers;
 using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
+using Seemon.Todo.Helpers.ViewModels;
 using Windows.ApplicationModel;
 
 namespace Seemon.Todo.ViewModels.Pages;

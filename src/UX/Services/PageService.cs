@@ -3,9 +3,7 @@
 using Microsoft.UI.Xaml.Controls;
 
 using Seemon.Todo.Contracts.Services;
-using Seemon.Todo.ViewModels;
 using Seemon.Todo.ViewModels.Pages;
-using Seemon.Todo.Views;
 using Seemon.Todo.Views.Pages;
 
 namespace Seemon.Todo.Services;
@@ -18,6 +16,7 @@ public class PageService : IPageService
     {
         Configure<MainViewModel, MainPage>();
         Configure<SettingsViewModel, SettingsPage>();
+        Configure<AboutViewModel, AboutPage>();
     }
 
     public Type GetPageType(string key)

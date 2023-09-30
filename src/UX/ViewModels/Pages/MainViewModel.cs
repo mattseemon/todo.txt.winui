@@ -1,4 +1,4 @@
-﻿using Seemon.Todo.Helpers;
+﻿using Seemon.Todo.Helpers.ViewModels;
 
 namespace Seemon.Todo.ViewModels.Pages;
 

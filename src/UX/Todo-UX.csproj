@@ -38,11 +38,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\Todo-128.png" />
+    <Content Remove="Assets\Todo-256.png" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Todo.ico" />
     <None Remove="Package.appinstaller" />
     <None Remove="TemplateStudio.xml" />
+    <None Remove="Views\Pages\AboutPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -65,6 +67,12 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Update="Assets\Todo-256.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Update="Views\Pages\AboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
@@ -73,7 +81,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Windows\" />
-    <Folder Include="Views\Pages\" />
   </ItemGroup>
 
   <ItemGroup>
