@@ -63,11 +63,11 @@ Todo was developed using the below tools and technologies.
 Library | Version 
 ------- | -------:
 [Newtonsoft.Json](https://www.newtonsoft.com/json)|13.0.3
-[Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)|1.3.1
+[Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)|1.4.1
 [Microsoft.Xaml.Behaviors.WinUI.Managed](https://github.com/Microsoft/XamlBehaviors)|2.0.9
 [Microsoft.Extensions.Hosting](https://github.com/dotnet/runtime)|7.0.1
 [CommunityToolkit.Mvvm ](https://github.com/CommunityToolkit/dotnet)|8.2.1
-[WinUIEx](https://github.com/dotMorten/WinUIEx)|2.2.0
+[WinUIEx](https://github.com/dotMorten/WinUIEx)|2.3.1
 
 [Back to Top](#table-of-contents)
 

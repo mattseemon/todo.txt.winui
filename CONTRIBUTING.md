@@ -1,3 +1,12 @@
+# Contributing to the Todo Project
+
+## Table of Contents
+* [Using the issue tracker](#using-the-issue-tracker)
+* [Bug Report](#bug-reports)
+* [Feature Requests](#feature-requests)
+* [Pull Requests](#pull-requests)
+---
+
 Please take a moment to review this document in order to make the contribution
 process easy and effective for everyone involved.
 
@@ -6,7 +15,7 @@ the developers managing and developing this open source project. In return,
 they should reciprocate that respect in addressing your issue or assessing
 patches and features.
 
-<a name="issue-tracker"></a>
+[Back to top](#table-of-contents)
 ## Using the issue tracker
 
 The issue tracker is the preferred channel for [bug reports](#bugs),
@@ -16,7 +25,7 @@ requests](#pull-requests), but please respect the following restrictions:
 * Please **do not** derail or troll issues. Keep the discussion on topic and
   respect the opinions of others.
 
-<a name="bugs"></a>
+[Back to top](#table-of-contents)
 ## Bug reports
 
 A bug is a _demonstrable problem_ that is caused by the code in the repository.
@@ -38,7 +47,7 @@ information. Please try to be as detailed as possible in your report.
 
  * Use the following [template to report bugs](/.github/ISSUE_TEMPLATE/bug_report.md)
 
-<a name="features"></a>
+[Back to top](#table-of-contents)
 ## Feature requests
 
 Feature requests are welcome. But take a moment to find out whether your idea
@@ -48,7 +57,7 @@ provide as much detail and context as possible.
 
  * Use the following [template to request for new features](/.github/ISSUE_TEMPLATE/feature_request.md)
 
-<a name="pull-requests"></a>
+[Back to top](#table-of-contents)
 ## Pull requests
 
 Good pull requests - patches, improvements, new features - are a fantastic
@@ -112,3 +121,5 @@ merged:
 
 10. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/)
     with a clear title and description.
+
+[Back to top](#table-of-contents)

@@ -49,12 +49,10 @@ public static class SettingsStorageExtensions
     public static async Task<T?> ReadAsync<T>(this ApplicationDataContainer settings, string key)
     {
         object? obj;
-
         if (settings.Values.TryGetValue(key, out obj))
         {
             return await JsonHelper.ToObjectAsync<T>((string)obj);
         }
-
         return default;
     }
 
@@ -85,7 +83,6 @@ public static class SettingsStorageExtensions
             var content = await storageFile.ReadBytesAsync();
             return content;
         }
-
         return null;
     }
 

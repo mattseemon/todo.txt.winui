@@ -114,7 +114,6 @@ internal class TitleBarHelper
             {
                 res["WindowCaptionForeground"] = Colors.Black;
             }
-
             UpdateTitleBar(frame.ActualTheme);
         }
     }

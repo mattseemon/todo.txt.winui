@@ -1,12 +1,17 @@
-﻿namespace Seemon.Todo.Contracts.ViewModels;
+﻿using Microsoft.UI.Xaml.Input;
+
+namespace Seemon.Todo.Contracts.ViewModels;
 
 public interface IViewModel
 {
-    string PageKey { get; }
+    string PageKey
+    {
+        get;
+    }
 
     void RaiseCommandCanExecute();
 
     void SetModel(object model);
 
-    bool ShellKeyEventTriggered(object parameter);
+    bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args);
 }

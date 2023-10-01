@@ -1,10 +1,10 @@
-﻿using Seemon.Todo.Helpers.Common;
-using Seemon.Todo.Helpers.Extensions;
-using System.Reflection;
-using Seemon.Todo.Helpers.ViewModels;
+﻿using System.Reflection;
+
 using Windows.ApplicationModel;
-using Microsoft.UI.Xaml;
-using System;
+
+using Seemon.Todo.Helpers.Common;
+using Seemon.Todo.Helpers.Extensions;
+using Seemon.Todo.Helpers.ViewModels;
 
 namespace Seemon.Todo.ViewModels.Pages;
 

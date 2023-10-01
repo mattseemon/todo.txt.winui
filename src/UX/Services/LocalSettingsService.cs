@@ -3,7 +3,6 @@
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Models.Settings;
-using Windows.ApplicationModel;
 using Windows.Storage;
 
 namespace Seemon.Todo.Services;

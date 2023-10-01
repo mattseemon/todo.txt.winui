@@ -29,10 +29,12 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" x:Name="BackButton" Command="{x:Bind ViewModel.GoBackCommand}" AccessKey="B"
-                    Style="{StaticResource NavigationBackButtonNormalStyle}" 
                     Visibility="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    ToolTipService.ToolTip="Go Back" />
-            <MenuBar Grid.Column="1">
+                    Style="{StaticResource AlternateCloseButtonStyle}" VerticalAlignment="Center"
+                    ToolTipService.ToolTip="Go Back">
+                <FontIcon Glyph="&#xE830;" />
+            </Button>
+            <MenuBar Grid.Column="1" Visibility="{x:Bind ViewModel.IsMenuVisible, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <!--
                 TODO: Update item titles by updating <x:Uid>.Text entries in Strings/en-us/Resources.resw.
                 https://docs.microsoft.com/windows/uwp/app-resources/localize-strings-ui-manifest#refer-to-a-string-resource-identifier-from-xaml

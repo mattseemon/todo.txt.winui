@@ -52,7 +52,9 @@ public sealed partial class ShellPage : Page
         App.AppTitlebar = AppTitleBarText as UIElement;
     }
 
-    private void OnUnloaded(object sender, RoutedEventArgs e) { }
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+    }
 
     private KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)
     {
@@ -70,8 +72,8 @@ public sealed partial class ShellPage : Page
 
     private void OnKeyboardAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
     {
-        var result = false;
-        switch (args.KeyboardAccelerator.Key) 
+        bool result;
+        switch (args.KeyboardAccelerator.Key)
         {
             case VirtualKey.Back:
                 var navigationService = App.GetService<INavigationService>();
