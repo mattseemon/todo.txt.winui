@@ -1,7 +1,9 @@
-﻿using Seemon.Todo.Helpers.Common;
-using Seemon.Todo.Helpers.Extensions;
-using Windows.UI.ViewManagement;
+﻿using Windows.UI.ViewManagement;
+
 using WinUIEx;
+
+using Seemon.Todo.Helpers.Common;
+using Seemon.Todo.Helpers.Extensions;
 
 namespace Seemon.Todo.Views.Windows;
 

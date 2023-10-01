@@ -28,10 +28,8 @@ public class NavigationService : INavigationService
                 _frame = App.MainWindow.Content as Frame;
                 RegisterFrameEvents();
             }
-
             return _frame;
         }
-
         set
         {
             UnregisterFrameEvents();
@@ -74,10 +72,8 @@ public class NavigationService : INavigationService
             {
                 navigationAware.OnNavigatedFrom();
             }
-
             return true;
         }
-
         return false;
     }
 
@@ -98,10 +94,8 @@ public class NavigationService : INavigationService
                     navigationAware.OnNavigatedFrom();
                 }
             }
-
             return navigated;
         }
-
         return false;
     }
 

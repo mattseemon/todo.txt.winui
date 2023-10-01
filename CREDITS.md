@@ -1,9 +1,7 @@
-# Complete list of credits for [Todo](https://github.com/mattseemon/todo.txt.winui)
-
+# Complete list of credits for Todo
 ## Source
 A big part of the work is inspired by the work of Ben Hughes on [todotxt.net](https://github.com/benrhughes/todotxt.net). While this is mostly a complete re-write, there are blocks of code that were replicated from his work. Hence credit has to be given where credit is due. His work is covered by the FreeBSD License found [here](https://github.com/benrhughes/todotxt.net/blob/dev/BSD_LICENSE.txt).
-
-### Declared License
+### Declared License for **todotxt.net**
   * FreeBSD License
     * Note: This license has also been called the “Simplified BSD License” and the “The 2-Clause BSD License”.
     ```
@@ -35,24 +33,28 @@ A big part of the work is inspired by the work of Ben Hughes on [todotxt.net](ht
     authors and should not be interpreted as representing official policies, either expressed
     or implied, of Ben Hughes
     ```
-
 ## Libraries Used
 The following 3rd-party software libraries were used to develop **Todo** and are distributed with the same.
 
-Package|Licenses
--------|:--------:
-[Newtonsoft.Json (13.0.3)](#newtonsoftjson-1303)|MIT
-[Microsoft.WindowsAppSDK (1.3.1)](#microsoftwindowsappsdk-131)|MIT
-[Microsoft.Extensions.Hosting (7.0.1)](#microsoftextensionshosting-701)|MIT
-[CommunityToolkit.Mvvm (8.2.1)](#communitytoolkitmvvm-821)|MIT
-[Microsoft.Xaml.Behaviors.WinUI.Managed (2.0.9)](#microsoftxamlbehaviorswinuimanaged-209)|MIT
-[WinUIEx (2.2.0)](#winuiex-220)|MIT
+Package|Version|Licenses
+---|---:|:---:
+[Newtonsoft.Json](#newtonsoftjson)|13.0.3|MIT
+[Microsoft.WindowsAppSDK](#microsoftwindowsappsdk)|1.4.1|MIT
+[Microsoft.Extensions.Hosting](#microsoftextensionshosting)|7.0.1|MIT
+[CommunityToolkit.Mvvm](#communitytoolkitmvvm)|8.2.1|MIT
+[Microsoft.Xaml.Behaviors.WinUI.Managed](#microsoftxamlbehaviorswinuimanaged)|2.0.9|MIT
+[WinUIEx](#winuiex)|2.3.1|MIT
 
-## Newtonsoft.Json (13.0.3)
-
+## Newtonsoft.Json
 ### Description
 Json.NET is a popular high-performance JSON framework for .NET
-
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|13.0.3|
+|License|MIT|
+|Author|James Newton-King|
+|Homepage|https://www.newtonsoft.com/json|
 ### Declared License(s)
   * MIT
 
@@ -78,20 +80,19 @@ Json.NET is a popular high-performance JSON framework for .NET
     IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     ```
-### Authors
-  * James Newton-King
-
-### Package Homepage
-  * https://www.newtonsoft.com/json
-
 [Back to Top](#complete-list-of-credits-for-todo)
 
 ---
-## Microsoft.WindowsAppSDK (1.3.1)
-
+## Microsoft.WindowsAppSDK 
 ### Description
 The Windows App SDK empowers all Windows Desktop apps with modern Windows UI, APIs, and platform features, including back-compat support.
-
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|1.4.1|
+|License|MIT|
+|Author|Microsoft|
+|Homepage|https://github.com/microsoft/windowsappsdk|
 ### Declared License(s)
   * MIT
     ```
@@ -117,21 +118,20 @@ The Windows App SDK empowers all Windows Desktop apps with modern Windows UI, AP
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE
     ```
-### Authors
-  * Microsoft
-
-### Package Homepage
-  * https://github.com/microsoft/windowsappsdk
-
 [Back to Top](#complete-list-of-credits-for-todo)
 
 ---
 
-## Microsoft.Extensions.Hosting (7.0.1)
-
+## Microsoft.Extensions.Hosting
 ### Description
 Hosting and startup infrastructures for applications.
-
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|7.0.1|
+|License|MIT|
+|Author|Microsoft|
+|Homepage|https://github.com/dotnet/runtime|
 ### Declared License(s)
   * MIT
     ```
@@ -159,29 +159,28 @@ Hosting and startup infrastructures for applications.
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
     ```
-### Authors
-  * Microsoft
-
-### Package Homepage
-  * https://github.com/dotnet/runtime
-
 [Back to Top](#complete-list-of-credits-for-todo)
 
 ---
 
-## CommunityToolkit.Mvvm (8.2.1)
-
+## CommunityToolkit.Mvvm
 ### Description
 This package includes a .NET MVVM library with helpers such as:
-      - ObservableObject: a base class for objects implementing the INotifyPropertyChanged interface.
-      - ObservableRecipient: a base class for observable objects with support for the IMessenger service.
-      - ObservableValidator: a base class for objects implementing the INotifyDataErrorInfo interface.
-      - RelayCommand: a simple delegate command implementing the ICommand interface.
-      - AsyncRelayCommand: a delegate command supporting asynchronous operations and cancellation.
-      - WeakReferenceMessenger: a messaging system to exchange messages through different loosely-coupled objects.
-      - StrongReferenceMessenger: a high-performance messaging system that trades weak references for speed.
-      - Ioc: a helper class to configure dependency injection service containers.
-
+  - ObservableObject: a base class for objects implementing the INotifyPropertyChanged interface.
+  - ObservableRecipient: a base class for observable objects with support for the IMessenger service.
+  - ObservableValidator: a base class for objects implementing the INotifyDataErrorInfo interface.
+  - RelayCommand: a simple delegate command implementing the ICommand interface.
+  - AsyncRelayCommand: a delegate command supporting asynchronous operations and cancellation.
+  - WeakReferenceMessenger: a messaging system to exchange messages through different loosely-coupled objects.
+  - StrongReferenceMessenger: a high-performance messaging system that trades weak references for speed.
+  - Ioc: a helper class to configure dependency injection service containers.
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|8.2.1|
+|License|MIT|
+|Author|Microsoft|
+|Homepage|https://github.com/CommunityToolkit/dotnet|
 ### Declared License(s)
   * MIT
     ```
@@ -209,21 +208,20 @@ This package includes a .NET MVVM library with helpers such as:
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
     SOFTWARE.
     ```
-### Authors
-  * Microsoft
-
-### Package Homepage
-  * https://github.com/CommunityToolkit/dotnet
-
 [Back to Top](#complete-list-of-credits-for-todo)
 
 ---
 
-## Microsoft.Xaml.Behaviors.WinUI.Managed (2.0.9)
-
+## Microsoft.Xaml.Behaviors.WinUI.Managed
 ### Description
 Easily add interactivity to your WinUI apps using XAML Behaviors. Behaviors encapsulate reusable functionalities for elements that can be easily added to your XAML without the need for more imperative code. This is the managed version for C# UWP WinUI projects.
-
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|2.0.9|
+|License|MIT|
+|Author|Microsoft|
+|Homepage|https://github.com/CommunityToolkit/dotnet|
 ### Declared License(s)
   * MIT
     ```
@@ -249,21 +247,20 @@ Easily add interactivity to your WinUI apps using XAML Behaviors. Behaviors enca
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
     ```
-### Authors
-  * Microsoft
-
-### Package Homepage
-  * https://github.com/CommunityToolkit/dotnet
-
 [Back to Top](#complete-list-of-credits-for-todo)
 
 ---
 
-## WinUIEx (2.2.0)
-
+## WinUIEx
 ### Description
 A set of extension methods and classes to fill some gaps in WinUI 3, mostly around windowing.
-
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|2.3.1|
+|License|MIT|
+|Author|Morten Nielsen|
+|Homepage|https://github.com/dotMorten/WinUIEx|
 ### Declared License(s)
   * MIT
     ```
@@ -289,12 +286,6 @@ A set of extension methods and classes to fill some gaps in WinUI 3, mostly arou
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
     ```
-### Authors
-  * Morten Nielsen
-
-### Package Homepage
-  * https://github.com/dotMorten/WinUIEx
-
 [Back to Top](#complete-list-of-credits-for-todo)
 
 ---

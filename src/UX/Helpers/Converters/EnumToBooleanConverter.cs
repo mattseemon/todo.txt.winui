@@ -5,10 +5,6 @@ namespace Seemon.Todo.Helpers.Converters;
 
 public class EnumToBooleanConverter : IValueConverter
 {
-    public EnumToBooleanConverter()
-    {
-    }
-
     public object Convert(object value, Type targetType, object parameter, string language)
     {
         if (parameter is string enumString)
@@ -19,10 +15,8 @@ public class EnumToBooleanConverter : IValueConverter
             }
 
             var enumValue = Enum.Parse(typeof(ElementTheme), enumString);
-
             return enumValue.Equals(value);
         }
-
         throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
     }
 
@@ -32,7 +26,6 @@ public class EnumToBooleanConverter : IValueConverter
         {
             return Enum.Parse(typeof(ElementTheme), enumString);
         }
-
         throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
     }
 }

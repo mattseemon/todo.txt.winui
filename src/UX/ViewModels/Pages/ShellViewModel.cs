@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Navigation;
 
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers.ViewModels;
+using Seemon.Todo.Views.Pages;
 using Windows.System;
 
 namespace Seemon.Todo.ViewModels.Pages;
@@ -13,15 +14,21 @@ namespace Seemon.Todo.ViewModels.Pages;
 public class ShellViewModel : ViewModelBase
 {
     private bool _isBackEnabled;
+    private bool _isMenuVisible;
 
-    private ICommand _goBackCommand = null;
-    private ICommand _menuFileExitCommand = null;
-    private ICommand _menuSettingsCommand = null;
-    private ICommand _showAboutCommand = null;
+    private ICommand? _goBackCommand;
+    private ICommand? _menuFileExitCommand;
+    private ICommand? _menuSettingsCommand;
+    private ICommand? _showAboutCommand;
 
     public bool IsBackEnabled
     {
         get => _isBackEnabled; set => SetProperty(ref _isBackEnabled, value);
+    }
+
+    public bool IsMenuVisible
+    {
+        get => _isMenuVisible; set => SetProperty(ref _isMenuVisible, value);
     }
 
     public ICommand GoBackCommand => _goBackCommand ??= RegisterCommand(OnGoBack);
@@ -29,7 +36,10 @@ public class ShellViewModel : ViewModelBase
     public ICommand MenuSettingsCommand => _menuSettingsCommand ??= RegisterCommand(OnMenuSettings);
     public ICommand ShowAboutCommand => _showAboutCommand ??= RegisterCommand(OnShowAbout);
 
-    public INavigationService NavigationService { get; }
+    public INavigationService NavigationService
+    {
+        get;
+    }
 
     public ShellViewModel(INavigationService navigationService)
     {
@@ -39,7 +49,11 @@ public class ShellViewModel : ViewModelBase
 
     private void OnGoBack() => NavigationService.GoBack();
 
-    private void OnNavigated(object sender, NavigationEventArgs e) => IsBackEnabled = NavigationService.CanGoBack;
+    private void OnNavigated(object sender, NavigationEventArgs e)
+    {
+        IsBackEnabled = NavigationService.CanGoBack;
+        IsMenuVisible = NavigationService.Frame?.Content.GetType() == typeof(MainPage);
+    }
 
     private void OnMenuFileExit() => Application.Current.Exit();
 
@@ -47,23 +61,18 @@ public class ShellViewModel : ViewModelBase
 
     private void OnShowAbout() => NavigationService.NavigateTo(typeof(AboutViewModel).FullName!);
 
-    public override bool ShellKeyEventTriggered(object parameter)
+    public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
     {
-        var result = false;
-        var args = parameter as KeyboardAcceleratorInvokedEventArgs;
         switch (args.KeyboardAccelerator.Key)
         {
             case VirtualKey.F1:
                 OnShowAbout();
-                break;
+                return true;
             case VirtualKey.F10:
                 OnMenuSettings();
-                result = true;
-                break;
+                return true;
             default:
-                result = true;
-                break;
+                return false;
         }
-        return false;
     }
 }

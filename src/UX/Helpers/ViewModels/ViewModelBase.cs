@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Input;
+
 using Seemon.Todo.Contracts.ViewModels;
 
 namespace Seemon.Todo.Helpers.ViewModels;
@@ -38,7 +41,9 @@ public class ViewModelBase : ObservableValidator, IViewModel
         }
     }
 
-    public virtual void SetModel(object model) { }
+    public virtual void SetModel(object model)
+    {
+    }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
@@ -46,8 +51,8 @@ public class ViewModelBase : ObservableValidator, IViewModel
         RaiseCommandCanExecute();
     }
 
-    public virtual bool ShellKeyEventTriggered(object parameter) 
+    public virtual bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
     {
-        return true; 
+        return true;
     }
 }

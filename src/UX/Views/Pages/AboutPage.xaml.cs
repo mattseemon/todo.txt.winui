@@ -12,12 +12,12 @@ public sealed partial class AboutPage : Page
 {
     public AboutViewModel ViewModel
     {
-        get; 
+        get;
     }
 
     public AboutPage()
     {
         ViewModel = App.GetService<AboutViewModel>();
-        this.InitializeComponent();
+        InitializeComponent();
     }
 }
