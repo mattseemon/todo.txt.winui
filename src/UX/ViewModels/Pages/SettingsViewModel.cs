@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 
 using Microsoft.UI.Xaml;
-
+using Microsoft.UI.Xaml.Controls;
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers.ViewModels;
 
@@ -20,7 +20,7 @@ public class SettingsViewModel : ViewModelBase
         get => _elementTheme; set => SetProperty(ref _elementTheme, value);
     }
 
-    public ICommand SwitchThemeCommand => _switchThemeCommand ??= RegisterCommand<ElementTheme>(OnSwitchTheme);
+    public ICommand SwitchThemeCommand => _switchThemeCommand ??= RegisterCommand<SelectionChangedEventArgs>(OnSwitchTheme);
     
     public SettingsViewModel(IThemeSelectorService themeSelectorService)
     {
@@ -28,9 +28,8 @@ public class SettingsViewModel : ViewModelBase
         ElementTheme = _themeSelectorService.Theme;
     }
 
-    private async void OnSwitchTheme(ElementTheme elementTheme)
+    private async void OnSwitchTheme(SelectionChangedEventArgs args)
     {
-        this.ElementTheme = elementTheme;
-        await _themeSelectorService.SetThemeAsync(elementTheme);
+        await _themeSelectorService.SetThemeAsync(this.ElementTheme);
     }
 }
