@@ -1,19 +1,13 @@
 ﻿<Page
     x:Class="Seemon.Todo.Views.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:converters="using:Seemon.Todo.Helpers.Converters"
-    xmlns:xaml="using:Microsoft.UI.Xaml"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
-    <Page.Resources>
-        <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
-        <converters:EnumToCollectionConverter x:Key="EnumToCollectionConverter" />
-    </Page.Resources>
-    <Grid>
+    <Grid Margin="{StaticResource MenuBarContentMargin}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
             <RowDefinition Height="Auto" />
@@ -33,9 +27,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock x:Uid="SettingsPage_AppTheme" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="0" VerticalAlignment="Center"  />
-                    <ComboBox Grid.Column="1" MinWidth="200" 
-                  ItemsSource="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToCollectionConverter}, Mode=OneTime}" 
-                  SelectedValue="{x:Bind ViewModel.ElementTheme, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Description">
+                    <ComboBox Grid.Column="1" MinWidth="200" ItemsSource="{x:Bind ViewModel.Themes, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
                         <i:Interaction.Behaviors>
                             <ic:EventTriggerBehavior EventName="SelectionChanged">
                                 <ic:InvokeCommandAction Command="{x:Bind ViewModel.SwitchThemeCommand}" />

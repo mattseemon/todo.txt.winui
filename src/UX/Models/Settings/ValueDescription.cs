@@ -1,5 +1,6 @@
 ﻿namespace Seemon.Todo.Models.Settings;
 
+[Microsoft.UI.Xaml.Data.Bindable]
 public class ValueDescription
 {
     public object Value

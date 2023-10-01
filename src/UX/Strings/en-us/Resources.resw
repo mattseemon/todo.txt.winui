@@ -153,7 +153,7 @@
     <value>F</value>
   </data>
   <data name="ShellPage_MenuBarItem_File_Exit.AccessKey" xml:space="preserve">
-    <value>x</value>
+    <value>X</value>
   </data>
   <data name="ShellPage_AppBarButton_About.AccessKey" xml:space="preserve">
     <value>A</value>
@@ -244,5 +244,41 @@
   </data>
   <data name="SettingsPage_AppTheme.Text" xml:space="preserve">
     <value>Application Theme</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_Archive.AccessKey" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_Archive.Text" xml:space="preserve">
+    <value>Archive Completed Tasks</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_New.AccessKey" xml:space="preserve">
+    <value>N</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_New.Text" xml:space="preserve">
+    <value>New Todo File</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_Open.AccessKey" xml:space="preserve">
+    <value>O</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_Open.Text" xml:space="preserve">
+    <value>Open Todo File</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_Reload.AccessKey" xml:space="preserve">
+    <value>R</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_Reload.Text" xml:space="preserve">
+    <value>Reload Todo File</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_Recents.AccessKey" xml:space="preserve">
+    <value>E</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_Recents.Text" xml:space="preserve">
+    <value>Recent Todo Files</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_Recents_Clear.AccessKey" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_File_Recents_Clear.Text" xml:space="preserve">
+    <value>Clear Recent Todo List</value>
   </data>
 </root>

@@ -7,7 +7,7 @@ namespace Seemon.Todo.Services;
 
 public class ThemeSelectorService : IThemeSelectorService
 {
-    private const string SettingsKey = "AppBackgroundRequestedTheme";
+    private const string SettingsKey = "application.theme";
 
     public ElementTheme Theme { get; set; } = ElementTheme.Default;
 
