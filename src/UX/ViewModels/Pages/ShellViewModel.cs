@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Specialized;
+using System.Windows.Input;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -14,14 +15,21 @@ namespace Seemon.Todo.ViewModels.Pages;
 public class ShellViewModel : ViewModelBase
 {
     private readonly IDialogService _dialogService;
+    private readonly ISystemService _systemService;
+    private readonly ITaskService _taskService;
 
     private bool _isBackEnabled;
     private bool _isMenuVisible;
 
     private ICommand? _goBackCommand;
-    private ICommand? _menuFileExitCommand;
-    private ICommand? _menuSettingsCommand;
+
+    private ICommand? _showSettingsCommand;
     private ICommand? _showAboutCommand;
+
+    private ICommand? _fileNewTodoCommand;
+    private ICommand? _fileOpenTodoCommand;
+    private ICommand? _fileExitCommand;
+
     private ICommand? _featureNotImplementedCommand;
 
     public bool IsBackEnabled
@@ -35,9 +43,13 @@ public class ShellViewModel : ViewModelBase
     }
 
     public ICommand GoBackCommand => _goBackCommand ??= RegisterCommand(OnGoBack);
-    public ICommand MenuFileExitCommand => _menuFileExitCommand ??= RegisterCommand(OnMenuFileExit);
-    public ICommand MenuSettingsCommand => _menuSettingsCommand ??= RegisterCommand(OnMenuSettings);
+
+    public ICommand ShowSettingsCommand => _showSettingsCommand ??= RegisterCommand(OnShowSettings);
     public ICommand ShowAboutCommand => _showAboutCommand ??= RegisterCommand(OnShowAbout);
+
+    public ICommand FileNewTodoCommand => _fileNewTodoCommand ??= RegisterCommand(OnFileNewTodo);
+    public ICommand FileOpenTodoCommad => _fileOpenTodoCommand ??= RegisterCommand(OnFileOpenTodo);
+    public ICommand FileExitCommand => _fileExitCommand ??= RegisterCommand(OnFileExit);
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand(OnFeatureNotImplemented);
 
     public INavigationService NavigationService
@@ -45,14 +57,15 @@ public class ShellViewModel : ViewModelBase
         get;
     }
 
-    public ShellViewModel(INavigationService navigationService, IDialogService dialogService)
+    public ShellViewModel(INavigationService navigationService, IDialogService dialogService, ISystemService systemService, ITaskService taskService)
     {
         _dialogService = dialogService;
         NavigationService = navigationService;
         NavigationService.Navigated += OnNavigated;
+        _systemService = systemService;
+        _taskService = taskService;
+        _taskService.ActiveTasks.CollectionChanged += OnActiveTasksCollectionChanged;
     }
-
-    private void OnGoBack() => NavigationService.GoBack();
 
     private void OnNavigated(object sender, NavigationEventArgs e)
     {
@@ -60,13 +73,38 @@ public class ShellViewModel : ViewModelBase
         IsMenuVisible = NavigationService.Frame?.Content.GetType() == typeof(MainPage);
     }
 
-    private void OnMenuFileExit() => Application.Current.Exit();
+    private void OnGoBack() => NavigationService.GoBack();
 
-    private void OnMenuSettings() => NavigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
+    private void OnShowSettings() => NavigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
 
     private void OnShowAbout() => NavigationService.NavigateTo(typeof(AboutViewModel).FullName!);
 
+    private async void OnFileNewTodo()
+    {
+        var path = await _systemService.OpenSaveDialogAsync();
+        if (string.IsNullOrEmpty(path)) return;
+
+        if (!File.Exists(path))
+        {
+            using var stream =  File.Create(path);
+        }
+
+        _taskService.LoadTasks(path);
+    }
+
+    private async void OnFileOpenTodo()
+    {
+        var path = await _systemService.OpenFileDialogAsync();
+        if (string.IsNullOrEmpty(path)) return;
+        
+        _taskService.LoadTasks(path);
+    }
+
+    private void OnFileExit() => Application.Current.Exit();
+
     private async void OnFeatureNotImplemented() => await _dialogService.ShowFeatureNotImpletmented();
+
+    private void OnActiveTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => RaiseCommandCanExecute();
 
     public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
     {
@@ -76,7 +114,7 @@ public class ShellViewModel : ViewModelBase
                 OnShowAbout();
                 return true;
             case VirtualKey.F10:
-                OnMenuSettings();
+                OnShowSettings();
                 return true;
             default:
                 return false;

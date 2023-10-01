@@ -5,8 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:Seemon.Todo.Helpers.Views"
+    xmlns:local="using:Seemon.Todo.Models"
     mc:Ignorable="d">
-    <Grid x:Name="ContentArea" Background="{StaticResource ControlFillColorDefaultBrush}" >
+    <Page.Resources>
+        <DataTemplate x:Key="TaskList" x:DataType="local:Task">
+            <TextBlock Text="{x:Bind Raw}" x:Phase="1" Margin="0,5,0,5"/>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid x:Name="ContentArea" Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -15,11 +21,9 @@
 
         <AutoSuggestBox Grid.Row="0" ItemsSource="{x:Bind ViewModel.Cats}" Margin="8" />
 
-        <ListView Grid.Row="1" BorderThickness="0" Margin="8 0 8 8"  >
-            <ListViewItem>Task 1</ListViewItem>
-            <ListViewItem>Task 2</ListViewItem>
+        <ListView Grid.Row="1" Margin="8 0 8 8" ItemsSource="{x:Bind ViewModel.Tasks}" BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" BorderThickness="1" CornerRadius="4" >
         </ListView>
-        <Grid Grid.Row="2" Padding="12 0" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}" >
+        <Grid Grid.Row="2" Padding="12 0" Background="{StaticResource CardBackgroundFillColorDefaultBrush}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}" >
             <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Filter" VerticalAlignment="Center" />
         </Grid>
     </Grid>
