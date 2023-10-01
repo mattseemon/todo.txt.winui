@@ -4,62 +4,46 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:converters="using:Seemon.Todo.Helpers.Converters"
     xmlns:xaml="using:Microsoft.UI.Xaml"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <converters:EnumToCollectionConverter x:Key="EnumToCollectionConverter" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
         <TextBlock
             Grid.Row="0"
-            x:Uid="Settings_Title"
+            x:Uid="SettingsPage_Title"
             Style="{StaticResource PageTitleStyle}" />
         <StackPanel
             Grid.Row="1" 
             x:Name="ContentArea">
-            <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
-                <TextBlock x:Uid="Settings_Theme" />
-
-                <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                    <RadioButton
-                        x:Uid="Settings_Theme_Light"
-                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
-                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Light</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
-                        x:Uid="Settings_Theme_Dark"
-                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
-                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Dark</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
-                        x:Uid="Settings_Theme_Default"
-                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
-                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
-                        FontSize="15"
-                        GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Default</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                </StackPanel>
-            </StackPanel>
+            <Expander x:Uid="SettingsPage_Appearance" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Uid="SettingsPage_AppTheme" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="0" VerticalAlignment="Center"  />
+                    <ComboBox Grid.Column="1" MinWidth="200" 
+                  ItemsSource="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToCollectionConverter}, Mode=OneTime}" 
+                  SelectedValue="{x:Bind ViewModel.ElementTheme, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Description">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="SelectionChanged">
+                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.SwitchThemeCommand}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </ComboBox>
+                </Grid>
+            </Expander>
         </StackPanel>
     </Grid>
 </Page>

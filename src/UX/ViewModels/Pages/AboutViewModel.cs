@@ -32,9 +32,9 @@ public class AboutViewModel : ViewModelBase
 
     public AboutViewModel()
     {
-        Copyright = "AppCopyright".GetLocalized();
-        Author = "AppAuthor".GetLocalized();
-        Description = "AppDescription".GetLocalized();
+        Copyright = "AboutPage_Copyright".GetLocalized();
+        Author = "AboutPage_Author".GetLocalized();
+        Description = "AboutPage_Description".GetLocalized();
         Version = GetVersionDescription();
     }
 

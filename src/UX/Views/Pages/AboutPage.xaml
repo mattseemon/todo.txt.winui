@@ -13,7 +13,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" x:Uid="About_Title" Style="{StaticResource PageTitleStyle}" />
+        <TextBlock Grid.Row="0" x:Uid="AboutPage_Title" Style="{StaticResource PageTitleStyle}" />
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />

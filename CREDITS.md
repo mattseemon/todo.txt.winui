@@ -221,7 +221,7 @@ Easily add interactivity to your WinUI apps using XAML Behaviors. Behaviors enca
 |Version|2.0.9|
 |License|MIT|
 |Author|Microsoft|
-|Homepage|https://github.com/CommunityToolkit/dotnet|
+|Homepage|https://github.com/Microsoft/XamlBehaviors|
 ### Declared License(s)
   * MIT
     ```
