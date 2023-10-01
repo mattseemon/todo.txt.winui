@@ -1,25 +1,26 @@
 ﻿<Page
     x:Class="Seemon.Todo.Views.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Seemon.Todo.Helpers.Views"
     mc:Ignorable="d">
-
-    <Grid x:Name="ContentArea">
+    <Grid x:Name="ContentArea" Background="{StaticResource ControlFillColorDefaultBrush}" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="28"/>
         </Grid.RowDefinitions>
 
-        <TextBlock
-            Grid.Row="0"
-            x:Uid="Main_Title"
-            Style="{StaticResource PageTitleStyle}" />
+        <AutoSuggestBox Grid.Row="0" ItemsSource="{x:Bind ViewModel.Cats}" Margin="8" />
 
-        <Grid Grid.Row="1">
-            
+        <ListView Grid.Row="1" BorderThickness="0" Margin="8 0 8 8"  >
+            <ListViewItem>Task 1</ListViewItem>
+            <ListViewItem>Task 2</ListViewItem>
+        </ListView>
+        <Grid Grid.Row="2" Padding="12 0" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}" >
+            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Filter" VerticalAlignment="Center" />
         </Grid>
-        
     </Grid>
 </Page>

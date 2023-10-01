@@ -13,6 +13,8 @@ namespace Seemon.Todo.ViewModels.Pages;
 
 public class ShellViewModel : ViewModelBase
 {
+    private readonly IDialogService _dialogService;
+
     private bool _isBackEnabled;
     private bool _isMenuVisible;
 
@@ -20,6 +22,7 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _menuFileExitCommand;
     private ICommand? _menuSettingsCommand;
     private ICommand? _showAboutCommand;
+    private ICommand? _featureNotImplementedCommand;
 
     public bool IsBackEnabled
     {
@@ -35,14 +38,16 @@ public class ShellViewModel : ViewModelBase
     public ICommand MenuFileExitCommand => _menuFileExitCommand ??= RegisterCommand(OnMenuFileExit);
     public ICommand MenuSettingsCommand => _menuSettingsCommand ??= RegisterCommand(OnMenuSettings);
     public ICommand ShowAboutCommand => _showAboutCommand ??= RegisterCommand(OnShowAbout);
+    public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand(OnFeatureNotImplemented);
 
     public INavigationService NavigationService
     {
         get;
     }
 
-    public ShellViewModel(INavigationService navigationService)
+    public ShellViewModel(INavigationService navigationService, IDialogService dialogService)
     {
+        _dialogService = dialogService;
         NavigationService = navigationService;
         NavigationService.Navigated += OnNavigated;
     }
@@ -60,6 +65,8 @@ public class ShellViewModel : ViewModelBase
     private void OnMenuSettings() => NavigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
 
     private void OnShowAbout() => NavigationService.NavigateTo(typeof(AboutViewModel).FullName!);
+
+    private async void OnFeatureNotImplemented() => await _dialogService.ShowFeatureNotImpletmented();
 
     public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
     {
