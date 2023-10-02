@@ -38,130 +38,13 @@ The following 3rd-party software libraries were used to develop **Todo** and are
 
 Package|Version|Licenses
 ---|---:|:---:
-[Newtonsoft.Json](#newtonsoftjson)|13.0.3|MIT
-[Microsoft.WindowsAppSDK](#microsoftwindowsappsdk)|1.4.1|MIT
-[Microsoft.Extensions.Hosting](#microsoftextensionshosting)|7.0.1|MIT
 [CommunityToolkit.Mvvm](#communitytoolkitmvvm)|8.2.1|MIT
+[CommunityToolkit.WinUI.UI](#communitytoolkitwinuiui)|7.1.2|MIT
+[Microsoft.Extensions.Hosting](#microsoftextensionshosting)|7.0.1|MIT
+[Microsoft.WindowsAppSDK](#microsoftwindowsappsdk)|1.4.1|MIT
 [Microsoft.Xaml.Behaviors.WinUI.Managed](#microsoftxamlbehaviorswinuimanaged)|2.0.9|MIT
+[Newtonsoft.Json](#newtonsoftjson)|13.0.3|MIT
 [WinUIEx](#winuiex)|2.3.1|MIT
-
-## Newtonsoft.Json
-### Description
-Json.NET is a popular high-performance JSON framework for .NET
-### Additional Information
-|Type|Value|
-|---|---|
-|Version|13.0.3|
-|License|MIT|
-|Author|James Newton-King|
-|Homepage|https://www.newtonsoft.com/json|
-### Declared License(s)
-  * MIT
-
-    ```
-    The MIT License (MIT)
-
-    Copyright (c) 2007 James Newton-King
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy of
-    this software and associated documentation files (the "Software"), to deal in
-    the Software without restriction, including without limitation the rights to
-    use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-    the Software, and to permit persons to whom the Software is furnished to do so,
-    subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-    FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-    COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-    IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-    ```
-[Back to Top](#complete-list-of-credits-for-todo)
-
----
-## Microsoft.WindowsAppSDK 
-### Description
-The Windows App SDK empowers all Windows Desktop apps with modern Windows UI, APIs, and platform features, including back-compat support.
-### Additional Information
-|Type|Value|
-|---|---|
-|Version|1.4.1|
-|License|MIT|
-|Author|Microsoft|
-|Homepage|https://github.com/microsoft/windowsappsdk|
-### Declared License(s)
-  * MIT
-    ```
-    MIT License
-
-    Copyright (c) Microsoft Corporation.
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE
-    ```
-[Back to Top](#complete-list-of-credits-for-todo)
-
----
-
-## Microsoft.Extensions.Hosting
-### Description
-Hosting and startup infrastructures for applications.
-### Additional Information
-|Type|Value|
-|---|---|
-|Version|7.0.1|
-|License|MIT|
-|Author|Microsoft|
-|Homepage|https://github.com/dotnet/runtime|
-### Declared License(s)
-  * MIT
-    ```
-    The MIT License (MIT)
-
-    Copyright (c) .NET Foundation and Contributors
-
-    All rights reserved.
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
-    ```
-[Back to Top](#complete-list-of-credits-for-todo)
-
----
 
 ## CommunityToolkit.Mvvm
 ### Description
@@ -212,6 +95,129 @@ This package includes a .NET MVVM library with helpers such as:
 
 ---
 
+## CommunityToolkit.WinUI.UI
+### Description
+This library provides various common UI helpers. It is a part of the Windows Community Toolkit.
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|7.1.2|
+|License|MIT|
+|Author|Microsoft|
+|Homepage|https://github.com/CommunityToolkit/WindowsCommunityToolkit|
+### Declared License(s)
+  * MIT
+    ```
+    Windows Community Toolkit
+
+    Copyright © .NET Foundation and Contributors
+
+    All rights reserved.
+
+    MIT License (MIT)
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy 
+    of this software and associated documentation files (the “Software”), to deal 
+    in the Software without restriction, including without limitation the rights 
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+    copies of the Software, and to permit persons to whom the Software is 
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all 
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+    FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE 
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+    SOFTWARE.
+    ```
+[Back to Top](#complete-list-of-credits-for-todo)
+
+---
+
+## Microsoft.Extensions.Hosting
+### Description
+Hosting and startup infrastructures for applications.
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|7.0.1|
+|License|MIT|
+|Author|Microsoft|
+|Homepage|https://github.com/dotnet/runtime|
+### Declared License(s)
+  * MIT
+    ```
+    The MIT License (MIT)
+
+    Copyright (c) .NET Foundation and Contributors
+
+    All rights reserved.
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+    ```
+[Back to Top](#complete-list-of-credits-for-todo)
+
+---
+
+## Microsoft.WindowsAppSDK 
+### Description
+The Windows App SDK empowers all Windows Desktop apps with modern Windows UI, APIs, and platform features, including back-compat support.
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|1.4.1|
+|License|MIT|
+|Author|Microsoft|
+|Homepage|https://github.com/microsoft/windowsappsdk|
+### Declared License(s)
+  * MIT
+    ```
+    MIT License
+
+    Copyright (c) Microsoft Corporation.
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE
+    ```
+[Back to Top](#complete-list-of-credits-for-todo)
+
+---
+
 ## Microsoft.Xaml.Behaviors.WinUI.Managed
 ### Description
 Easily add interactivity to your WinUI apps using XAML Behaviors. Behaviors encapsulate reusable functionalities for elements that can be easily added to your XAML without the need for more imperative code. This is the managed version for C# UWP WinUI projects.
@@ -246,6 +252,45 @@ Easily add interactivity to your WinUI apps using XAML Behaviors. Behaviors enca
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
+    ```
+[Back to Top](#complete-list-of-credits-for-todo)
+
+---
+
+## Newtonsoft.Json
+### Description
+Json.NET is a popular high-performance JSON framework for .NET
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|13.0.3|
+|License|MIT|
+|Author|James Newton-King|
+|Homepage|https://www.newtonsoft.com/json|
+### Declared License(s)
+  * MIT
+
+    ```
+    The MIT License (MIT)
+
+    Copyright (c) 2007 James Newton-King
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of
+    this software and associated documentation files (the "Software"), to deal in
+    the Software without restriction, including without limitation the rights to
+    use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+    the Software, and to permit persons to whom the Software is furnished to do so,
+    subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+    FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+    COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+    IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     ```
 [Back to Top](#complete-list-of-credits-for-todo)
 

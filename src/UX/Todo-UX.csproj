@@ -35,6 +35,7 @@
     <AssemblyVersion>0.0.1</AssemblyVersion>
     <FileVersion>0.0.1</FileVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <UserSecretsId>fe5c29c4-3b5e-4fab-91fa-dc0d9e75a78b</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\Todo-128.png" />
@@ -53,7 +54,6 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-    <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />

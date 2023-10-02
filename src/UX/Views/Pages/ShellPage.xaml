@@ -51,19 +51,19 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Reload" Command="{x:Bind ViewModel.FeatureNotImplementedCommand}">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Reload" Command="{x:Bind ViewModel.FeatureNotImplementedCommand}" CommandParameter="Reload Todo File">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="F5" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Archive" Command="{x:Bind ViewModel.FeatureNotImplementedCommand}">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Archive" Command="{x:Bind ViewModel.FeatureNotImplementedCommand}" CommandParameter="Archive Completed Tasks">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="R" Modifiers="Control" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
-                    <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_File_Recents" />
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Recents_Clear" Command="{x:Bind ViewModel.FeatureNotImplementedCommand}">
+                    <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_File_Recents" x:Name="RecentFilesMenu" IsEnabled="{x:Bind ViewModel.IsRecentEnabled, Mode=OneWay}" />
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Recents_Clear" Command="{x:Bind ViewModel.FileClearRecentCommad}">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="Number0" Modifiers="Control,Menu" />
                         </MenuFlyoutItem.KeyboardAccelerators>

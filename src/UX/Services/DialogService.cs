@@ -13,17 +13,22 @@ public class DialogService : IDialogService
         _navigationService = navigationService;
     }
 
-    public async Task ShowFeatureNotImpletmented()
+    public async Task ShowFeatureNotImpletmented(string feature)
     {
-        var page = (Page)_navigationService.Frame.Content;
+        await ShowMessageAsync(feature, $"The feature you are trying to access is currently not implemented yet.");
+    }
 
-        ContentDialog dialog = new ContentDialog()
+    public async Task ShowMessageAsync(string title, string message)
+    {
+        var page = _navigationService.Frame?.Content as Page;
+
+        var dialog = new ContentDialog
         {
-            Title = "Feature not implemented",
-            Content = "The feature you are trying to access is currently not implemented yet.",
-            CloseButtonText = "Ok"
+            Title = title,
+            Content = message,
+            CloseButtonText = "Ok",
+            XamlRoot = page?.XamlRoot
         };
-        dialog.XamlRoot = page.XamlRoot;
 
         await dialog.ShowAsync();
     }

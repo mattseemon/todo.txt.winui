@@ -2,5 +2,7 @@
 
 public interface IDialogService
 {
-    Task ShowFeatureNotImpletmented();
+    Task ShowMessageAsync(string title, string message);
+
+    Task ShowFeatureNotImpletmented(string feature);
 }
