@@ -66,6 +66,7 @@ public partial class App : Application
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<ITaskService, TaskService>();
             services.AddSingleton<ISystemService, SystemService>();
+            services.AddSingleton<IRecentFilesService, RecentFilesService>();
 
             // Core Services
             services.AddSingleton<IFileService, FileService>();
@@ -73,7 +74,7 @@ public partial class App : Application
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
-            services.AddTransient<MainViewModel>();
+            services.AddSingleton<MainViewModel>();
             services.AddTransient<MainPage>();
             services.AddTransient<ShellViewModel>();
             services.AddTransient<ShellPage>();

@@ -19,4 +19,6 @@ public static class Constants
     public const string REGEX_TODO_RELATIVE_DUE_DATE = @"\bdue:" + REGEX_TODO_RELATIVE_DATE + @"\b";
     public const string REGEX_TODO_RELATIVE_THRESHOLD_DATE = @"t:" + REGEX_TODO_RELATIVE_DATE;
     public const string REGEX_TODO_METADATA_PRIORITY = @"\bpri:[A-Z]\b";
+
+    public const string SETTING_APPLICATION = "application.settings";
 }

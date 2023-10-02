@@ -24,16 +24,32 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Uid="SettingsPage_AppTheme" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="0" VerticalAlignment="Center"  />
-                    <ComboBox Grid.Column="1" MinWidth="200" ItemsSource="{x:Bind ViewModel.Themes, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
+                    <TextBlock x:Uid="SettingsPage_Appearance_Theme" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="0" VerticalAlignment="Center"  />
+                    <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Themes, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
                         <i:Interaction.Behaviors>
                             <ic:EventTriggerBehavior EventName="SelectionChanged">
                                 <ic:InvokeCommandAction Command="{x:Bind ViewModel.SwitchThemeCommand}" />
                             </ic:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </ComboBox>
+                </Grid>
+            </Expander>
+            <Expander x:Uid="SettingsPage_Application" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48" />
+                        <RowDefinition Height="48"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_Application_LoadMostRecent" VerticalAlignment="Center" />
+                    <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.OpenRecentOnStartup, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_Application_MaxRecent" VerticalAlignment="Center" />
+                    <NumberBox Grid.Row="1" Grid.Column="1" Minimum="1" Maximum="10" HorizontalAlignment="Stretch" VerticalAlignment="Center" Value="{x:Bind ViewModel.AppSettings.MaxRecentFileCount, Mode=TwoWay}" SpinButtonPlacementMode="Inline"/>
                 </Grid>
             </Expander>
         </StackPanel>

@@ -14,6 +14,8 @@ namespace Seemon.Todo.Views.Pages;
 
 public sealed partial class ShellPage : Page
 {
+    private static readonly int MAX_LENGTH = 50;
+
     public ShellViewModel ViewModel
     {
         get;
@@ -33,6 +35,56 @@ public sealed partial class ShellPage : Page
         App.MainWindow.SetTitleBar(AppTitleBar);
         App.MainWindow.Activated += MainWindow_Activated;
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+        ViewModel.RecentFiles.CollectionChanged += OnRecentFilesCollectionChanged;
+        LoadRecentFilesMenubar();
+    }
+
+    private void OnRecentFilesCollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        LoadRecentFilesMenubar();
+    }
+
+    private void LoadRecentFilesMenubar()
+    {
+        foreach (var menu in RecentFilesMenu.Items.Cast<MenuFlyoutItem>()) menu.KeyboardAccelerators.Clear();
+        RecentFilesMenu.Items.Clear();
+
+        for (var i = 0; i < ViewModel.RecentFiles.Count; i++)
+        {
+            var item = ViewModel.RecentFiles[i];
+
+            var menuItem = new MenuFlyoutItem()
+            {
+                AccessKey = (i).ToString(),
+                Text = TrimPath(item.Path),
+            };
+
+            menuItem.Command = ViewModel.FileOpenRecentCommand;
+            menuItem.CommandParameter = item.Path;
+
+            ToolTipService.SetToolTip(menuItem, item.Path);
+
+            RecentFilesMenu.Items.Add(menuItem);
+        }
+    }
+
+    private static string TrimPath(string path)
+    {
+        if (path.Length > MAX_LENGTH)
+        {
+            var trimLength = MAX_LENGTH - Path.GetFileName(path).Length;
+            var suffix = path[path.LastIndexOf('\\')..];
+
+            if (trimLength <= 0) return path;
+            do
+            {
+                path = path[..path.LastIndexOf('\\')];
+
+            } while (path.Length > trimLength);
+
+            path = $"{path}\\...{suffix}";
+        }
+        return path;
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -60,13 +112,9 @@ public sealed partial class ShellPage : Page
     {
         var keyboardAccelerator = new KeyboardAccelerator() { Key = key };
 
-        if (modifiers.HasValue)
-        {
-            keyboardAccelerator.Modifiers = modifiers.Value;
-        }
+        if (modifiers.HasValue) keyboardAccelerator.Modifiers = modifiers.Value;
 
         keyboardAccelerator.Invoked += OnKeyboardAcceleratorInvoked;
-
         return keyboardAccelerator;
     }
 

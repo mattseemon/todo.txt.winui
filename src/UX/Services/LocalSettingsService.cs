@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Options;
 
+using Newtonsoft.Json.Linq;
+
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Models.Settings;
+
 using Windows.Storage;
 
 namespace Seemon.Todo.Services;
@@ -57,9 +60,14 @@ public class LocalSettingsService : ILocalSettingsService
         {
             await InitializeAsync();
 
-            if (_settings != null && _settings.TryGetValue(key, out var obj))
+            if (_settings != null && _settings.TryGetValue(key, out var value))
             {
-                return await JsonHelper.ToObjectAsync<T>((string)obj);
+                if (value is JObject jObject)
+                    return jObject.ToObject<T>();
+                else if (value is JArray jArray)
+                    return jArray.ToObject<T>();
+                else
+                    return (T?)value;
             }
         }
 
@@ -76,7 +84,7 @@ public class LocalSettingsService : ILocalSettingsService
         {
             await InitializeAsync();
 
-            _settings[key] = await JsonHelper.StringifyAsync(value);
+            _settings[key] = value;
 
             await Task.Run(() => _fileService.Save(_applicationDataFolder, _localsettingsFile, _settings));
         }
