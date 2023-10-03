@@ -17,41 +17,84 @@
             Grid.Row="0"
             x:Uid="SettingsPage_Title"
             Style="{StaticResource PageTitleStyle}" />
-        <StackPanel
-            Grid.Row="1" 
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel
             x:Name="ContentArea">
-            <Expander x:Uid="SettingsPage_Appearance" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="200" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock x:Uid="SettingsPage_Appearance_Theme" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="0" VerticalAlignment="Center"  />
-                    <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Themes, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
-                        <i:Interaction.Behaviors>
-                            <ic:EventTriggerBehavior EventName="SelectionChanged">
-                                <ic:InvokeCommandAction Command="{x:Bind ViewModel.SwitchThemeCommand}" />
-                            </ic:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                    </ComboBox>
-                </Grid>
-            </Expander>
-            <Expander x:Uid="SettingsPage_Application" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="200" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="48" />
-                        <RowDefinition Height="48"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_Application_LoadMostRecent" VerticalAlignment="Center" />
-                    <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.OpenRecentOnStartup, Mode=TwoWay}" />
-                    <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_Application_MaxRecent" VerticalAlignment="Center" />
-                    <NumberBox Grid.Row="1" Grid.Column="1" Minimum="1" Maximum="10" HorizontalAlignment="Stretch" VerticalAlignment="Center" Value="{x:Bind ViewModel.AppSettings.MaxRecentFileCount, Mode=TwoWay}" SpinButtonPlacementMode="Inline"/>
-                </Grid>
-            </Expander>
-        </StackPanel>
+                <Expander x:Uid="SettingsPage_Appearance" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" AccessKey="R">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="400" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Uid="SettingsPage_Appearance_Theme" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="0" VerticalAlignment="Center"  />
+                        <ComboBox Grid.Column="1" MaxWidth="200" MinWidth="200" HorizontalAlignment="Left" ItemsSource="{x:Bind ViewModel.Themes, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}" AccessKey="L">
+                            <i:Interaction.Behaviors>
+                                <ic:EventTriggerBehavior EventName="SelectionChanged">
+                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SwitchThemeCommand}" />
+                                </ic:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                        </ComboBox>
+                    </Grid>
+                </Expander>
+                <Expander x:Uid="SettingsPage_Application" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" AccessKey="P">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="400" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="42" />
+                            <RowDefinition Height="42"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_Application_LoadMostRecent" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"  />
+                        <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.OpenRecentOnStartup, Mode=TwoWay}" AccessKey="O" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_Application_MaxRecent" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
+                        <NumberBox Grid.Row="1" Grid.Column="1" Minimum="1" Maximum="10" HorizontalAlignment="Left" MaxWidth="200" MinWidth="200" VerticalAlignment="Center" Value="{x:Bind ViewModel.AppSettings.MaxRecentFileCount, Mode=TwoWay}" SpinButtonPlacementMode="Inline" AccessKey="N"/>
+                    </Grid>
+                </Expander>
+                <Expander x:Uid="SettingsPage_Application_Task" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" AccessKey="T">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="400" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="42" />
+                            <RowDefinition Height="42"/>
+                            <RowDefinition Height="42"/>
+                            <RowDefinition Height="42"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_Application_Task_ArchiveCompleted" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"  />
+                        <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.ArchiveCompleted, Mode=TwoWay}" AccessKey="X" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_Application_Task_AutoArchive"  VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"  />
+                        <ToggleSwitch Grid.Row="1" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.AutoArchive, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.TodoSettings.ArchiveCompleted, Mode=OneWay}" AccessKey="C" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" x:Uid="SettingsPage_Application_Task_EnableGlobalArchive" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"  />
+                        <ToggleSwitch Grid.Row="2" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.EnableGlobalArchive, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.TodoSettings.ArchiveCompleted, Mode=OneWay}" AccessKey="G" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" x:Uid="SettingsPage_Application_Task_GlobalArchivePath" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
+                        <Grid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{x:Bind ViewModel.TodoSettings.GlobalArchiveFilePath, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Stretch" IsEnabled="{x:Bind ViewModel.TodoSettings.EnableGlobalArchive, Mode=OneWay}">
+                                <i:Interaction.Behaviors>
+                                    <ic:EventTriggerBehavior EventName="GotFocus">
+                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextBoxFocusChangedCommand}" CommandParameter="True" />
+                                    </ic:EventTriggerBehavior>
+                                    <ic:EventTriggerBehavior EventName="LostFocus">
+                                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextBoxFocusChangedCommand}" CommandParameter="False" />
+                                    </ic:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <Button Grid.Column="1" Content="..." Margin="4 0 0 0" IsEnabled="{x:Bind ViewModel.TodoSettings.EnableGlobalArchive, Mode=OneWay}" Command="{x:Bind ViewModel.SelectGlobalArchiveFileCommand}" AccessKey="F">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Uid="SettingsPage_Application_Task_GlobalArchivePath_Tooltip" />
+                                </ToolTipService.ToolTip>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

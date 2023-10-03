@@ -19,6 +19,10 @@ public interface ITaskService
     }
 
     void LoadTasks(string path);
+    
+    void DeleteTask(Task task);
+
+    void ArchiveCompletedTasks();
 
     Task Parse(string raw);
 }

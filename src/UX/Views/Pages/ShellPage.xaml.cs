@@ -59,7 +59,7 @@ public sealed partial class ShellPage : Page
                 Text = TrimPath(item.Path),
             };
 
-            menuItem.Command = ViewModel.FileOpenRecentCommand;
+            menuItem.Command = ViewModel.OpenRecentCommand;
             menuItem.CommandParameter = item.Path;
 
             ToolTipService.SetToolTip(menuItem, item.Path);
@@ -120,15 +120,19 @@ public sealed partial class ShellPage : Page
 
     private void OnKeyboardAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
     {
-        bool result;
+        // First let the loaded page handle the event.
+        var result = ViewModel.ShellKeyEventTriggered(args);
+        if (result)
+        {
+            args.Handled = true;
+            return;
+        }
+
         switch (args.KeyboardAccelerator.Key)
         {
             case VirtualKey.Back:
                 var navigationService = App.GetService<INavigationService>();
                 result = navigationService.GoBack();
-                break;
-            default:
-                result = ViewModel.ShellKeyEventTriggered(args);
                 break;
         }
         args.Handled = result;

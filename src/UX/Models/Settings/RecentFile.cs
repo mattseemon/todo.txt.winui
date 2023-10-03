@@ -5,8 +5,8 @@ namespace Seemon.Todo.Models.Settings;
 
 public class RecentFile : ObservableObject
 {
-    private string _path;
-    private DateTime _lastAccessed;
+    private string _path = string.Empty;
+    private DateTime _lastAccessed = DateTime.Today;
 
     [JsonProperty("path")]
     public string Path

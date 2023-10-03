@@ -21,4 +21,5 @@ public static class Constants
     public const string REGEX_TODO_METADATA_PRIORITY = @"\bpri:[A-Z]\b";
 
     public const string SETTING_APPLICATION = "application.settings";
+    public const string SETTING_TODO = "todo.settings";
 }
