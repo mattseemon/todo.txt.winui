@@ -19,14 +19,14 @@ public class ViewModelBase : ObservableValidator, IViewModel
 
     public IList<ICommand> Commands => _commands;
 
-    public ICommand RegisterCommand<T>(Action<T> execute, Predicate<T> canExecute = null)
+    public ICommand RegisterCommand<T>(Action<T> execute, Predicate<T>? canExecute = null)
     {
         var command = canExecute == null ? new RelayCommand<T>(execute) : new RelayCommand<T>(execute, canExecute);
         _commands.Add(command);
         return command;
     }
 
-    public ICommand RegisterCommand(Action execute, Func<bool> canExecute = null)
+    public ICommand RegisterCommand(Action execute, Func<bool>? canExecute = null)
     {
         var command = canExecute == null ? new RelayCommand(execute) : new RelayCommand(execute, canExecute);
         _commands.Add(command);
@@ -53,6 +53,6 @@ public class ViewModelBase : ObservableValidator, IViewModel
 
     public virtual bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
     {
-        return true;
+        return false;
     }
 }

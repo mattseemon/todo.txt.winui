@@ -284,4 +284,28 @@
   <data name="SettingsPage_Application_MaxRecent.Text" xml:space="preserve">
     <value>Maximum number of recently opened todo files to maintain</value>
   </data>
+  <data name="SettingsPage_Application_Task.Header" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="SettingsPage_Application_Task_ArchiveCompleted.Text" xml:space="preserve">
+    <value>Archive completed tasks</value>
+  </data>
+  <data name="SettingsPage_Application_Task_AutoArchive.Text" xml:space="preserve">
+    <value>Auto archive completed tasks</value>
+  </data>
+  <data name="SettingsPage_Application_Task_EnableGlobalArchive.Text" xml:space="preserve">
+    <value>Archive all completed tasks to a single archive file</value>
+  </data>
+  <data name="SettingsPage_Application_Task_GlobalArchivePath.Text" xml:space="preserve">
+    <value>Select file to archive all completed tasks to</value>
+  </data>
+  <data name="SettingsPage_Application_Task_GlobalArchivePath_Tooltip.Content" xml:space="preserve">
+    <value>Open file browser</value>
+  </data>
+  <data name="ShellPage_QuickSearch.AccessKey" xml:space="preserve">
+    <value>Q</value>
+  </data>
+  <data name="ShellPage_QuickSearch.PlaceholderText" xml:space="preserve">
+    <value>Quick Search...</value>
+  </data>
 </root>

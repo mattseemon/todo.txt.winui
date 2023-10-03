@@ -7,6 +7,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 
 using Seemon.Todo.Contracts.Services;
+using Seemon.Todo.Contracts.ViewModels;
+using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Helpers.ViewModels;
 using Seemon.Todo.Models.Settings;
 using Seemon.Todo.Views.Pages;
@@ -31,11 +33,12 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _showSettingsCommand;
     private ICommand? _showAboutCommand;
 
-    private ICommand? _fileNewTodoCommand;
-    private ICommand? _fileOpenTodoCommand;
-    private ICommand? _fileOpenRecentCommand;
-    private ICommand? _fileClearRecentCommand;
-    private ICommand? _fileExitCommand;
+    private ICommand? _newTodoCommand;
+    private ICommand? _openTodoCommand;
+    private ICommand? _openRecentCommand;
+    private ICommand? _clearRecentCommand;
+    private ICommand? _archiveCompletedTasksCommand;
+    private ICommand? _applicationExitCommand;
 
     private ICommand? _featureNotImplementedCommand;
 
@@ -61,12 +64,12 @@ public class ShellViewModel : ViewModelBase
     public ICommand ShowSettingsCommand => _showSettingsCommand ??= RegisterCommand(OnShowSettings);
     public ICommand ShowAboutCommand => _showAboutCommand ??= RegisterCommand(OnShowAbout);
 
-    public ICommand FileNewTodoCommand => _fileNewTodoCommand ??= RegisterCommand(OnFileNewTodo);
-    public ICommand FileOpenTodoCommad => _fileOpenTodoCommand ??= RegisterCommand(OnFileOpenTodo);
-    public ICommand FileOpenRecentCommand => _fileOpenRecentCommand ??= RegisterCommand<string>(OnFileOpenRecent);
-    public ICommand FileClearRecentCommad => _fileClearRecentCommand ??= RegisterCommand(OnFileClearRecent, CanFileClearRecent);
-
-    public ICommand FileExitCommand => _fileExitCommand ??= RegisterCommand(OnFileExit);
+    public ICommand NewTodoCommand => _newTodoCommand ??= RegisterCommand(OnNewTodo);
+    public ICommand OpenTodoCommad => _openTodoCommand ??= RegisterCommand(OnOpenTodo);
+    public ICommand OpenRecentCommand => _openRecentCommand ??= RegisterCommand<string>(OnOpenRecent);
+    public ICommand ClearRecentCommand => _clearRecentCommand ??= RegisterCommand(OnClearRecent, CanFileClearRecent);
+    public ICommand ArchiveCompletedTasksCommand => _archiveCompletedTasksCommand ??= RegisterCommand(OnArchiveCompletedTasks, CanArchiveCompletedTasks);
+    public ICommand ApplicationExitCommand => _applicationExitCommand ??= RegisterCommand(OnApplicationExit);
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
     public INavigationService NavigationService
@@ -100,7 +103,7 @@ public class ShellViewModel : ViewModelBase
 
     private void OnShowAbout() => NavigationService.NavigateTo(typeof(AboutViewModel).FullName!);
 
-    private async void OnFileNewTodo()
+    private async void OnNewTodo()
     {
         var path = await _systemService.OpenSaveDialogAsync();
         if (string.IsNullOrEmpty(path)) return;
@@ -113,7 +116,7 @@ public class ShellViewModel : ViewModelBase
         OpenTodo(path);
     }
 
-    private async void OnFileOpenTodo()
+    private async void OnOpenTodo()
     {
         var path = await _systemService.OpenFileDialogAsync();
         if (string.IsNullOrEmpty(path)) return;
@@ -121,25 +124,28 @@ public class ShellViewModel : ViewModelBase
         OpenTodo(path);
     }
 
-    private void OnFileExit() => Application.Current.Exit();
+    private bool CanArchiveCompletedTasks() => _taskService.ActiveTasks.Any(t => t.IsCompleted);
 
-    private async void OnFileOpenRecent(string path)
+    private void OnArchiveCompletedTasks() => _taskService.ArchiveCompletedTasks();
+
+    private async void OnOpenRecent(string path)
     {
         if (!File.Exists(path))
         {
             await _dialogService.ShowMessageAsync("Open todo file", $"The todo file you are trying to open does not exisits.\n\n{path}");
             return;
         }
-
         OpenTodo((path));
     }
 
     private bool CanFileClearRecent() => _recentFilesService.RecentFiles.Count > 0;
 
-    private void OnFileClearRecent()
+    private void OnClearRecent()
     {
         _recentFilesService.Clear();
     }
+
+    private void OnApplicationExit() => Application.Current.Exit();
 
     private async void OnFeatureNotImplemented(string feature) => await _dialogService.ShowFeatureNotImpletmented(feature);
 
@@ -156,6 +162,10 @@ public class ShellViewModel : ViewModelBase
 
     public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
     {
+        var vm = NavigationService.Frame?.GetPageViewModel() as IViewModel;
+
+        if (vm.ShellKeyEventTriggered(args)) return true;
+
         switch (args.KeyboardAccelerator.Key)
         {
             case VirtualKey.F1:

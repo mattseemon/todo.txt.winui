@@ -21,10 +21,11 @@
             <Image Source="/Assets/Todo.ico" HorizontalAlignment="Left" Width="16" Height="16" Margin="8,0"/>
             <TextBlock x:Name="AppTitleBarText" VerticalAlignment="Center" TextWrapping="NoWrap" Style="{StaticResource CaptionTextBlockStyle}" Margin="32, 0, 0, 0"/>
         </Grid>
-        <Grid Grid.Row="1" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}">
+        <Grid Grid.Row="1" Background="{StaticResource SubtleFillColorTransparentBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
@@ -40,12 +41,12 @@
                 https://docs.microsoft.com/windows/uwp/app-resources/localize-strings-ui-manifest#refer-to-a-string-resource-identifier-from-xaml
                 -->
                 <MenuBarItem x:Uid="ShellPage_MenuBarItem_File">
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_New" Command="{x:Bind ViewModel.FileNewTodoCommand}">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_New" Command="{x:Bind ViewModel.NewTodoCommand}">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="N" Modifiers="Control" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Open" Command="{x:Bind ViewModel.FileOpenTodoCommad}">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Open" Command="{x:Bind ViewModel.OpenTodoCommad}">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="O" Modifiers="Control" />
                         </MenuFlyoutItem.KeyboardAccelerators>
@@ -56,37 +57,38 @@
                             <KeyboardAccelerator Key="F5" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Archive" Command="{x:Bind ViewModel.FeatureNotImplementedCommand}" CommandParameter="Archive Completed Tasks">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Archive" Command="{x:Bind ViewModel.ArchiveCompletedTasksCommand}">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="R" Modifiers="Control" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
                     <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_File_Recents" x:Name="RecentFilesMenu" IsEnabled="{x:Bind ViewModel.IsRecentEnabled, Mode=OneWay}" />
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Recents_Clear" Command="{x:Bind ViewModel.FileClearRecentCommad}">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Recents_Clear" Command="{x:Bind ViewModel.ClearRecentCommand}">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="Number0" Modifiers="Control,Menu" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Exit" Command="{x:Bind ViewModel.FileExitCommand}">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Exit" Command="{x:Bind ViewModel.ApplicationExitCommand}">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="F4" Modifiers="Menu" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                 </MenuBarItem>
             </MenuBar>
-            <AppBarButton Grid.Column="2" x:Uid="ShellPage_AppBarButton_Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}" Icon="Setting" ToolTipService.Placement="Bottom">
+            <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 4 0" Visibility="{x:Bind ViewModel.IsMenuVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+            <AppBarButton Grid.Column="3" x:Uid="ShellPage_AppBarButton_Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}" Icon="Setting" ToolTipService.Placement="Bottom">
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="ShellPage_AppBarButton_Settings_Tooltip" /></ToolTipService.ToolTip>
             </AppBarButton>
-            <AppBarButton Grid.Column="3" x:Uid="ShellPage_AppBarButton_About" ToolTipService.Placement="Bottom" Command="{x:Bind ViewModel.ShowAboutCommand}">
+            <AppBarButton Grid.Column="4" x:Uid="ShellPage_AppBarButton_About" ToolTipService.Placement="Bottom" Command="{x:Bind ViewModel.ShowAboutCommand}">
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="ShellPage_AppBarButton_About_Tooltip" /></ToolTipService.ToolTip>
                 <AppBarButton.Icon><FontIcon Glyph="&#xE946;" /></AppBarButton.Icon>
             </AppBarButton>
         </Grid>
-        <Grid Grid.Row="2" Background="{StaticResource SubtleFillColorSecondary}" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}" BorderThickness="0 1 0 1">
+        <Grid Grid.Row="2" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}" BorderThickness="0 1 0 1">
             <Frame x:Name="NavigationFrame"/>
         </Grid>
     </Grid>
