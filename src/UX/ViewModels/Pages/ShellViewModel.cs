@@ -35,9 +35,10 @@ public class ShellViewModel : ViewModelBase
 
     private ICommand? _newTodoCommand;
     private ICommand? _openTodoCommand;
+    private ICommand? _reloadTodoFileCommand;
+    private ICommand? _archiveCompletedTasksCommand;
     private ICommand? _openRecentCommand;
     private ICommand? _clearRecentCommand;
-    private ICommand? _archiveCompletedTasksCommand;
     private ICommand? _applicationExitCommand;
 
     private ICommand? _featureNotImplementedCommand;
@@ -66,9 +67,10 @@ public class ShellViewModel : ViewModelBase
 
     public ICommand NewTodoCommand => _newTodoCommand ??= RegisterCommand(OnNewTodo);
     public ICommand OpenTodoCommad => _openTodoCommand ??= RegisterCommand(OnOpenTodo);
+    public ICommand ReloadTodoFileCommand => _reloadTodoFileCommand ?? RegisterCommand(OnReloadTodoFile, CanReloadTodoFile);
+    public ICommand ArchiveCompletedTasksCommand => _archiveCompletedTasksCommand ??= RegisterCommand(OnArchiveCompletedTasks, CanArchiveCompletedTasks);
     public ICommand OpenRecentCommand => _openRecentCommand ??= RegisterCommand<string>(OnOpenRecent);
     public ICommand ClearRecentCommand => _clearRecentCommand ??= RegisterCommand(OnClearRecent, CanFileClearRecent);
-    public ICommand ArchiveCompletedTasksCommand => _archiveCompletedTasksCommand ??= RegisterCommand(OnArchiveCompletedTasks, CanArchiveCompletedTasks);
     public ICommand ApplicationExitCommand => _applicationExitCommand ??= RegisterCommand(OnApplicationExit);
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
@@ -123,6 +125,10 @@ public class ShellViewModel : ViewModelBase
 
         OpenTodo(path);
     }
+
+    private bool CanReloadTodoFile() => _taskService.IsLoaded;
+
+    private void OnReloadTodoFile() => _taskService.ReloadTasks();
 
     private bool CanArchiveCompletedTasks() => _taskService.ActiveTasks.Any(t => t.IsCompleted);
 

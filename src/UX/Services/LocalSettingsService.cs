@@ -63,9 +63,17 @@ public class LocalSettingsService : ILocalSettingsService
             if (_settings != null && _settings.TryGetValue(key, out var value))
             {
                 if (value is JObject jObject)
-                    return jObject.ToObject<T>();
+                {
+                    var setting = jObject.ToObject<T>();
+                    _settings[key] = setting;
+                    return setting;
+                }
                 else if (value is JArray jArray)
-                    return jArray.ToObject<T>();
+                {
+                    var setting = jArray.ToObject<T>();
+                    _settings[key] = setting;
+                    return setting;
+                }
                 else
                     return (T?)value;
             }

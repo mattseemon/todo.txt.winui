@@ -19,6 +19,8 @@ public interface ITaskService
     }
 
     void LoadTasks(string path);
+
+    void ReloadTasks();
     
     void DeleteTask(Task task);
 

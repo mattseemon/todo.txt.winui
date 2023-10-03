@@ -67,6 +67,7 @@ public partial class App : Application
             services.AddSingleton<ITaskService, TaskService>();
             services.AddSingleton<ISystemService, SystemService>();
             services.AddSingleton<IRecentFilesService, RecentFilesService>();
+            services.AddSingleton<IFileMonitorService, FileMonitorService>();
 
             // Core Services
             services.AddSingleton<IFileService, FileService>();

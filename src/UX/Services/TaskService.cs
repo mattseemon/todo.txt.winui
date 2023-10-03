@@ -8,7 +8,6 @@ using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Exceptions;
 using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
-using Seemon.Todo.Helpers.Services;
 using Seemon.Todo.Models.Settings;
 
 using Task = Seemon.Todo.Models.Task;
@@ -20,9 +19,11 @@ public class TaskService : ObservableObject, ITaskService
     public event EventHandler<string>? Loaded;
     public event EventHandler<NotifyCollectionChangedEventArgs>? ActiveTasksCollectionChanged;
 
-    private readonly ILocalSettingsService _localSettingsService;
+    private readonly ILocalSettingsService? _localSettingsService;
+    private readonly IFileMonitorService? _fileMonitorService;
 
     private TodoSettings _todoSettings;
+    private AppSettings _appSettings;
 
     private ObservableCollection<Task> _activeTasks;
 
@@ -32,16 +33,26 @@ public class TaskService : ObservableObject, ITaskService
 
     private bool _isLoaded = false;
 
-    public TaskService(ILocalSettingsService localSettingsService)
+    public TaskService(ILocalSettingsService localSettingsService, IFileMonitorService fileMonitorService)
     {
         _localSettingsService = localSettingsService;
-
+        _fileMonitorService = fileMonitorService;
+        _fileMonitorService.Changed += OnFileMonitorServiceChanged;
         _activeTasks = new ObservableCollection<Task>();
         _activeTasks.CollectionChanged += OnActiveTasksCollectionChanged;
         _todoSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService.ReadSettingAsync<TodoSettings>(Constants.SETTING_TODO)).Result ?? TodoSettings.Default;
-
+        _appSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService.ReadSettingAsync<AppSettings>(Constants.SETTING_APPLICATION)).Result ?? AppSettings.Default;
+        _appSettings.PropertyChanged += OnAppSettingsPropertyChanged;
         IsLoaded = false;
     }
+
+    private void OnAppSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (_appSettings.AutoRefreshFile) _fileMonitorService?.WatchFile(_todoPath);
+        else _fileMonitorService?.UnWatchFile();
+    }
+
+    private void OnFileMonitorServiceChanged() => ReloadTasks();
 
     public bool IsLoaded
     {
@@ -68,7 +79,7 @@ public class TaskService : ObservableObject, ITaskService
         _activeTasks.Clear();
 
         _activeTasks.CollectionChanged -= OnActiveTasksCollectionChanged;
-        var lines = FileHelper.ReadLinesFromFile(path);
+        var lines = ReadLinesFromFile(path);
         foreach (var line in lines)
         {
             _activeTasks.Add(Parse(line));
@@ -77,6 +88,12 @@ public class TaskService : ObservableObject, ITaskService
 
         IsLoaded = true;
         Loaded?.Invoke(this, path);
+        _fileMonitorService?.WatchFile(_todoPath);
+    }
+
+    public void ReloadTasks()
+    {
+        LoadTasks(_todoPath);
     }
 
     public void DeleteTask(Task task)
@@ -106,7 +123,7 @@ public class TaskService : ObservableObject, ITaskService
         var archivePath = GetArchivePath();
         if (string.IsNullOrEmpty(archivePath)) return;
 
-        var archivedTasks = FileHelper.ReadLinesFromFile(archivePath);
+        var archivedTasks = ReadLinesFromFile(archivePath);
         foreach (var task in tasks)
         {
             if (task.IsCompleted)
@@ -115,7 +132,7 @@ public class TaskService : ObservableObject, ITaskService
                 DeleteTask(task);
             }
         }
-        FileHelper.WriteLinesToFile(archivePath, archivedTasks);
+        WriteLinesToFile(archivePath, archivedTasks);
     }
 
     public Task Parse(string raw)
@@ -269,7 +286,7 @@ public class TaskService : ObservableObject, ITaskService
             if (_activeTasks != null)
             {
                 var tasks = _activeTasks.Select(t => t.Raw).ToList();
-                FileHelper.WriteLinesToFile(_todoPath, tasks);
+                WriteLinesToFile(_todoPath, tasks);
             }
 
         }
@@ -287,6 +304,59 @@ public class TaskService : ObservableObject, ITaskService
         {
             var root = Path.GetDirectoryName(_todoPath);
             return (string.IsNullOrEmpty(root)) ? string.Empty : Path.Combine(root, ARCHIVE_FILENAME);
+        }
+    }
+
+    private IList<string> ReadLinesFromFile(string path)
+    {
+        var lines = new List<string>();
+
+        if (File.Exists(path))
+        {
+            try
+            {
+                var stream = File.OpenRead(path);
+
+                using var reader = new StreamReader(stream);
+                string? line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (!string.IsNullOrEmpty(line))
+                    {
+                        lines.Add(line.Trim());
+                    }
+                }
+            }
+            catch (IOException ex) { throw new TaskException("An error occurred while trying to read the todo file.", ex); }
+            catch (Exception) { throw; }
+        }
+        return lines;
+    }
+
+    private void WriteLinesToFile(string path, IList<string> lines)
+    {
+        if (_todoPath == path) _fileMonitorService?.UnWatchFile();
+        try
+        {
+            using StreamWriter writer = new(path);
+            foreach (var task in lines)
+            {
+                writer.WriteLine(task);
+            }
+            writer.Close();
+        }
+        catch (IOException ex)
+        {
+            var message = "An erorr occurred when trying to write to the todo.txt file.";
+            throw new TaskException(message, ex);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            _fileMonitorService?.WatchFile(_todoPath);
         }
     }
 }
