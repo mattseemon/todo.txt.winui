@@ -1,5 +1,14 @@
+---
+title: Home
+layout: Home
+---
+{: .important-title }
+> Notice
+>
+> Website is still under construction.
 # Todo
 
-## Introductio
+## Introduction
 
 An implementation of todo.txt client for Windows.
+

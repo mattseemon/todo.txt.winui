@@ -20,7 +20,7 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel
             x:Name="ContentArea">
-                <Expander x:Uid="SettingsPage_Appearance" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" AccessKey="R">
+                <Expander x:Uid="SettingsPage_Appearance" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" AccessKey="A">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -45,11 +45,23 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="42" />
                             <RowDefinition Height="42"/>
+                            <RowDefinition Height="42"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_Application_LoadMostRecent" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"  />
-                        <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.OpenRecentOnStartup, Mode=TwoWay}" AccessKey="O" />
-                        <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_Application_MaxRecent" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
-                        <NumberBox Grid.Row="1" Grid.Column="1" Minimum="1" Maximum="10" HorizontalAlignment="Left" MaxWidth="200" MinWidth="200" VerticalAlignment="Center" Value="{x:Bind ViewModel.AppSettings.MaxRecentFileCount, Mode=TwoWay}" SpinButtonPlacementMode="Inline" AccessKey="N"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_Application_AutoRefresh" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
+                        <ToggleSwitch Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.AutoRefreshFile, Mode=TwoWay}" OnContent="" OffContent="" AccessKey="R" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_Application_LoadMostRecent" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"  />
+                        <ToggleSwitch Grid.Row="1" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.OpenRecentOnStartup, Mode=TwoWay}" AccessKey="O" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" x:Uid="SettingsPage_Application_MaxRecent" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
+                        <NumberBox Grid.Row="2" Grid.Column="1" Minimum="1" Maximum="10" HorizontalAlignment="Left" MaxWidth="200" MinWidth="200" VerticalAlignment="Center" Value="{x:Bind ViewModel.AppSettings.MaxRecentFileCount, Mode=TwoWay}" SpinButtonPlacementMode="Inline" AccessKey="N">
+                            <i:Interaction.Behaviors>
+                                <ic:EventTriggerBehavior EventName="GotFocus">
+                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextBoxFocusChangedCommand}" CommandParameter="True" />
+                                </ic:EventTriggerBehavior>
+                                <ic:EventTriggerBehavior EventName="LostFocus">
+                                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextBoxFocusChangedCommand}" CommandParameter="False" />
+                                </ic:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                        </NumberBox>
                     </Grid>
                 </Expander>
                 <Expander x:Uid="SettingsPage_Application_Task" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" AccessKey="T">

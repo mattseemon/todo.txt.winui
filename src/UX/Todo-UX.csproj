@@ -32,8 +32,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>todo;todo.txt</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <AssemblyVersion>0.0.1</AssemblyVersion>
-    <FileVersion>0.0.1</FileVersion>
+    <AssemblyVersion>0.2.0</AssemblyVersion>
+    <FileVersion>0.2.0</FileVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <UserSecretsId>fe5c29c4-3b5e-4fab-91fa-dc0d9e75a78b</UserSecretsId>
   </PropertyGroup>

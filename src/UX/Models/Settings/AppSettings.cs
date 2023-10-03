@@ -13,6 +13,7 @@ public class AppSettings : ObservableObject
     private ObservableCollection<RecentFile> _recentFiles;
     private bool _openRecentOnStartup = false;
     private int _maxRecentFileCount = 10;
+    private bool _autoRefreshFile = false;
 
     public AppSettings()
     {
@@ -49,12 +50,19 @@ public class AppSettings : ObservableObject
         get => _maxRecentFileCount; set => SetProperty(ref _maxRecentFileCount, value);
     }
 
+    [JsonProperty("autoRefreshFile")]
+    public bool AutoRefreshFile
+    {
+        get => _autoRefreshFile; set => SetProperty(ref _autoRefreshFile, value);
+    }
+
     public static AppSettings Default => new()
     {
         Theme = "Default",
         LastOpenedPath = string.Empty,
         RecentFiles = new ObservableCollection<RecentFile>(),
         OpenRecentOnStartup = false,
-        MaxRecentFileCount = 10
+        MaxRecentFileCount = 10,
+        AutoRefreshFile = false,
     };
 }

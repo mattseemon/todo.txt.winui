@@ -1,3 +1,8 @@
-theme: jekyll-theme-minimal
+theme: just-the-docs
 title: Todo Homepage
-description: Bookmark this to keep an eye on my project updates!
+description: An implementation of todo.txt client for Windows
+
+url: https://mattseemon.github.io/todo.txt.winui
+
+aux_links:
+  Template Repository: https://github.com/just-the-docs/just-the-docs-template

@@ -52,7 +52,7 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Reload" Command="{x:Bind ViewModel.FeatureNotImplementedCommand}" CommandParameter="Reload Todo File">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Reload" Command="{x:Bind ViewModel.ReloadTodoFileCommand}">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="F5" />
                         </MenuFlyoutItem.KeyboardAccelerators>
