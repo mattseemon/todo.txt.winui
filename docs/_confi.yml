@@ -1,8 +1,0 @@
-theme: just-the-docs
-title: Todo Homepage
-description: An implementation of todo.txt client for Windows
-
-url: https://mattseemon.github.io/todo.txt.winui
-
-aux_links:
-  Template Repository: https://github.com/just-the-docs/just-the-docs-template
