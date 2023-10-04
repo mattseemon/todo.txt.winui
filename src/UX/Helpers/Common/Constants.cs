@@ -22,4 +22,5 @@ public static class Constants
 
     public const string SETTING_APPLICATION = "application.settings";
     public const string SETTING_TODO = "todo.settings";
+    public const string SETTING_VIEW = "view.settings";
 }

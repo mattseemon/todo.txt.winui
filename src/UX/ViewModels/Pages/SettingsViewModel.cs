@@ -21,6 +21,7 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
 
     private readonly AppSettings _appSettings;
     private readonly TodoSettings _todoSettings;
+    private readonly ViewSettings _viewSettings;
 
     private ICommand? _switchThemeCommand;
     private ICommand? _selectGlobalArchiveFileCommand;
@@ -36,6 +37,7 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
 
     public AppSettings AppSettings => _appSettings;
     public TodoSettings TodoSettings => _todoSettings;
+    public ViewSettings ViewSettings => _viewSettings;
 
     public IList<string> Themes => Enum.GetValues(typeof(ElementTheme)).Cast<ElementTheme>().Select(e => e.ToString()).ToList();
 
@@ -56,9 +58,13 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
         _todoSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<TodoSettings>(Constants.SETTING_TODO)).Result ?? TodoSettings.Default;
         _todoSettings.PropertyChanged += OnTodoSettingsPropertyChanged;
 
+        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<ViewSettings>(Constants.SETTING_VIEW)).Result ?? ViewSettings.Default;
+        _viewSettings.PropertyChanging += OnViewSettingsPropertyChanging;
+
         SelectedTheme = _themeSelectorService.Theme.ToString();
     }
 
+    
     private async void OnSwitchTheme(SelectionChangedEventArgs args)
         => await _themeSelectorService.SetThemeAsync((ElementTheme)Enum.Parse(typeof(ElementTheme), SelectedTheme));
 
@@ -87,6 +93,9 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
 
     private async void OnTodoSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         => await _localSettingsService.SaveSettingAsync(Constants.SETTING_TODO, _todoSettings);
+
+    private async void OnViewSettingsPropertyChanging(object? sender, System.ComponentModel.PropertyChangingEventArgs e) 
+        => await _localSettingsService.SaveSettingAsync(Constants.SETTING_VIEW, _viewSettings);
 
     public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
     {

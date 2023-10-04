@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Seemon.Todo.Helpers.Views"
     xmlns:local="using:Seemon.Todo.Models"
     mc:Ignorable="d">
     <Page.Resources>
@@ -16,7 +17,8 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="28"/>
         </Grid.RowDefinitions>
-        <ListView Grid.Row="0" ItemsSource="{x:Bind ViewModel.Tasks}" Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" BorderThickness="0 0 0 0" >
+        <ListView Grid.Row="0" ItemsSource="{x:Bind ViewModel.Tasks}" Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" BorderThickness="0 0 0 0" 
+                  helpers:FocusHelper.IsFocused="True">
         </ListView>
         <Grid Grid.Row="1" Padding="12 0" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}" >
             <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Filter" VerticalAlignment="Center" />

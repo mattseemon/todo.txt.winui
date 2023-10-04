@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Navigation;
 
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Contracts.ViewModels;
+using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Helpers.ViewModels;
 using Seemon.Todo.Models.Settings;
@@ -23,15 +24,20 @@ public class ShellViewModel : ViewModelBase
     private readonly ISystemService _systemService;
     private readonly ITaskService _taskService;
     private readonly IRecentFilesService _recentFilesService;
+    private readonly ILocalSettingsService _localSettingsService;
+
+    private readonly ViewSettings _viewSettings;
 
     private bool _isBackEnabled;
     private bool _isMenuVisible;
     private bool _isRecentEnabled;
+    private bool _isQuickSearchFocused;
 
     private ICommand? _goBackCommand;
 
     private ICommand? _showSettingsCommand;
     private ICommand? _showAboutCommand;
+    private ICommand? _quickSearchFocusedChangedCommand;
 
     private ICommand? _newTodoCommand;
     private ICommand? _openTodoCommand;
@@ -58,12 +64,19 @@ public class ShellViewModel : ViewModelBase
         get => _isRecentEnabled; set => SetProperty(ref _isRecentEnabled, value);
     }
 
+    public bool IsQuickSearchFocused
+    {
+        get => _isQuickSearchFocused;
+        set => SetProperty(ref _isQuickSearchFocused, value);
+    }
+
     public ObservableCollection<RecentFile> RecentFiles => _recentFilesService.RecentFiles;
 
     public ICommand GoBackCommand => _goBackCommand ??= RegisterCommand(OnGoBack);
 
     public ICommand ShowSettingsCommand => _showSettingsCommand ??= RegisterCommand(OnShowSettings);
     public ICommand ShowAboutCommand => _showAboutCommand ??= RegisterCommand(OnShowAbout);
+    public ICommand QuickSearchFocusedChangedCommand => _quickSearchFocusedChangedCommand ??= RegisterCommand<string>(OnQuickSearchFocusedChanged);
 
     public ICommand NewTodoCommand => _newTodoCommand ??= RegisterCommand(OnNewTodo);
     public ICommand OpenTodoCommad => _openTodoCommand ??= RegisterCommand(OnOpenTodo);
@@ -79,13 +92,21 @@ public class ShellViewModel : ViewModelBase
         get;
     }
 
-    public ShellViewModel(INavigationService navigationService, IDialogService dialogService, ISystemService systemService, ITaskService taskService, IRecentFilesService recentFilesService)
+    public ViewSettings ViewSettings
+    {
+        get => _viewSettings;
+    }
+
+    public ShellViewModel(INavigationService navigationService, IDialogService dialogService, ISystemService systemService, ITaskService taskService, IRecentFilesService recentFilesService, ILocalSettingsService localSettingsService)
     {
         _dialogService = dialogService;
         NavigationService = navigationService;
         _systemService = systemService;
         _taskService = taskService;
         _recentFilesService = recentFilesService;
+        _localSettingsService = localSettingsService;
+
+        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<ViewSettings>(Constants.SETTING_VIEW)).Result ?? ViewSettings.Default;
 
         NavigationService.Navigated += OnNavigated;
         _taskService.ActiveTasks.CollectionChanged += OnActiveTasksCollectionChanged;
@@ -104,6 +125,8 @@ public class ShellViewModel : ViewModelBase
     private void OnShowSettings() => NavigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
 
     private void OnShowAbout() => NavigationService.NavigateTo(typeof(AboutViewModel).FullName!);
+
+    private void OnQuickSearchFocusedChanged(string value) => IsQuickSearchFocused = bool.Parse(value);
 
     private async void OnNewTodo()
     {
@@ -164,6 +187,7 @@ public class ShellViewModel : ViewModelBase
 
         _taskService.LoadTasks(path);
         _recentFilesService.Add(path);
+        _viewSettings.QuickSearchString = string.Empty;
     }
 
     public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
@@ -176,6 +200,9 @@ public class ShellViewModel : ViewModelBase
         {
             case VirtualKey.F1:
                 OnShowAbout();
+                return true;
+            case VirtualKey.F3:
+                OnQuickSearchFocusedChanged(true.ToString());
                 return true;
             case VirtualKey.F10:
                 OnShowSettings();
