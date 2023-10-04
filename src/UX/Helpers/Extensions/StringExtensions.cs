@@ -13,4 +13,31 @@ public static class StringExtensions
         }
         return text.Trim();
     }
+
+    public static bool IsDateEqualTo(this string dateText, DateTime date)
+    {
+        if (string.IsNullOrEmpty(dateText)) return false;
+
+        if (!DateTime.TryParse(dateText, out DateTime comparison)) return false;
+
+        return comparison.Date == date.Date;
+    }
+
+    public static bool IsDateGreaterThan(this string dateText, DateTime date)
+    {
+        if (string.IsNullOrEmpty(dateText)) return false;
+
+        if (!DateTime.TryParse(dateText, out DateTime comparison)) return false;
+
+        return comparison.Date > date.Date;
+    }
+
+    public static bool IsDateLesserThan(this string dateText, DateTime date)
+    {
+        if (string.IsNullOrEmpty(dateText)) return false;
+
+        if (!DateTime.TryParse(dateText, out DateTime comparison)) return false;
+
+        return comparison.Date < date.Date;
+    }
 }

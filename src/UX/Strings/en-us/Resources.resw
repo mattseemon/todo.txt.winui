@@ -311,4 +311,10 @@
   <data name="SettingsPage_Application_AutoRefresh.Text" xml:space="preserve">
     <value>Automatically refresh todo file</value>
   </data>
+  <data name="SettingsPage_View.Header" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="SettingsPage_View_CaseSensitive.Text" xml:space="preserve">
+    <value>Filter and search conditions are case sensitive</value>
+  </data>
 </root>

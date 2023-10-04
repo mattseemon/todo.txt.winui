@@ -5,6 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:Seemon.Todo.Helpers.Converters"
+    xmlns:helpers="using:Seemon.Todo.Helpers.Views"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     Loaded="OnLoaded"
     Unloaded="OnUnloaded"
     mc:Ignorable="d">
@@ -77,10 +80,23 @@
                     </MenuFlyoutItem>
                 </MenuBarItem>
             </MenuBar>
-            <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 4 0" Visibility="{x:Bind ViewModel.IsMenuVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+            <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 4 0" 
+                            helpers:FocusHelper.IsFocused="{x:Bind ViewModel.IsQuickSearchFocused, Mode=OneWay}"  
+                            Visibility="{x:Bind ViewModel.IsMenuVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
+                            Text="{x:Bind ViewModel.ViewSettings.QuickSearchString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="GotFocus">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.QuickSearchFocusedChangedCommand}" CommandParameter="True" />
+                    </ic:EventTriggerBehavior>
+                    <ic:EventTriggerBehavior EventName="LostFocus">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.QuickSearchFocusedChangedCommand}" CommandParameter="False" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </AutoSuggestBox>
             <AppBarButton Grid.Column="3" x:Uid="ShellPage_AppBarButton_Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}" Icon="Setting" ToolTipService.Placement="Bottom">
                 <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="ShellPage_AppBarButton_Settings_Tooltip" /></ToolTipService.ToolTip>
+                    <ToolTip x:Uid="ShellPage_AppBarButton_Settings_Tooltip" />
+                </ToolTipService.ToolTip>
             </AppBarButton>
             <AppBarButton Grid.Column="4" x:Uid="ShellPage_AppBarButton_About" ToolTipService.Placement="Bottom" Command="{x:Bind ViewModel.ShowAboutCommand}">
                 <ToolTipService.ToolTip>

@@ -10,14 +10,13 @@
     <Grid Margin="{StaticResource MenuBarContentMargin}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock
             Grid.Row="0"
             x:Uid="SettingsPage_Title"
             Style="{StaticResource PageTitleStyle}" />
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0 0 0 24" Padding="0 0 4 0">
             <StackPanel
             x:Name="ContentArea">
                 <Expander x:Uid="SettingsPage_Appearance" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" AccessKey="A">
@@ -104,6 +103,16 @@
                                 </ToolTipService.ToolTip>
                             </Button>
                         </Grid>
+                    </Grid>
+                </Expander>
+                <Expander x:Uid="SettingsPage_View" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" AccessKey="A">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="400" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Uid="SettingsPage_View_CaseSensitive" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="0" VerticalAlignment="Center"  />
+                        <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.CaseSensitive, Mode=TwoWay}" AccessKey="X" />
                     </Grid>
                 </Expander>
             </StackPanel>
