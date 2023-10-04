@@ -1,7 +1,7 @@
 ---
 title: Home
 layout: home
-last_modified_date: 04-10-2023 17:24
+last_modified_date: 05-10-2023 00:56
 ---
 # Todo
 
@@ -34,4 +34,4 @@ Todo was developed using the below tools and technologies.
  * [.NET Framework](https://docs.microsoft.com/en-gb/dotnet/){:target="_blank"}
 
 ## Minimum System Requirements
-* Windows 10, version 1809 or greater
+* Windows 10, version 1903 or greater
