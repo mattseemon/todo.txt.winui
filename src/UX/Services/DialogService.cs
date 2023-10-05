@@ -1,6 +1,10 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 using Seemon.Todo.Contracts.Services;
+using Seemon.Todo.Exceptions;
+using Seemon.Todo.Helpers.Extensions;
+using Seemon.Todo.Models.Common;
 
 namespace Seemon.Todo.Services;
 
@@ -11,6 +15,38 @@ public class DialogService : IDialogService
     public DialogService(INavigationService navigationService)
     {
         _navigationService = navigationService;
+    }
+
+    public async Task<BindableModel?> ShowDialogAsync<T>(string title, BindableModel model = null)
+        where T : Page
+    {
+        var shell = _navigationService.Frame?.Content as Page;
+
+        var page = App.GetService<T>() as Page;
+        if (page == null) throw new TaskException("Could not find page to load.");
+
+        var viewModel = page.GetPageViewModel();
+
+        viewModel.SetModel(model ?? new());
+
+        var dialog = new ContentDialog
+        {
+            XamlRoot = shell?.XamlRoot,
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            Title = title,
+            Content = page,
+            PrimaryButtonText = "OK",
+            DefaultButton = ContentDialogButton.Primary,
+            CloseButtonText = "Cancel",
+            RequestedTheme = shell.ActualTheme,
+        };
+
+        var result = await dialog.ShowAsync();
+        if (result == ContentDialogResult.Primary)
+        {
+            return viewModel.BindableModel;
+        }
+        return null;
     }
 
     public async Task ShowFeatureNotImpletmented(string feature)

@@ -6,6 +6,8 @@ namespace Seemon.Todo.Models;
 
 public class Task : ObservableObject
 {
+    private bool _isSelected = false;
+
     private bool _isHidden = false;
     private bool _isCompleted = false;
     private string _priority = string.Empty;
@@ -18,6 +20,14 @@ public class Task : ObservableObject
     private List<string> _projects = new();
     private List<string> _contexts = new();
     private IDictionary<string, string> _metadata = new Dictionary<string, string>();
+
+    /// <summary>
+    /// Used only for view. not part of todo.txt format spec.
+    /// </summary>
+    public bool IsSelected
+    {
+        get => _isSelected; set => SetProperty(ref _isSelected, value);
+    }
 
     public bool IsHidden
     {

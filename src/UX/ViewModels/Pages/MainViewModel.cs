@@ -3,6 +3,8 @@ using System.ComponentModel;
 
 using CommunityToolkit.WinUI.UI;
 
+using Microsoft.UI.Xaml.Input;
+
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Contracts.ViewModels;
 using Seemon.Todo.Helpers.Common;
@@ -33,7 +35,8 @@ public class MainViewModel : ViewModelBase, INavigationAware
         _localSettingsService = localSettingsService;
 
         _taskService.Loaded += OnTasksLoaded;
-        _taskService.ActiveTasks.CollectionChanged += OnActiveTasksCollectionChanged;
+        _taskService.CollectionChanged += OnCollectionChanged
+            ;
 
         Tasks = new AdvancedCollectionView(_taskService.ActiveTasks, true);
         Tasks.Filter = QuickSearch;
@@ -58,6 +61,8 @@ public class MainViewModel : ViewModelBase, INavigationAware
             }
         }
     }
+
+    
 
     private void OnViewSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -93,7 +98,10 @@ public class MainViewModel : ViewModelBase, INavigationAware
         };
     }
 
-    private void OnActiveTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => Tasks?.Refresh();
+    private void OnCollectionChanged(object? sender, EventArgs e) => Tasks.Refresh();
+
+
+    
 
     private void OnTasksLoaded(object? sender, string e)
     {
@@ -110,10 +118,8 @@ public class MainViewModel : ViewModelBase, INavigationAware
     {
     }
 
-    public List<string> Cats = new()
+    public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
     {
-        "Abyssinian",
-        "Aegean",
-        "American Bobtail",
-    };
+        return base.ShellKeyEventTriggered(args);
+    }
 }

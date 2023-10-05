@@ -29,6 +29,9 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
 
     private string _selectedTheme = ElementTheme.Default.ToString();
     private bool _textBoxIsFocused = false;
+    private readonly IList<string> _priorities;
+
+    public IList<string> Priorities => _priorities;
 
     public string SelectedTheme
     {
@@ -62,9 +65,16 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
         _viewSettings.PropertyChanging += OnViewSettingsPropertyChanging;
 
         SelectedTheme = _themeSelectorService.Theme.ToString();
+
+        _priorities ??= new List<string>();
+        _priorities.Add("None");
+        for (int i = 65; i < 91; i++)
+        {
+            var value = ((char)i).ToString();
+            _priorities.Add(value);
+        }
     }
 
-    
     private async void OnSwitchTheme(SelectionChangedEventArgs args)
         => await _themeSelectorService.SetThemeAsync((ElementTheme)Enum.Parse(typeof(ElementTheme), SelectedTheme));
 

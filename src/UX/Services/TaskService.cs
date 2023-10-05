@@ -17,10 +17,11 @@ namespace Seemon.Todo.Services;
 public class TaskService : ObservableObject, ITaskService
 {
     public event EventHandler<string>? Loaded;
-    public event EventHandler<NotifyCollectionChangedEventArgs>? ActiveTasksCollectionChanged;
+    public event EventHandler CollectionChanged;
 
     private readonly ILocalSettingsService? _localSettingsService;
     private readonly IFileMonitorService? _fileMonitorService;
+    private readonly IRecentFilesService _recentFilesService;
 
     private TodoSettings _todoSettings;
     private AppSettings _appSettings;
@@ -33,16 +34,21 @@ public class TaskService : ObservableObject, ITaskService
 
     private bool _isLoaded = false;
 
-    public TaskService(ILocalSettingsService localSettingsService, IFileMonitorService fileMonitorService)
+    public TaskService(ILocalSettingsService localSettingsService, IFileMonitorService fileMonitorService, IRecentFilesService recentFilesService)
     {
         _localSettingsService = localSettingsService;
+        
         _fileMonitorService = fileMonitorService;
         _fileMonitorService.Changed += OnFileMonitorServiceChanged;
+        
+        _recentFilesService = recentFilesService;
+
         _activeTasks = new ObservableCollection<Task>();
         _activeTasks.CollectionChanged += OnActiveTasksCollectionChanged;
         _todoSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService.ReadSettingAsync<TodoSettings>(Constants.SETTING_TODO)).Result ?? TodoSettings.Default;
         _appSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService.ReadSettingAsync<AppSettings>(Constants.SETTING_APPLICATION)).Result ?? AppSettings.Default;
         _appSettings.PropertyChanged += OnAppSettingsPropertyChanged;
+
         IsLoaded = false;
     }
 
@@ -63,7 +69,7 @@ public class TaskService : ObservableObject, ITaskService
 
     private void OnActiveTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        ActiveTasksCollectionChanged?.Invoke(this, e);
+        CollectionChanged?.Invoke(this, e);
     }
 
     public void LoadTasks(string path)
@@ -89,11 +95,52 @@ public class TaskService : ObservableObject, ITaskService
         IsLoaded = true;
         Loaded?.Invoke(this, path);
         _fileMonitorService?.WatchFile(_todoPath);
+        _recentFilesService.Add(path);
     }
 
-    public void ReloadTasks()
+    public void ReloadTasks() => LoadTasks(_todoPath);
+
+    public void AddTask(string raw)
     {
-        LoadTasks(_todoPath);
+        if (_activeTasks == null) return;
+
+        raw = raw.Trim();
+        if (raw.Length == 0) return;
+
+        try
+        {
+            var tempTask = Parse(raw);
+            if (_todoSettings.AddCreatedDate)
+            {
+                var today = DateTime.Now.ToTodoDate();
+                if (string.IsNullOrEmpty(tempTask.CreatedDate))
+                {
+                    raw = string.IsNullOrEmpty(tempTask.Priority) ? $"{today} {raw}" : raw.Insert(3, $" {today}");
+                }
+            }
+
+            if(_todoSettings.DefaultPriority != "None" && string.IsNullOrEmpty(tempTask.Priority))
+            {
+                raw = $"({_todoSettings.DefaultPriority.ToUpper()}) {raw}";
+            }
+
+            raw = raw.TrimDoubleSpaces();
+
+            var task = Parse(raw);
+            _activeTasks.Add(task);
+
+            SaveActiveTasks();
+            task.IsSelected = true;
+        }
+        catch (IOException ex)
+        {
+            var message = "Could not add task to todo.txt file due to an unexpected error. Please see details.";
+            throw new TaskException(message, ex);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
     public void DeleteTask(Task task)

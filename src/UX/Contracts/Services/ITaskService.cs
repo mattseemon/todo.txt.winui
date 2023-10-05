@@ -7,6 +7,7 @@ namespace Seemon.Todo.Contracts.Services;
 public interface ITaskService
 {
     event EventHandler<string> Loaded;
+    event EventHandler CollectionChanged;
 
     public bool IsLoaded
     {
@@ -21,6 +22,8 @@ public interface ITaskService
     void LoadTasks(string path);
 
     void ReloadTasks();
+
+    void AddTask(string raw);
     
     void DeleteTask(Task task);
 

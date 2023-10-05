@@ -6,11 +6,14 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Input;
 
 using Seemon.Todo.Contracts.ViewModels;
+using Seemon.Todo.Models.Common;
 
 namespace Seemon.Todo.Helpers.ViewModels;
 
 public class ViewModelBase : ObservableValidator, IViewModel
 {
+    private BindableModel _bindableModel = new BindableModel();
+
     private readonly IList<ICommand> _commands;
 
     public ViewModelBase() => _commands = new List<ICommand>();
@@ -18,6 +21,8 @@ public class ViewModelBase : ObservableValidator, IViewModel
     public string PageKey => GetType().FullName;
 
     public IList<ICommand> Commands => _commands;
+
+    public BindableModel BindableModel { get => _bindableModel; set => SetProperty(ref _bindableModel, value); }
 
     public ICommand RegisterCommand<T>(Action<T> execute, Predicate<T>? canExecute = null)
     {
@@ -41,8 +46,9 @@ public class ViewModelBase : ObservableValidator, IViewModel
         }
     }
 
-    public virtual void SetModel(object model)
+    public virtual void SetModel(BindableModel model)
     {
+        BindableModel = model;
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
