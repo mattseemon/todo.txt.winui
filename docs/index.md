@@ -7,10 +7,10 @@ last_modified_date: 05-10-2023 00:56
 
 This is an implementation of [todo.txt](http://todotxt.org/){:target="_blank"} for Windows using the .NET Framework and Win UI 3. This is inspired by [todotxt.net](https://github.com/benrhughes/todotxt.net){:target="_blank"} built by Ben Hughes.
 
-This implementation conforms to the [todo.txt format specfication](https://github.com/todotxt/todo.txt){:target="_blank"} defined by Gina Trapani.
+This implementation conforms to the [todo.txt format specfication]({% link pages/todo.txt-format.md %}) defined by Gina Trapani.
 
 ### Goals
-* Full compliance to Gina Trapani [todo.txt format specfication](https://github.com/todotxt/todo.txt){:target="_blank"}
+* Full compliance to Gina Trapani [todo.txt format specfication]({% link pages/todo.txt-format.md %})
 * Clean & Modern interface
 * Easy to use and should be completely keyboard driven
 
