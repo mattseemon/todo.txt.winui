@@ -79,9 +79,16 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                 </MenuBarItem>
+                <MenuBarItem Title="Task">
+                    <MenuFlyoutItem Text="Add new Task" Command="{x:Bind ViewModel.AddNewTaskCommand}">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="N" Modifiers="None" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                </MenuBarItem>
             </MenuBar>
             <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 4 0" 
-                            helpers:FocusHelper.IsFocused="{x:Bind ViewModel.IsQuickSearchFocused, Mode=OneWay}"  
+                            helpers:FocusHelper.IsFocused="{x:Bind ViewModel.IsQuickSearchFocused, Mode=OneWay}" 
                             Visibility="{x:Bind ViewModel.IsMenuVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
                             Text="{x:Bind ViewModel.ViewSettings.QuickSearchString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                 <i:Interaction.Behaviors>

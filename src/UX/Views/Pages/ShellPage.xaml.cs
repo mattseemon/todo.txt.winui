@@ -16,10 +16,7 @@ public sealed partial class ShellPage : Page
 {
     private static readonly int MAX_LENGTH = 50;
 
-    public ShellViewModel ViewModel
-    {
-        get;
-    }
+    public ShellViewModel ViewModel { get; }
 
     public ShellPage(ShellViewModel viewModel)
     {

@@ -317,4 +317,10 @@
   <data name="SettingsPage_View_CaseSensitive.Text" xml:space="preserve">
     <value>Filter and search conditions are case sensitive</value>
   </data>
+  <data name="SettingsPage_Application_Task_AddCreatedDate.Text" xml:space="preserve">
+    <value>Add created date for new tasks</value>
+  </data>
+  <data name="SettingsPage_Application_Task_DefaultPriority.Text" xml:space="preserve">
+    <value>Default priority for newly created tasks</value>
+  </data>
 </root>

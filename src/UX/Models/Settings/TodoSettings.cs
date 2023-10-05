@@ -6,10 +6,24 @@ namespace Seemon.Todo.Models.Settings;
 
 public class TodoSettings : ObservableObject
 {
+    private bool _addCreatedDate = true;
+    private string _defaultPriority = string.Empty;
     private bool _archiveCompleted = false;
     private bool _autoArchive = false;
     private bool _enableGlobalArchive = false;
     private string _globalArchiveFilePath = string.Empty;
+
+    [JsonProperty("addCreatedDate")]
+    public bool AddCreatedDate
+    {
+        get => _addCreatedDate; set => SetProperty(ref _addCreatedDate, value);
+    }
+
+    [JsonProperty("defaultPriority")]
+    public string DefaultPriority
+    {
+        get => _defaultPriority; set => SetProperty(ref _defaultPriority, value);
+    }
 
     [JsonProperty("archiveCompleted")]
     public bool ArchiveCompleted
@@ -18,7 +32,7 @@ public class TodoSettings : ObservableObject
         set
         {
             SetProperty(ref _archiveCompleted, value);
-            if(!value)
+            if (!value)
             {
                 EnableGlobalArchive = AutoArchive = value;
             }
@@ -45,6 +59,8 @@ public class TodoSettings : ObservableObject
 
     public static TodoSettings Default = new()
     {
+        AddCreatedDate = true,
+        DefaultPriority = string.Empty,
         ArchiveCompleted = false,
         AutoArchive = false,
         EnableGlobalArchive = false,

@@ -47,6 +47,8 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _clearRecentCommand;
     private ICommand? _applicationExitCommand;
 
+    private ICommand? _addNewTaskCommand;
+
     private ICommand? _featureNotImplementedCommand;
 
     public bool IsBackEnabled
@@ -80,22 +82,21 @@ public class ShellViewModel : ViewModelBase
 
     public ICommand NewTodoCommand => _newTodoCommand ??= RegisterCommand(OnNewTodo);
     public ICommand OpenTodoCommad => _openTodoCommand ??= RegisterCommand(OnOpenTodo);
-    public ICommand ReloadTodoFileCommand => _reloadTodoFileCommand ?? RegisterCommand(OnReloadTodoFile, CanReloadTodoFile);
+    public ICommand ReloadTodoFileCommand => _reloadTodoFileCommand ??= RegisterCommand(OnReloadTodoFile, CanReloadTodoFile);
     public ICommand ArchiveCompletedTasksCommand => _archiveCompletedTasksCommand ??= RegisterCommand(OnArchiveCompletedTasks, CanArchiveCompletedTasks);
     public ICommand OpenRecentCommand => _openRecentCommand ??= RegisterCommand<string>(OnOpenRecent);
     public ICommand ClearRecentCommand => _clearRecentCommand ??= RegisterCommand(OnClearRecent, CanFileClearRecent);
     public ICommand ApplicationExitCommand => _applicationExitCommand ??= RegisterCommand(OnApplicationExit);
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
+    public ICommand AddNewTaskCommand => _addNewTaskCommand ??= RegisterCommand(OnAddNewTask, CanAddNewTask);
+
     public INavigationService NavigationService
     {
         get;
     }
 
-    public ViewSettings ViewSettings
-    {
-        get => _viewSettings;
-    }
+    public ViewSettings ViewSettings => _viewSettings;
 
     public ShellViewModel(INavigationService navigationService, IDialogService dialogService, ISystemService systemService, ITaskService taskService, IRecentFilesService recentFilesService, ILocalSettingsService localSettingsService)
     {
@@ -164,7 +165,7 @@ public class ShellViewModel : ViewModelBase
             await _dialogService.ShowMessageAsync("Open todo file", $"The todo file you are trying to open does not exisits.\n\n{path}");
             return;
         }
-        OpenTodo((path));
+        OpenTodo(path);
     }
 
     private bool CanFileClearRecent() => _recentFilesService.RecentFiles.Count > 0;
@@ -176,6 +177,17 @@ public class ShellViewModel : ViewModelBase
 
     private void OnApplicationExit() => Application.Current.Exit();
 
+    private bool CanAddNewTask() => _taskService.IsLoaded;
+
+    private async void OnAddNewTask()
+    {
+        var response = await _dialogService.ShowDialogAsync<TaskPage>("Add new task");
+        if(response != null)
+        {
+            _taskService.AddTask(response.BindableString);
+        }
+    }
+
     private async void OnFeatureNotImplemented(string feature) => await _dialogService.ShowFeatureNotImpletmented(feature);
 
     private void OnActiveTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => RaiseCommandCanExecute();
@@ -186,7 +198,7 @@ public class ShellViewModel : ViewModelBase
         if (string.IsNullOrEmpty(path)) return;
 
         _taskService.LoadTasks(path);
-        _recentFilesService.Add(path);
+        
         _viewSettings.QuickSearchString = string.Empty;
     }
 

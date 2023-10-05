@@ -36,6 +36,7 @@
     <FileVersion>0.2.0</FileVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <UserSecretsId>fe5c29c4-3b5e-4fab-91fa-dc0d9e75a78b</UserSecretsId>
+    <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\Todo-128.png" />
@@ -46,6 +47,7 @@
     <None Remove="Package.appinstaller" />
     <None Remove="TemplateStudio.xml" />
     <None Remove="Views\Pages\AboutPage.xaml" />
+    <None Remove="Views\Pages\TaskPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +74,9 @@
     <None Update="Assets\Todo-256.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\Pages\TaskPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\Pages\AboutPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
