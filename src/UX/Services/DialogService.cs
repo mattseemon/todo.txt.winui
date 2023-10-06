@@ -17,21 +17,19 @@ public class DialogService : IDialogService
         _navigationService = navigationService;
     }
 
-    public async Task<BindableModel?> ShowDialogAsync<T>(string title, BindableModel model = null)
+    public async Task<BindableModel?> ShowDialogAsync<T>(string title, BindableModel? model = null)
         where T : Page
     {
-        var shell = _navigationService.Frame?.Content as Page;
-
-        var page = App.GetService<T>() as Page;
-        if (page == null) throw new TaskException("Could not find page to load.");
+        var shell = _navigationService.Frame?.Content as Page ?? throw new TaskException("Could not find shell window");
+        var page = App.GetService<T>() as Page ?? throw new TaskException("Could not find page to load.");
 
         var viewModel = page.GetPageViewModel();
 
-        viewModel.SetModel(model ?? new());
+        viewModel?.SetModel(model ?? new());
 
         var dialog = new ContentDialog
         {
-            XamlRoot = shell?.XamlRoot,
+            XamlRoot = shell.XamlRoot,
             Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
             Title = title,
             Content = page,
@@ -44,7 +42,7 @@ public class DialogService : IDialogService
         var result = await dialog.ShowAsync();
         if (result == ContentDialogResult.Primary)
         {
-            return viewModel.BindableModel;
+            return viewModel?.BindableModel;
         }
         return null;
     }

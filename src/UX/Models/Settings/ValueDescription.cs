@@ -2,13 +2,7 @@
 
 public class ValueDescription
 {
-    public object Value
-    {
-        get; set;
-    }
+    public required object Value { get; set; }
 
-    public string Description
-    {
-        get; set;
-    }
+    public required string Description { get; set; }
 }

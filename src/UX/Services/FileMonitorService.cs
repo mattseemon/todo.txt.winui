@@ -10,7 +10,7 @@ public class FileMonitorService : IFileMonitorService, IDisposable
 
     private readonly ILocalSettingsService? _localSettingsService;
     private FileSystemWatcher? _watcher = null;
-    private string _watchedPath = string.Empty;
+    private string? _watchedPath = string.Empty;
     private AppSettings? _appSettings;
 
     public FileMonitorService(ILocalSettingsService localSettingsService)
@@ -38,7 +38,8 @@ public class FileMonitorService : IFileMonitorService, IDisposable
             if (_watchedPath != path)
             {
                 _watchedPath = path;
-                if (_watcher != null) _watcher.Dispose();
+
+                _watcher?.Dispose();
 
                 _watcher ??= new();
                 _watcher.Path = Path.GetDirectoryName(_watchedPath);

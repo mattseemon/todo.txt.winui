@@ -48,6 +48,7 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _applicationExitCommand;
 
     private ICommand? _addNewTaskCommand;
+    private ICommand? _addMultipleNewTaskCommand;
 
     private ICommand? _featureNotImplementedCommand;
 
@@ -89,7 +90,8 @@ public class ShellViewModel : ViewModelBase
     public ICommand ApplicationExitCommand => _applicationExitCommand ??= RegisterCommand(OnApplicationExit);
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
-    public ICommand AddNewTaskCommand => _addNewTaskCommand ??= RegisterCommand(OnAddNewTask, CanAddNewTask);
+    public ICommand AddNewTaskCommand => _addNewTaskCommand ??= RegisterCommand(OnAddNewTask, CanAddNewTasks);
+    public ICommand AddMultipleNewTasksCommand => _addMultipleNewTaskCommand ??= RegisterCommand(OnAddMultipleNewTasks, CanAddNewTasks);
 
     public INavigationService NavigationService
     {
@@ -100,18 +102,20 @@ public class ShellViewModel : ViewModelBase
 
     public ShellViewModel(INavigationService navigationService, IDialogService dialogService, ISystemService systemService, ITaskService taskService, IRecentFilesService recentFilesService, ILocalSettingsService localSettingsService)
     {
-        _dialogService = dialogService;
         NavigationService = navigationService;
-        _systemService = systemService;
-        _taskService = taskService;
-        _recentFilesService = recentFilesService;
-        _localSettingsService = localSettingsService;
-
-        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<ViewSettings>(Constants.SETTING_VIEW)).Result ?? ViewSettings.Default;
-
         NavigationService.Navigated += OnNavigated;
+
+        _dialogService = dialogService;
+        _systemService = systemService;
+
+        _taskService = taskService;
         _taskService.ActiveTasks.CollectionChanged += OnActiveTasksCollectionChanged;
+
+        _recentFilesService = recentFilesService;
         _recentFilesService.RecentFiles.CollectionChanged += OnRecentFilesCollectionChanged;
+
+        _localSettingsService = localSettingsService;
+        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<ViewSettings>(Constants.SETTING_VIEW)).Result ?? ViewSettings.Default;
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)
@@ -177,14 +181,28 @@ public class ShellViewModel : ViewModelBase
 
     private void OnApplicationExit() => Application.Current.Exit();
 
-    private bool CanAddNewTask() => _taskService.IsLoaded;
+    private bool CanAddNewTasks() => _taskService.IsLoaded;
 
     private async void OnAddNewTask()
     {
         var response = await _dialogService.ShowDialogAsync<TaskPage>("Add new task");
-        if(response != null)
+        if (response != null)
         {
-            _taskService.AddTask(response.BindableString);
+            _taskService.AddTask(response.BindableString.Trim());
+        }
+    }
+
+    private async void OnAddMultipleNewTasks()
+    {
+
+        var respose = await _dialogService.ShowDialogAsync<MultipleTaskPage>("Add multiple new task");
+        if (respose != null)
+        {
+            var tasks = respose.BindableString.ReplaceLineEndings().Split(Environment.NewLine);
+            foreach (var task in tasks)
+            {
+                _taskService.AddTask(task.Trim());
+            }
         }
     }
 
@@ -198,13 +216,13 @@ public class ShellViewModel : ViewModelBase
         if (string.IsNullOrEmpty(path)) return;
 
         _taskService.LoadTasks(path);
-        
+
         _viewSettings.QuickSearchString = string.Empty;
     }
 
     public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
     {
-        var vm = NavigationService.Frame?.GetPageViewModel() as IViewModel;
+        if (NavigationService.Frame?.GetPageViewModel() is not IViewModel vm) return false;
 
         if (vm.ShellKeyEventTriggered(args)) return true;
 

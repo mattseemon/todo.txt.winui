@@ -9,13 +9,18 @@ public static class EnumExtensions
     {
         try
         {
-            var attributes = value.GetType().GetField(value.ToString()).GetCustomAttributes(typeof(DescriptionAttribute), false);
+            if (value == null) return string.Empty;
+            var field = value.GetType().GetField(value.ToString());
+
+            var attributes = field?.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            if (attributes == null) return value.ToString();
+
             if (attributes.Any())
             {
                 return ((DescriptionAttribute)attributes.First()).Description;
             }
             var textInfo = CultureInfo.CurrentCulture.TextInfo;
-            return textInfo.ToTitleCase(textInfo.ToLower(value.ToString()));
+            return textInfo?.ToTitleCase(textInfo.ToLower(value.ToString()));
         }
         catch { return string.Empty; }
     }

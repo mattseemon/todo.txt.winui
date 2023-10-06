@@ -80,12 +80,20 @@
                     </MenuFlyoutItem>
                 </MenuBarItem>
                 <MenuBarItem Title="Task">
-                    <MenuFlyoutItem Text="Add new Task" Command="{x:Bind ViewModel.AddNewTaskCommand}">
+                    <MenuFlyoutItem Text="Add new task" Command="{x:Bind ViewModel.AddNewTaskCommand}">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="N" Modifiers="None" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="Add multiple new tasks" Command="{x:Bind ViewModel.AddMultipleNewTasksCommand}">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="N" Modifiers="Menu" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
                 </MenuBarItem>
+                
+                    
+                
             </MenuBar>
             <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 4 0" 
                             helpers:FocusHelper.IsFocused="{x:Bind ViewModel.IsQuickSearchFocused, Mode=OneWay}" 
