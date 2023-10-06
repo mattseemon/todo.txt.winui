@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
+
 using Seemon.Todo.Activation;
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Models.Settings;
@@ -8,6 +9,7 @@ using Seemon.Todo.Services;
 using Seemon.Todo.ViewModels.Pages;
 using Seemon.Todo.Views.Pages;
 using Seemon.Todo.Views.Windows;
+
 using WinUIEx;
 
 namespace Seemon.Todo;
@@ -20,10 +22,7 @@ public partial class App : Application
     // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
     // https://docs.microsoft.com/dotnet/core/extensions/configuration
     // https://docs.microsoft.com/dotnet/core/extensions/logging
-    public IHost Host
-    {
-        get;
-    }
+    public IHost Host { get; }
 
     public static T GetService<T>()
         where T : class
@@ -38,10 +37,7 @@ public partial class App : Application
 
     public static WindowEx MainWindow { get; } = new MainWindow();
 
-    public static UIElement? AppTitlebar
-    {
-        get; set;
-    }
+    public static UIElement? AppTitlebar { get; set; }
 
     public App()
     {
@@ -83,6 +79,8 @@ public partial class App : Application
             services.AddTransient<AboutPage>();
             services.AddTransient<TaskViewModel>();
             services.AddTransient<TaskPage>();
+            services.AddTransient<MultipleTaskViewModel>();
+            services.AddTransient<MultipleTaskPage>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
@@ -101,7 +99,6 @@ public partial class App : Application
     protected async override void OnLaunched(LaunchActivatedEventArgs args)
     {
         base.OnLaunched(args);
-
         await App.GetService<IActivationService>().ActivateAsync(args);
     }
 }

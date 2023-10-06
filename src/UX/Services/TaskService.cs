@@ -17,11 +17,11 @@ namespace Seemon.Todo.Services;
 public class TaskService : ObservableObject, ITaskService
 {
     public event EventHandler<string>? Loaded;
-    public event EventHandler CollectionChanged;
+    public event EventHandler? CollectionChanged;
 
     private readonly ILocalSettingsService? _localSettingsService;
     private readonly IFileMonitorService? _fileMonitorService;
-    private readonly IRecentFilesService _recentFilesService;
+    private readonly IRecentFilesService? _recentFilesService;
 
     private TodoSettings _todoSettings;
     private AppSettings _appSettings;
@@ -67,10 +67,7 @@ public class TaskService : ObservableObject, ITaskService
 
     public ObservableCollection<Task> ActiveTasks => _activeTasks;
 
-    private void OnActiveTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        CollectionChanged?.Invoke(this, e);
-    }
+    private void OnActiveTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => CollectionChanged?.Invoke(this, e);
 
     public void LoadTasks(string path)
     {
@@ -95,7 +92,7 @@ public class TaskService : ObservableObject, ITaskService
         IsLoaded = true;
         Loaded?.Invoke(this, path);
         _fileMonitorService?.WatchFile(_todoPath);
-        _recentFilesService.Add(path);
+        _recentFilesService?.Add(path);
     }
 
     public void ReloadTasks() => LoadTasks(_todoPath);
@@ -342,7 +339,7 @@ public class TaskService : ObservableObject, ITaskService
 
     private string GetArchivePath()
     {
-        _todoSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService.ReadSettingAsync<TodoSettings>(Constants.SETTING_TODO)).Result ?? TodoSettings.Default;
+        _todoSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService?.ReadSettingAsync<TodoSettings>(Constants.SETTING_TODO)).Result ?? TodoSettings.Default;
         if (_todoSettings.EnableGlobalArchive && File.Exists(_todoSettings.GlobalArchiveFilePath))
         {
             return _todoSettings.GlobalArchiveFilePath;

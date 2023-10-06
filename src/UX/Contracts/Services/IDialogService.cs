@@ -6,7 +6,7 @@ namespace Seemon.Todo.Contracts.Services;
 
 public interface IDialogService
 {
-    Task<BindableModel> ShowDialogAsync<T>(string title, BindableModel? model = null)
+    Task<BindableModel?> ShowDialogAsync<T>(string title, BindableModel? model = null)
         where T : Page;
 
     Task ShowMessageAsync(string title, string message);
