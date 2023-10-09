@@ -6,7 +6,7 @@ title: What is todo.txt?
 {: .important-title }
 > Important Notice
 >
-> Please note this is a copy of the todo.txt format found [here](github.com/todotxt/todo.txt){:target="_blank"}.
+> Please note this is a copy of the todo.txt format found [here](https://github.com/todotxt/todo.txt){:target="_blank"}.
 > This is covered under the [GNU General Public License v3.0](https://github.com/todotxt/todo.txt/blob/master/LICENSE){:target="_blank"}
 
 # What is `todo.txt`?
