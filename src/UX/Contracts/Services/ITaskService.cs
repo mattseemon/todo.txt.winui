@@ -19,12 +19,16 @@ public interface ITaskService
         get;
     }
 
+    IList<Task> SelectedTasks { get; }
+
     void LoadTasks(string path);
 
     void ReloadTasks();
 
     void AddTask(string raw);
-    
+
+    void UpdateTask(Task current, string raw);
+
     void DeleteTask(Task task);
 
     void ArchiveCompletedTasks();

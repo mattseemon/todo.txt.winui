@@ -43,57 +43,59 @@
                 TODO: Update item titles by updating <x:Uid>.Text entries in Strings/en-us/Resources.resw.
                 https://docs.microsoft.com/windows/uwp/app-resources/localize-strings-ui-manifest#refer-to-a-string-resource-identifier-from-xaml
                 -->
-                <MenuBarItem x:Uid="ShellPage_MenuBarItem_File">
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_New" Command="{x:Bind ViewModel.NewTodoCommand}">
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_File" KeyTipPlacementMode="Top">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_New" Command="{x:Bind ViewModel.NewTodoCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="N" Modifiers="Control" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Open" Command="{x:Bind ViewModel.OpenTodoCommad}">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Open" Command="{x:Bind ViewModel.OpenTodoCommad}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="O" Modifiers="Control" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Reload" Command="{x:Bind ViewModel.ReloadTodoFileCommand}">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Reload" Command="{x:Bind ViewModel.ReloadTodoFileCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="F5" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Archive" Command="{x:Bind ViewModel.ArchiveCompletedTasksCommand}">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Archive" Command="{x:Bind ViewModel.ArchiveCompletedTasksCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="R" Modifiers="Control" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
-                    <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_File_Recents" x:Name="RecentFilesMenu" IsEnabled="{x:Bind ViewModel.IsRecentEnabled, Mode=OneWay}" />
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Recents_Clear" Command="{x:Bind ViewModel.ClearRecentCommand}">
+                    <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_File_Recents" x:Name="RecentFilesMenu" IsEnabled="{x:Bind ViewModel.IsRecentEnabled, Mode=OneWay}" KeyTipPlacementMode="Left" />
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Recents_Clear" Command="{x:Bind ViewModel.ClearRecentCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="Number0" Modifiers="Control,Menu" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
-                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Exit" Command="{x:Bind ViewModel.ApplicationExitCommand}">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Exit" Command="{x:Bind ViewModel.ApplicationExitCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="F4" Modifiers="Menu" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                 </MenuBarItem>
-                <MenuBarItem Title="Task">
-                    <MenuFlyoutItem Text="Add new task" Command="{x:Bind ViewModel.AddNewTaskCommand}">
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Task" KeyTipPlacementMode="Top">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_New" Command="{x:Bind ViewModel.AddNewTaskCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="N" Modifiers="None" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="Add multiple new tasks" Command="{x:Bind ViewModel.AddMultipleNewTasksCommand}">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_MultipleNew" Command="{x:Bind ViewModel.AddMultipleNewTasksCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="N" Modifiers="Menu" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Update" Command="{x:Bind ViewModel.UpdateTaskCommand}" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="U" Modifiers="None" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
                 </MenuBarItem>
-                
-                    
-                
             </MenuBar>
             <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 4 0" 
                             helpers:FocusHelper.IsFocused="{x:Bind ViewModel.IsQuickSearchFocused, Mode=OneWay}" 

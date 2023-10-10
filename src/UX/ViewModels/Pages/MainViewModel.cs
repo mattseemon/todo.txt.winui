@@ -1,7 +1,4 @@
-﻿using System.Collections.Specialized;
-using System.ComponentModel;
-
-using CommunityToolkit.WinUI.UI;
+﻿using CommunityToolkit.WinUI.UI;
 
 using Microsoft.UI.Xaml.Input;
 
@@ -11,6 +8,9 @@ using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Helpers.ViewModels;
 using Seemon.Todo.Models.Settings;
+
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace Seemon.Todo.ViewModels.Pages;
 
@@ -22,6 +22,12 @@ public class MainViewModel : ViewModelBase, INavigationAware
 
     private AppSettings _appSettings;
     private ViewSettings _viewSettings;
+
+    private ICommand? _selectionChangedCommand;
+    private ICommand? _doubleTappedCommand;
+
+    public ICommand SelectionChangedCommand => _selectionChangedCommand ??= RegisterCommand(OnSelectionChanged);
+    public ICommand DoubleTappedCommand => _doubleTappedCommand ??= RegisterCommand(OnDoubleTapped);
 
     public AdvancedCollectionView Tasks
     {
@@ -35,15 +41,15 @@ public class MainViewModel : ViewModelBase, INavigationAware
         _localSettingsService = localSettingsService;
 
         _taskService.Loaded += OnTasksLoaded;
-        _taskService.CollectionChanged += OnCollectionChanged
-            ;
+        _taskService.CollectionChanged += OnCollectionChanged;
 
-        Tasks = new AdvancedCollectionView(_taskService.ActiveTasks, true);
+        Tasks = new AdvancedCollectionView(_taskService.ActiveTasks);
         Tasks.Filter = QuickSearch;
+        Tasks.SortDescriptions.Clear();
 
         _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<ViewSettings>(Constants.SETTING_VIEW)).Result ?? ViewSettings.Default;
         _viewSettings.PropertyChanged += OnViewSettingsPropertyChanged;
-        
+
         _appSettings = Task.Run(() => _localSettingsService?.ReadSettingAsync<AppSettings>(Constants.SETTING_APPLICATION)).Result ?? AppSettings.Default;
         if (_appSettings.OpenRecentOnStartup && !_taskService.IsLoaded)
         {
@@ -62,7 +68,15 @@ public class MainViewModel : ViewModelBase, INavigationAware
         }
     }
 
-    
+    private void OnSelectionChanged()
+    {
+        App.GetService<ShellViewModel>().RaiseCommandCanExecute();
+    }
+
+    private void OnDoubleTapped()
+    {
+        App.GetService<ShellViewModel>().UpdateTaskCommand?.Execute(null);
+    }
 
     private void OnViewSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -74,8 +88,7 @@ public class MainViewModel : ViewModelBase, INavigationAware
 
     private bool QuickSearch(object item)
     {
-        if(string.IsNullOrEmpty(_viewSettings.QuickSearchString)) return true;
-
+        if (string.IsNullOrEmpty(_viewSettings.QuickSearchString)) return true;
 
         var task = (Models.Task)item;
         var today = DateTime.Today;
@@ -98,10 +111,10 @@ public class MainViewModel : ViewModelBase, INavigationAware
         };
     }
 
-    private void OnCollectionChanged(object? sender, EventArgs e) => Tasks.Refresh();
-
-
-    
+    private void OnCollectionChanged(object? sender, EventArgs e)
+    {
+        Tasks.Refresh();
+    }
 
     private void OnTasksLoaded(object? sender, string e)
     {

@@ -4,23 +4,37 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:helpers="using:Seemon.Todo.Helpers.Views"
     xmlns:local="using:Seemon.Todo.Models"
     mc:Ignorable="d">
-    <Page.Resources>
-        <DataTemplate x:Key="TaskList" x:DataType="local:Task">
-            <TextBlock Text="{x:Bind Raw}" x:Phase="1" Margin="0,5,0,5"/>
-        </DataTemplate>
-    </Page.Resources>
     <Grid x:Name="ContentArea" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="28"/>
         </Grid.RowDefinitions>
-        
-        <ListView Grid.Row="1" ItemsSource="{x:Bind ViewModel.Tasks}" Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" BorderThickness="0 0 0 0" 
-                  helpers:FocusHelper.IsFocused="True" SelectionMode="Extended">
+        <ListView Grid.Row="1" ItemsSource="{x:Bind ViewModel.Tasks}" SelectionMode="Extended"
+                  Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" 
+                  BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" 
+                  BorderThickness="0 0 0 0"
+                  helpers:FocusHelper.IsFocused="True">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:Task">
+                    <ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" >
+                        <TextBlock Text="{x:Bind Raw}" Margin="0 5 0 5" />
+                    </ListViewItem>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <i:Interaction.Behaviors>
+                <ic:EventTriggerBehavior EventName="SelectionChanged">
+                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SelectionChangedCommand}"/>
+                </ic:EventTriggerBehavior>
+                <ic:EventTriggerBehavior EventName="DoubleTapped">
+                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.DoubleTappedCommand}" />
+                </ic:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
         </ListView>
         <Grid Grid.Row="2" Padding="12 0" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}" >
             <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Filter" VerticalAlignment="Center" />
