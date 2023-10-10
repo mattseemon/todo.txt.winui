@@ -73,7 +73,7 @@ public partial class App : Application
             services.AddTransient<SettingsPage>();
             services.AddSingleton<MainViewModel>();
             services.AddTransient<MainPage>();
-            services.AddTransient<ShellViewModel>();
+            services.AddSingleton<ShellViewModel>();
             services.AddTransient<ShellPage>();
             services.AddTransient<AboutViewModel>();
             services.AddTransient<AboutPage>();

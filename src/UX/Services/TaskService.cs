@@ -28,6 +28,8 @@ public class TaskService : ObservableObject, ITaskService
 
     private ObservableCollection<Task> _activeTasks;
 
+    public IList<Task> SelectedTasks => _activeTasks.Where(t => t.IsSelected).ToList();
+
     private const string ARCHIVE_FILENAME = "done.txt";
 
     private string _todoPath = string.Empty;
@@ -132,6 +134,38 @@ public class TaskService : ObservableObject, ITaskService
         catch (IOException ex)
         {
             var message = "Could not add task to todo.txt file due to an unexpected error. Please see details.";
+            throw new TaskException(message, ex);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public void UpdateTask(Task current, string raw)
+    {
+        if(_activeTasks == null) return;
+        
+        try
+        {
+            raw = raw.TrimDoubleSpaces();
+
+            var updatedTask = Parse(raw);
+
+            var index = _activeTasks.IndexOf(_activeTasks.First(t => t == current));
+            if (index < 0)
+            {
+                throw new TaskException("Task no longer exists in the todo.txt file.");
+            }
+
+            _activeTasks[index] = updatedTask;
+            SaveActiveTasks();
+
+            updatedTask.IsSelected = true;
+        }
+        catch (IOException ex)
+        {
+            var message = "Could not update task to todo.txt file due to an unexpected error. Please see details.";
             throw new TaskException(message, ex);
         }
         catch (Exception)

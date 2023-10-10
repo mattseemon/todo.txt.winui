@@ -49,6 +49,7 @@ public class ShellViewModel : ViewModelBase
 
     private ICommand? _addNewTaskCommand;
     private ICommand? _addMultipleNewTaskCommand;
+    private ICommand? _updateTaskCommand;
 
     private ICommand? _featureNotImplementedCommand;
 
@@ -92,6 +93,7 @@ public class ShellViewModel : ViewModelBase
 
     public ICommand AddNewTaskCommand => _addNewTaskCommand ??= RegisterCommand(OnAddNewTask, CanAddNewTasks);
     public ICommand AddMultipleNewTasksCommand => _addMultipleNewTaskCommand ??= RegisterCommand(OnAddMultipleNewTasks, CanAddNewTasks);
+    public ICommand UpdateTaskCommand => _updateTaskCommand ??= RegisterCommand(OnUpdateTask, CanUpdateTask);
 
     public INavigationService NavigationService
     {
@@ -194,15 +196,29 @@ public class ShellViewModel : ViewModelBase
 
     private async void OnAddMultipleNewTasks()
     {
-
-        var respose = await _dialogService.ShowDialogAsync<MultipleTaskPage>("Add multiple new task");
-        if (respose != null)
+        var response = await _dialogService.ShowDialogAsync<MultipleTaskPage>("Add multiple new task");
+        if (response != null)
         {
-            var tasks = respose.BindableString.ReplaceLineEndings().Split(Environment.NewLine);
+            var tasks = response.BindableString.ReplaceLineEndings().Split(Environment.NewLine);
             foreach (var task in tasks)
             {
                 _taskService.AddTask(task.Trim());
             }
+        }
+    }
+
+    private bool CanUpdateTask() => _taskService.SelectedTasks.Count == 1;
+
+    private async void OnUpdateTask()
+    {
+        var model = new Models.Common.BindableModel
+        {
+            BindableString = _taskService.SelectedTasks.First().Raw,
+        };
+        var response = await _dialogService.ShowDialogAsync<TaskPage>("Update Task", model);
+        if (response != null)
+        {
+            _taskService.UpdateTask(_taskService.SelectedTasks.First(), response.BindableString);
         }
     }
 
