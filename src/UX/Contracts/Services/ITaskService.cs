@@ -30,7 +30,9 @@ public interface ITaskService
     void UpdateTask(Task current, string raw);
 
     void DeleteTask(Task task);
-
+    
+    void ToggleCompleted(Task task);
+    
     void ArchiveCompletedTasks();
 
     Task Parse(string raw);

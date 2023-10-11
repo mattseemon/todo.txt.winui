@@ -39,12 +39,7 @@ public class DialogService : IDialogService
             RequestedTheme = shell.ActualTheme,
         };
 
-        var result = await dialog.ShowAsync();
-        if (result == ContentDialogResult.Primary)
-        {
-            return viewModel?.BindableModel;
-        }
-        return null;
+        return await dialog.ShowAsync() == ContentDialogResult.Primary ? (viewModel?.BindableModel) : null;
     }
 
     public async Task ShowFeatureNotImpletmented(string feature)

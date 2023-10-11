@@ -52,6 +52,7 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _addMultipleNewTaskCommand;
     private ICommand? _updateTaskCommand;
     private ICommand? _deleteTaskCommand;
+    private ICommand? _toggleCompletedCommand;
 
     private ICommand? _featureNotImplementedCommand;
 
@@ -91,12 +92,14 @@ public class ShellViewModel : ViewModelBase
     public ICommand OpenRecentCommand => _openRecentCommand ??= RegisterCommand<string>(OnOpenRecent);
     public ICommand ClearRecentCommand => _clearRecentCommand ??= RegisterCommand(OnClearRecent, CanFileClearRecent);
     public ICommand ApplicationExitCommand => _applicationExitCommand ??= RegisterCommand(OnApplicationExit);
-    public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
     public ICommand AddNewTaskCommand => _addNewTaskCommand ??= RegisterCommand(OnAddNewTask, CanAddNewTasks);
     public ICommand AddMultipleNewTasksCommand => _addMultipleNewTaskCommand ??= RegisterCommand(OnAddMultipleNewTasks, CanAddNewTasks);
     public ICommand UpdateTaskCommand => _updateTaskCommand ??= RegisterCommand(OnUpdateTask, CanUpdateTask);
     public ICommand DeleteTaskCommand => _deleteTaskCommand ??= RegisterCommand(OnDeleteTask, CanDeleteTask);
+    public ICommand ToggleCompletedCommand => _toggleCompletedCommand ??= RegisterCommand(OnToggleCompleted, CanToggleCompleted);
+
+    public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
     public INavigationService NavigationService
     {
@@ -243,6 +246,17 @@ public class ShellViewModel : ViewModelBase
             {
                 _taskService.DeleteTask(task);
             }
+        }
+    }
+
+    private bool CanToggleCompleted() => _taskService.SelectedTasks.Count > 0;
+
+    private void OnToggleCompleted()
+    {
+        var tasks = _taskService.SelectedTasks.ToList();
+        foreach(var task in tasks)
+        {
+            _taskService.ToggleCompleted(task);
         }
     }
 

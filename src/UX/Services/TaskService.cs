@@ -193,6 +193,111 @@ public class TaskService : ObservableObject, ITaskService
         catch (Exception) { throw; }
     }
 
+    public void ToggleCompleted(Task task)
+    {
+        if (_activeTasks == null) return;
+
+        try
+        {
+            var raw = task.Raw;
+            var completed = false;
+
+            var regex = new Regex(Constants.REGEX_TODO_COMPLETED);
+
+            if(regex.IsMatch(raw))
+            {
+                raw = regex.Replace(raw, string.Empty).Trim();
+                regex = new Regex(Constants.REGEX_TODO_METADATA_PRIORITY);
+                if(regex.IsMatch(raw))
+                {
+                    var priority = regex.Match(raw).Value.Replace("pri:", string.Empty);
+                    raw = regex.Replace(raw, string.Empty);
+                    raw = $"({priority}) {raw}";
+                }
+            }
+            else
+            {
+                regex = new Regex(Constants.REGEX_TODO_PRIORITY);
+                if (regex.IsMatch(raw))
+                {
+                    var priority = regex.Match(raw).Value.Substring(1, 1);
+                    raw = regex.Replace(raw, string.Empty).Trim();
+                    raw = $"{raw.Trim()} pri:{priority}";
+                }
+
+                var completedDate = DateTime.Today.ToTodoDate();
+                regex = new Regex(Constants.REGEX_TODO_CREATED_DATE);
+                raw = regex.IsMatch(raw) ? $"x {completedDate} {raw}" : $"x {raw}";
+                completed = true;
+            }
+            UpdateTask(task, raw);
+
+            if (_todoSettings.ArchiveCompleted && _todoSettings.AutoArchive)
+                ArchiveCompletedTasks();
+
+            regex = new Regex(Constants.REGEX_TODO_METADATA);
+            var recurrance = string.Empty;
+            foreach (Match match in regex.Matches(raw).Cast<Match>())
+            {
+                if (match.Value.StartsWith("rec")) recurrance = match.Value;
+            }
+
+            if (completed && !string.IsNullOrEmpty(recurrance))
+            {
+                recurrance = recurrance.Replace("rec:", string.Empty);
+
+                var strict = false;
+                if (recurrance.StartsWith("+"))
+                {
+                    strict = true;
+                    recurrance = recurrance[1..];
+                }
+
+                var temp = recurrance[..^1];
+                recurrance = recurrance.Replace(temp, string.Empty);
+                var frequency = Convert.ToInt32(recurrance);
+
+                var dueDate = DateTime.Now;
+
+                var startDate = !strict ? DateTime.Today : string.IsNullOrEmpty(task.DueDate) ? DateTime.Today : DateTime.Parse(task.DueDate);
+                switch (recurrance)
+                {
+                    case "d":
+                        dueDate = startDate.AddDays(frequency);
+                        break;
+                    case "b":
+                        dueDate = startDate.AddBusinessDays(frequency);
+                        break;
+                    case "w":
+                        dueDate = startDate.AddDays(frequency * 7);
+                        break;
+                    case "m":
+                        dueDate = startDate.AddMonths(frequency);
+                        break;
+                    case "y":
+                        dueDate = startDate.AddYears(frequency);
+                        break;
+                }
+
+                raw = task.Raw;
+
+                regex = new Regex(Constants.REGEX_TODO_CREATED_DATE);
+                if (regex.IsMatch(raw)) raw = regex.Replace(raw, $" {DateTime.Today.ToTodoDate()}");
+
+                regex = new Regex(Constants.REGEX_TODO_DUE_DATE);
+                if (regex.IsMatch(raw)) raw = regex.Replace(raw, $"due:{dueDate.ToTodoDate()}");
+
+                AddTask(raw);
+            }
+        }
+        catch (IOException ex)
+        {
+            var message = "Could not toggle task completion in todo.txt file due to an unexpected error. Please see details.";
+            throw new TaskException(message, ex);
+        }
+        catch (Exception) { throw; }
+    }
+
     public void ArchiveCompletedTasks()
     {
         if (_activeTasks == null) return;
