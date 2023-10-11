@@ -29,9 +29,9 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
 
     private string _selectedTheme = ElementTheme.Default.ToString();
     private bool _textBoxIsFocused = false;
-    private readonly IList<string> _priorities;
+    private readonly IDictionary<string, string> _priorities;
 
-    public IList<string> Priorities => _priorities;
+    public IDictionary<string, string> Priorities => _priorities;
 
     public string SelectedTheme
     {
@@ -66,12 +66,12 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
 
         SelectedTheme = _themeSelectorService.Theme.ToString();
 
-        _priorities ??= new List<string>();
-        _priorities.Add("None");
+        _priorities ??= new Dictionary<string, string>();
+        _priorities.Add("None", "");
         for (int i = 65; i < 91; i++)
         {
             var value = ((char)i).ToString();
-            _priorities.Add(value);
+            _priorities.Add(value, value);
         }
     }
 

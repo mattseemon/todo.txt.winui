@@ -27,6 +27,7 @@ public class ShellViewModel : ViewModelBase
     private readonly ILocalSettingsService _localSettingsService;
 
     private readonly ViewSettings _viewSettings;
+    private readonly TodoSettings _todoSettings;
 
     private bool _isBackEnabled;
     private bool _isMenuVisible;
@@ -50,6 +51,7 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _addNewTaskCommand;
     private ICommand? _addMultipleNewTaskCommand;
     private ICommand? _updateTaskCommand;
+    private ICommand? _deleteTaskCommand;
 
     private ICommand? _featureNotImplementedCommand;
 
@@ -94,6 +96,7 @@ public class ShellViewModel : ViewModelBase
     public ICommand AddNewTaskCommand => _addNewTaskCommand ??= RegisterCommand(OnAddNewTask, CanAddNewTasks);
     public ICommand AddMultipleNewTasksCommand => _addMultipleNewTaskCommand ??= RegisterCommand(OnAddMultipleNewTasks, CanAddNewTasks);
     public ICommand UpdateTaskCommand => _updateTaskCommand ??= RegisterCommand(OnUpdateTask, CanUpdateTask);
+    public ICommand DeleteTaskCommand => _deleteTaskCommand ??= RegisterCommand(OnDeleteTask, CanDeleteTask);
 
     public INavigationService NavigationService
     {
@@ -118,6 +121,7 @@ public class ShellViewModel : ViewModelBase
 
         _localSettingsService = localSettingsService;
         _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<ViewSettings>(Constants.SETTING_VIEW)).Result ?? ViewSettings.Default;
+        _todoSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<TodoSettings>(Constants.SETTING_TODO)).Result ?? TodoSettings.Default;
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)
@@ -219,6 +223,26 @@ public class ShellViewModel : ViewModelBase
         if (response != null)
         {
             _taskService.UpdateTask(_taskService.SelectedTasks.First(), response.BindableString);
+        }
+    }
+
+    private bool CanDeleteTask() => _taskService.SelectedTasks.Count > 0;
+
+    private async void OnDeleteTask()
+    {
+        var confirmed = true;
+
+        if (_todoSettings.ConfirmBeleteDelete)
+        {
+            confirmed = await _dialogService.ShowConfirmationAsync("Delete tasks", "Are you sure you want to delete the selected tasks?");
+        }
+        if (confirmed)
+        {
+            var tasks = _taskService.SelectedTasks.ToList();
+            foreach (var task in tasks)
+            {
+                _taskService.DeleteTask(task);
+            }
         }
     }
 
