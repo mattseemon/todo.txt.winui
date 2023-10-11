@@ -100,6 +100,12 @@
                             <KeyboardAccelerator Key="Delete" Modifiers="None" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_ToggleCompleted" Command="{x:Bind ViewModel.ToggleCompletedCommand}" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="X" Modifiers="None" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
                 </MenuBarItem>
             </MenuBar>
             <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 4 0" 

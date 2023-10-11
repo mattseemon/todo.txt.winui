@@ -356,4 +356,10 @@
   <data name="ShellPage_MenuBarItem_Task_Delete.Text" xml:space="preserve">
     <value>Delete Selected Tasks</value>
   </data>
+  <data name="ShellPage_MenuBarItem_Task_ToggleCompleted.AccessKey" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ToggleCompleted.Text" xml:space="preserve">
+    <value>Toggle Completed for Selected Tasks</value>
+  </data>
 </root>
