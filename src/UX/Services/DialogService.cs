@@ -5,6 +5,7 @@ using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Exceptions;
 using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Models.Common;
+using Seemon.Todo.Views.Pages;
 
 namespace Seemon.Todo.Services;
 
@@ -24,12 +25,11 @@ public class DialogService : IDialogService
         var page = App.GetService<T>() as Page ?? throw new TaskException("Could not find page to load.");
 
         var viewModel = page.GetPageViewModel();
-
         viewModel?.SetModel(model ?? new());
 
         var dialog = new ContentDialog
         {
-            XamlRoot = shell.XamlRoot,
+            XamlRoot = shell?.XamlRoot,
             Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
             Title = title,
             Content = page,
@@ -54,16 +54,34 @@ public class DialogService : IDialogService
 
     public async Task ShowMessageAsync(string title, string message)
     {
-        var page = _navigationService.Frame?.Content as Page;
-
+        var shell = _navigationService.Frame?.Content as Page ?? throw new TaskException("Could not find shell window");
         var dialog = new ContentDialog
         {
             Title = title,
             Content = message,
             CloseButtonText = "Ok",
-            XamlRoot = page?.XamlRoot
+            XamlRoot = shell?.XamlRoot,
+            RequestedTheme = shell.ActualTheme,
         };
 
         await dialog.ShowAsync();
+    }
+
+    public async Task<bool> ShowConfirmationAsync(string title, string message)
+    {
+        var shell = _navigationService.Frame?.Content as Page ?? throw new TaskException("Could not find shell window");
+        var dialog = new ContentDialog
+        {
+            Title = title,
+            Content = message,
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            PrimaryButtonText = "OK",
+            PrimaryButtonStyle = (Style)App.Current.Resources["AccentButtonStyle"],
+            XamlRoot = shell?.XamlRoot,
+            RequestedTheme = shell.ActualTheme,
+        };
+
+        return await dialog.ShowAsync() == ContentDialogResult.Primary;
     }
 }

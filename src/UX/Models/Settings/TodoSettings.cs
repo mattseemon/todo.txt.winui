@@ -12,6 +12,7 @@ public class TodoSettings : ObservableObject
     private bool _autoArchive = false;
     private bool _enableGlobalArchive = false;
     private string _globalArchiveFilePath = string.Empty;
+    private bool _confirmBeforeDelete = true;
 
     [JsonProperty("addCreatedDate")]
     public bool AddCreatedDate
@@ -57,13 +58,20 @@ public class TodoSettings : ObservableObject
         get => _globalArchiveFilePath; set => SetProperty(ref _globalArchiveFilePath, value);
     }
 
+    [JsonProperty("confirmBeforeDelete")]
+    public bool ConfirmBeleteDelete
+    {
+        get => _confirmBeforeDelete; set => SetProperty(ref _confirmBeforeDelete, value);
+    }
+
     public static TodoSettings Default = new()
     {
         AddCreatedDate = true,
-        DefaultPriority = string.Empty,
+        DefaultPriority = "None",
         ArchiveCompleted = false,
         AutoArchive = false,
         EnableGlobalArchive = false,
-        GlobalArchiveFilePath = string.Empty
+        GlobalArchiveFilePath = string.Empty,
+        ConfirmBeleteDelete = true,
     };
 }

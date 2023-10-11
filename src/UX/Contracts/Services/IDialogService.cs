@@ -10,6 +10,8 @@ public interface IDialogService
         where T : Page;
 
     Task ShowMessageAsync(string title, string message);
-
+    
+    Task<bool> ShowConfirmationAsync(string title, string message);
+    
     Task ShowFeatureNotImpletmented(string feature);
 }
