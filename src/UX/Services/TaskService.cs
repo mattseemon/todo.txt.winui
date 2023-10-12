@@ -39,10 +39,10 @@ public class TaskService : ObservableObject, ITaskService
     public TaskService(ILocalSettingsService localSettingsService, IFileMonitorService fileMonitorService, IRecentFilesService recentFilesService)
     {
         _localSettingsService = localSettingsService;
-        
+
         _fileMonitorService = fileMonitorService;
         _fileMonitorService.Changed += OnFileMonitorServiceChanged;
-        
+
         _recentFilesService = recentFilesService;
 
         _activeTasks = new ObservableCollection<Task>();
@@ -118,7 +118,7 @@ public class TaskService : ObservableObject, ITaskService
                 }
             }
 
-            if(!string.IsNullOrEmpty(_todoSettings.DefaultPriority) && string.IsNullOrEmpty(tempTask.Priority))
+            if (!string.IsNullOrEmpty(_todoSettings.DefaultPriority) && string.IsNullOrEmpty(tempTask.Priority))
             {
                 raw = $"({_todoSettings.DefaultPriority.ToUpper()}) {raw}";
             }
@@ -144,8 +144,8 @@ public class TaskService : ObservableObject, ITaskService
 
     public void UpdateTask(Task current, string raw)
     {
-        if(_activeTasks == null) return;
-        
+        if (_activeTasks == null) return;
+
         try
         {
             raw = raw.TrimDoubleSpaces();
@@ -204,11 +204,11 @@ public class TaskService : ObservableObject, ITaskService
 
             var regex = new Regex(Constants.REGEX_TODO_COMPLETED);
 
-            if(regex.IsMatch(raw))
+            if (regex.IsMatch(raw))
             {
                 raw = regex.Replace(raw, string.Empty).Trim();
                 regex = new Regex(Constants.REGEX_TODO_METADATA_PRIORITY);
-                if(regex.IsMatch(raw))
+                if (regex.IsMatch(raw))
                 {
                     var priority = regex.Match(raw).Value.Replace("pri:", string.Empty);
                     raw = regex.Replace(raw, string.Empty);
@@ -296,6 +296,36 @@ public class TaskService : ObservableObject, ITaskService
             throw new TaskException(message, ex);
         }
         catch (Exception) { throw; }
+    }
+
+    public void ToggleHidden(Task task)
+    {
+        if (_activeTasks == null) return;
+
+        try
+        {
+            var raw = task.Raw;
+
+            var regex = new Regex(Constants.REGEX_TODO_HIDDEN);
+            if (regex.IsMatch(raw))
+            {
+                raw = regex.Match(raw).Value == "h:0" ? regex.Replace(raw, "h:1") : regex.Replace(raw, string.Empty);
+            }
+            else
+            {
+                raw = $"{raw} h:1";
+            }
+            UpdateTask(task, raw);
+        }
+        catch (IOException ex)
+        {
+            var message = "Could not toggle task hidden in todo.txt file due to an unexpected error. Please see details.";
+            throw new TaskException(message, ex);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
     public void ArchiveCompletedTasks()

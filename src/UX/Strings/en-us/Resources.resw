@@ -360,6 +360,12 @@
     <value>X</value>
   </data>
   <data name="ShellPage_MenuBarItem_Task_ToggleCompleted.Text" xml:space="preserve">
-    <value>Toggle Completed for Selected Tasks</value>
+    <value>Toggle Completed</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ToggleHidden.AccessKey" xml:space="preserve">
+    <value>H</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ToggleHidden.Text" xml:space="preserve">
+    <value>Toggle Hidden</value>
   </data>
 </root>

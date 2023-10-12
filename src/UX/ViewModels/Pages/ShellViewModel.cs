@@ -53,6 +53,7 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _updateTaskCommand;
     private ICommand? _deleteTaskCommand;
     private ICommand? _toggleCompletedCommand;
+    private ICommand? _toggleHiddenCommand;
 
     private ICommand? _featureNotImplementedCommand;
 
@@ -98,6 +99,7 @@ public class ShellViewModel : ViewModelBase
     public ICommand UpdateTaskCommand => _updateTaskCommand ??= RegisterCommand(OnUpdateTask, CanUpdateTask);
     public ICommand DeleteTaskCommand => _deleteTaskCommand ??= RegisterCommand(OnDeleteTask, CanDeleteTask);
     public ICommand ToggleCompletedCommand => _toggleCompletedCommand ??= RegisterCommand(OnToggleCompleted, CanToggleCompleted);
+    public ICommand ToggleHiddenCommand => _toggleHiddenCommand ??= RegisterCommand(OnToggleHidden, CanToggleHidden);
 
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
@@ -241,8 +243,7 @@ public class ShellViewModel : ViewModelBase
         }
         if (confirmed)
         {
-            var tasks = _taskService.SelectedTasks.ToList();
-            foreach (var task in tasks)
+            foreach (var task in _taskService.SelectedTasks.ToList())
             {
                 _taskService.DeleteTask(task);
             }
@@ -253,10 +254,19 @@ public class ShellViewModel : ViewModelBase
 
     private void OnToggleCompleted()
     {
-        var tasks = _taskService.SelectedTasks.ToList();
-        foreach(var task in tasks)
+        foreach (var task in _taskService.SelectedTasks.ToList())
         {
             _taskService.ToggleCompleted(task);
+        }
+    }
+
+    private bool CanToggleHidden() => _taskService.SelectedTasks.Count > 0;
+
+    private void OnToggleHidden()
+    {
+        foreach (var task in _taskService.SelectedTasks.ToList())
+        {
+            _taskService.ToggleHidden(task);
         }
     }
 
