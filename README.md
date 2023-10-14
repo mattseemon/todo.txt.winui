@@ -89,6 +89,7 @@ If you want to contribute to the project, check out the guidelines article [here
 [Back to Top](#table-of-contents)
 ## License
 ![License](https://img.shields.io/github/license/mattseemon/todo.txt.winui?style=for-the-badge)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui?ref=badge_shield)
 
 The source code in this repository is covered under the MIT License listed [here](LICENSE]). Feel free to use this in your own projects with attribution!
 
@@ -115,6 +116,9 @@ SOFTWARE.
 ```
 
 [Back to Top](#table-of-contents)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui?ref=badge_large)
+
 ## Author
 
 [Matt Seemon](@mattseemon)
