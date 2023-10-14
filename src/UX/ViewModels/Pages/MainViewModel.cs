@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.WinUI.UI;
+﻿using System.ComponentModel;
+using System.Windows.Input;
+
+using CommunityToolkit.WinUI.UI;
 
 using Microsoft.UI.Xaml.Input;
 
@@ -8,9 +11,6 @@ using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Helpers.ViewModels;
 using Seemon.Todo.Models.Settings;
-
-using System.ComponentModel;
-using System.Windows.Input;
 
 namespace Seemon.Todo.ViewModels.Pages;
 
@@ -29,10 +29,7 @@ public class MainViewModel : ViewModelBase, INavigationAware
     public ICommand SelectionChangedCommand => _selectionChangedCommand ??= RegisterCommand(OnSelectionChanged);
     public ICommand DoubleTappedCommand => _doubleTappedCommand ??= RegisterCommand(OnDoubleTapped);
 
-    public AdvancedCollectionView Tasks
-    {
-        get; private set;
-    }
+    public AdvancedCollectionView Tasks { get; private set; }
 
     public MainViewModel(ITaskService taskService, IRecentFilesService recentFilesService, ILocalSettingsService localSettingsService)
     {
@@ -43,8 +40,10 @@ public class MainViewModel : ViewModelBase, INavigationAware
         _taskService.Loaded += OnTasksLoaded;
         _taskService.CollectionChanged += OnCollectionChanged;
 
-        Tasks = new AdvancedCollectionView(_taskService.ActiveTasks);
-        Tasks.Filter = QuickSearch;
+        Tasks = new AdvancedCollectionView(_taskService.ActiveTasks)
+        {
+            Filter = QuickSearch
+        };
         Tasks.SortDescriptions.Clear();
 
         _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<ViewSettings>(Constants.SETTING_VIEW)).Result ?? ViewSettings.Default;
@@ -69,14 +68,10 @@ public class MainViewModel : ViewModelBase, INavigationAware
     }
 
     private void OnSelectionChanged()
-    {
-        App.GetService<ShellViewModel>().RaiseCommandCanExecute();
-    }
+        => App.GetService<ShellViewModel>().RaiseCommandCanExecute();
 
     private void OnDoubleTapped()
-    {
-        App.GetService<ShellViewModel>().UpdateTaskCommand?.Execute(null);
-    }
+        => App.GetService<ShellViewModel>().UpdateTaskCommand?.Execute(null);
 
     private void OnViewSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -111,15 +106,9 @@ public class MainViewModel : ViewModelBase, INavigationAware
         };
     }
 
-    private void OnCollectionChanged(object? sender, EventArgs e)
-    {
-        Tasks.Refresh();
-    }
+    private void OnCollectionChanged(object? sender, EventArgs e) => Tasks.Refresh();
 
-    private void OnTasksLoaded(object? sender, string e)
-    {
-        Tasks.Refresh();
-    }
+    private void OnTasksLoaded(object? sender, string e) => Tasks.Refresh();
 
     public void OnNavigatedTo(object parameter)
     {
@@ -127,12 +116,8 @@ public class MainViewModel : ViewModelBase, INavigationAware
         Tasks.Refresh();
     }
 
-    public void OnNavigatedFrom()
-    {
-    }
+    public void OnNavigatedFrom() { }
 
     public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
-    {
-        return base.ShellKeyEventTriggered(args);
-    }
+        => base.ShellKeyEventTriggered(args);
 }

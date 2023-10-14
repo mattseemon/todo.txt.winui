@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:helpers="using:Seemon.Todo.Helpers.Views"
     xmlns:local="using:Seemon.Todo.Models"
     mc:Ignorable="d">

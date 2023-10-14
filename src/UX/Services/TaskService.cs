@@ -56,8 +56,14 @@ public class TaskService : ObservableObject, ITaskService
 
     private void OnAppSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (_appSettings.AutoRefreshFile) _fileMonitorService?.WatchFile(_todoPath);
-        else _fileMonitorService?.UnWatchFile();
+        if (_appSettings.AutoRefreshFile)
+        {
+            _fileMonitorService?.WatchFile(_todoPath);
+        }
+        else
+        {
+            _fileMonitorService?.UnWatchFile();
+        }
     }
 
     private void OnFileMonitorServiceChanged() => ReloadTasks();
@@ -348,6 +354,37 @@ public class TaskService : ObservableObject, ITaskService
         WriteLinesToFile(archivePath, archivedTasks);
     }
 
+    public void SetPriority(Task task, string priority)
+    {
+        if (_activeTasks == null) return;
+
+        if (task.IsCompleted) return;
+
+        try
+        {
+            var raw = task.Raw;
+            Regex regex = new(Constants.REGEX_TODO_PRIORITY);
+
+            raw = string.IsNullOrEmpty(priority)
+                ? regex.IsMatch(raw) ? regex.Replace(raw, string.Empty) : raw
+                : regex.IsMatch(raw) ? regex.Replace(raw, $"({priority.ToUpper()}) ") : $"({priority.ToUpper()}) {raw}";
+
+            UpdateTask(task, raw);
+        }
+        catch (IOException ex)
+        {
+            var message = "Could not set priority for the task due to any unexpected error. Please see details.";
+            throw new TaskException(message, ex);
+        }
+        catch { throw; }
+    }
+
+    public void ClearPriority(Task task) => SetPriority(task, string.Empty);
+
+    public void IncreasePriority(Task task) => ChangePriority(task, -1);
+
+    public void DecreasePriority(Task task) => ChangePriority(task, 1);
+
     public Task Parse(string raw)
     {
         Task task = new();
@@ -490,6 +527,24 @@ public class TaskService : ObservableObject, ITaskService
             }
         }
         return text;
+    }
+
+    private void ChangePriority(Task task, int shift)
+    {
+        if (string.IsNullOrEmpty(task.Priority))
+        {
+            SetPriority(task, "A");
+        }
+        else
+        {
+            var current = task.Priority[0];
+            var priority = (char)(current + shift);
+
+            if (char.IsLetter(priority))
+            {
+                SetPriority(task, priority.ToString());
+            }
+        }
     }
 
     private void SaveActiveTasks()
