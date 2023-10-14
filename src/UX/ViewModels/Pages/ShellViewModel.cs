@@ -11,6 +11,7 @@ using Seemon.Todo.Contracts.ViewModels;
 using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Helpers.ViewModels;
+using Seemon.Todo.Models.Common;
 using Seemon.Todo.Models.Settings;
 using Seemon.Todo.Views.Pages;
 
@@ -54,6 +55,10 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _deleteTaskCommand;
     private ICommand? _toggleCompletedCommand;
     private ICommand? _toggleHiddenCommand;
+    private ICommand? _setPriorityCommand;
+    private ICommand? _clearPriorityCommand;
+    private ICommand? _increasePriorityCommand;
+    private ICommand? _decreasePriorityCommand;
 
     private ICommand? _featureNotImplementedCommand;
 
@@ -74,9 +79,12 @@ public class ShellViewModel : ViewModelBase
 
     public bool IsQuickSearchFocused
     {
-        get => _isQuickSearchFocused;
-        set => SetProperty(ref _isQuickSearchFocused, value);
+        get => _isQuickSearchFocused; set => SetProperty(ref _isQuickSearchFocused, value);
     }
+
+    public INavigationService NavigationService { get; }
+
+    public ViewSettings ViewSettings => _viewSettings;
 
     public ObservableCollection<RecentFile> RecentFiles => _recentFilesService.RecentFiles;
 
@@ -100,15 +108,12 @@ public class ShellViewModel : ViewModelBase
     public ICommand DeleteTaskCommand => _deleteTaskCommand ??= RegisterCommand(OnDeleteTask, CanDeleteTask);
     public ICommand ToggleCompletedCommand => _toggleCompletedCommand ??= RegisterCommand(OnToggleCompleted, CanToggleCompleted);
     public ICommand ToggleHiddenCommand => _toggleHiddenCommand ??= RegisterCommand(OnToggleHidden, CanToggleHidden);
+    public ICommand SetPriorityCommand => _setPriorityCommand ??= RegisterCommand(OnSetPriority, CanSetPriority);
+    public ICommand ClearPriorityCommand => _clearPriorityCommand ??= RegisterCommand(OnClearPriority, CanClearPriority);
+    public ICommand IncreasePriorityCommand => _increasePriorityCommand ??= RegisterCommand(OnIncreasePriority, CanIncreasePriority);
+    public ICommand DecreasePriorityCommand => _decreasePriorityCommand ??= RegisterCommand(OnDecreasePriority, CanDecreasePriority);
 
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
-
-    public INavigationService NavigationService
-    {
-        get;
-    }
-
-    public ViewSettings ViewSettings => _viewSettings;
 
     public ShellViewModel(INavigationService navigationService, IDialogService dialogService, ISystemService systemService, ITaskService taskService, IRecentFilesService recentFilesService, ILocalSettingsService localSettingsService)
     {
@@ -185,10 +190,7 @@ public class ShellViewModel : ViewModelBase
 
     private bool CanFileClearRecent() => _recentFilesService.RecentFiles.Count > 0;
 
-    private void OnClearRecent()
-    {
-        _recentFilesService.Clear();
-    }
+    private void OnClearRecent() => _recentFilesService.Clear();
 
     private void OnApplicationExit() => Application.Current.Exit();
 
@@ -270,9 +272,80 @@ public class ShellViewModel : ViewModelBase
         }
     }
 
+    private bool CanSetPriority() => _taskService.SelectedTasks.Count > 0;
+
+    private async void OnSetPriority()
+    {
+        var lastSelectedTask = _taskService.SelectedTasks.LastOrDefault();
+        var model = new BindableModel
+        {
+            BindableString = !string.IsNullOrEmpty(lastSelectedTask?.Priority) 
+                ? lastSelectedTask.Priority 
+                : !string.IsNullOrEmpty(_todoSettings.DefaultPriority) ? _todoSettings.DefaultPriority : "A",
+        };
+        var response = await _dialogService.ShowDialogAsync<PriorityPage>("Set Task Priority", model);
+        if (response != null)
+        {
+            var priority = response.BindableString.ToUpper().Trim();
+            priority = !string.IsNullOrWhiteSpace(priority) && char.IsLetter(priority[0]) ? priority : string.Empty;
+
+            foreach (var task in _taskService.SelectedTasks.ToList())
+            {
+                _taskService.SetPriority(task, priority);
+            }
+        }
+    }
+
+    private bool CanClearPriority() => _taskService.SelectedTasks.Count > 0;
+
+    private void OnClearPriority()
+    {
+        foreach (var task in _taskService.SelectedTasks.ToList())
+        {
+            _taskService.ClearPriority(task);
+        }
+    }
+
+    private bool CanIncreasePriority()
+    {
+        return _taskService.SelectedTasks.Count switch
+        {
+            0 => false,
+            > 1 => true,
+            _ => _taskService.SelectedTasks[0].Priority != "A"
+        };
+    }
+
+    private void OnIncreasePriority()
+    {
+        foreach (var task in _taskService.SelectedTasks.ToList())
+        {
+            _taskService.IncreasePriority(task);
+        }
+    }
+
+    private bool CanDecreasePriority()
+    {
+        return _taskService.SelectedTasks.Count switch
+        {
+            0 => false,
+            > 1 => true,
+            _ => _taskService.SelectedTasks[0].Priority != "Z"
+        };
+    }
+
+    private void OnDecreasePriority()
+    {
+        foreach (var task in _taskService.SelectedTasks.ToList())
+        {
+            _taskService.DecreasePriority(task);
+        }
+    }
+
     private async void OnFeatureNotImplemented(string feature) => await _dialogService.ShowFeatureNotImpletmented(feature);
 
     private void OnActiveTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => RaiseCommandCanExecute();
+
     private void OnRecentFilesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => IsRecentEnabled = _recentFilesService.RecentFiles.Count > 0;
 
     private void OpenTodo(string path)

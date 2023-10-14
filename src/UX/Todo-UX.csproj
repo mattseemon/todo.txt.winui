@@ -48,6 +48,7 @@
     <None Remove="TemplateStudio.xml" />
     <None Remove="Views\Pages\AboutPage.xaml" />
     <None Remove="Views\Pages\MultipleTaskPage.xaml" />
+    <None Remove="Views\Pages\PriorityPage.xaml" />
     <None Remove="Views\Pages\TaskPage.xaml" />
   </ItemGroup>
 
@@ -75,6 +76,9 @@
     <None Update="Assets\Todo-256.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\Pages\PriorityPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\Pages\MultipleTaskPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

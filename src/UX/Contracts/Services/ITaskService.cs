@@ -9,15 +9,9 @@ public interface ITaskService
     event EventHandler<string> Loaded;
     event EventHandler CollectionChanged;
 
-    public bool IsLoaded
-    {
-        get; set;
-    }
+    public bool IsLoaded { get; set; }
 
-    ObservableCollection<Task> ActiveTasks
-    {
-        get;
-    }
+    ObservableCollection<Task> ActiveTasks { get; }
 
     IList<Task> SelectedTasks { get; }
 
@@ -36,6 +30,14 @@ public interface ITaskService
     void ToggleHidden(Task task);
 
     void ArchiveCompletedTasks();
+
+    void SetPriority(Task task, string priority);
+
+    void ClearPriority(Task task);
+
+    void IncreasePriority(Task task);
+
+    void DecreasePriority(Task task);
 
     Task Parse(string raw);
 }

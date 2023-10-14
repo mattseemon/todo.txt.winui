@@ -81,6 +81,8 @@ public partial class App : Application
             services.AddTransient<TaskPage>();
             services.AddTransient<MultipleTaskViewModel>();
             services.AddTransient<MultipleTaskPage>();
+            services.AddTransient<PriorityViewModel>();
+            services.AddTransient<PriorityPage>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
