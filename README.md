@@ -1,7 +1,7 @@
 ![Do Not Use](https://img.shields.io/badge/do_not_use-red?style=for-the-badge)
 ![App Under Construction](https://img.shields.io/badge/app_under_construction-blue?style=for-the-badge)
 ![Not Production Ready](https://img.shields.io/badge/NOT%20PRODUCTION%20READY-red?style=for-the-badge)
-
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui?ref=badge_shield&issueType=license)
 
 ![Todo](./assets/Todo-128.png)
 
@@ -113,6 +113,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui.svg?type=large&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui?ref=badge_large&issueType=license)
 
 [Back to Top](#table-of-contents)
 ## Author
