@@ -20,6 +20,8 @@ public class PageService : IPageService
         Configure<TaskViewModel, TaskPage>();
         Configure<MultipleTaskViewModel, MultipleTaskPage>();
         Configure<PriorityViewModel, PriorityPage>();
+        Configure<DateViewModel, DatePage>();
+        Configure<PostponeViewModel, PostponePage>();
     }
 
     public Type GetPageType(string key)

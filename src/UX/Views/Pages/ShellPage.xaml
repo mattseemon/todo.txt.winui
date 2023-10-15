@@ -113,24 +113,79 @@
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
                     <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_Task_Priority" KeyTipPlacementMode="Left">
-                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_SetPriority" Command="{x:Bind ViewModel.SetPriorityCommand}" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Priority_Set" Command="{x:Bind ViewModel.SetPriorityCommand}" KeyTipPlacementMode="Left">
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="I" Modifiers="None" />
+                                <KeyboardAccelerator Key="S" Modifiers="Menu" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_ClearPriority" Command="{x:Bind ViewModel.ClearPriorityCommand}" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Priority_Increase" Command="{x:Bind ViewModel.IncreasePriorityCommand}" KeyTipPlacementMode="Left">
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="Back" Modifiers="Menu" />
+                                <KeyboardAccelerator Key="Right" Modifiers="Menu" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_IncreasePriority" Command="{x:Bind ViewModel.IncreasePriorityCommand}" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Priority_Decrease" Command="{x:Bind ViewModel.DecreasePriorityCommand}" KeyTipPlacementMode="Left">
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator Key="Left" Modifiers="Menu" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_DecreasePriority" Command="{x:Bind ViewModel.DecreasePriorityCommand}" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Priority_Clear" Command="{x:Bind ViewModel.ClearPriorityCommand}" KeyTipPlacementMode="Left">
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="Right" Modifiers="Menu" />
+                                <KeyboardAccelerator Key="Back" Modifiers="Menu" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                    </MenuFlyoutSubItem>
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_Task_DueDate" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_DueDate_Set" Command="{x:Bind ViewModel.SetDateCommand}" CommandParameter="Due" KeyTipPlacementMode="Left">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="S" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_DueDate_Postpone" Command="{x:Bind ViewModel.PostponeDateCommand}" CommandParameter="Due" KeyTipPlacementMode="Left">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="P" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_DueDate_Increase" Command="{x:Bind ViewModel.IncreaseDateCommad}" CommandParameter="Due" KeyTipPlacementMode="Left">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="Right" Modifiers="Control"/>
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_DueDate_Decrease" Command="{x:Bind ViewModel.DecreaseDateCommad}" CommandParameter="Due" KeyTipPlacementMode="Left">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="Left" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_DueDate_Clear" Command="{x:Bind ViewModel.ClearDateCommand}" CommandParameter="Due" KeyTipPlacementMode="Left">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="Back" Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                    </MenuFlyoutSubItem>
+                    <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_Task_ThresholdDate" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_ThresholdDate_Set" Command="{x:Bind ViewModel.SetDateCommand}" CommandParameter="Threshold" KeyTipPlacementMode="Left">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="S" Modifiers="Control,Menu" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_ThresholdDate_Postpone" Command="{x:Bind ViewModel.PostponeDateCommand}" CommandParameter="Threshold" KeyTipPlacementMode="Left">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="P" Modifiers="Control,Menu" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_ThresholdDate_Increase" Command="{x:Bind ViewModel.IncreaseDateCommad}" CommandParameter="Threshold" KeyTipPlacementMode="Left">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="Right" Modifiers="Control,Menu"/>
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_ThresholdDate_Decrease" Command="{x:Bind ViewModel.DecreaseDateCommad}" CommandParameter="Threshold" KeyTipPlacementMode="Left">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="Left" Modifiers="Control,Menu" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_ThresholdDate_Clear" Command="{x:Bind ViewModel.ClearDateCommand}" CommandParameter="Threshold" KeyTipPlacementMode="Left">
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="Back" Modifiers="Control,Menu" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                     </MenuFlyoutSubItem>

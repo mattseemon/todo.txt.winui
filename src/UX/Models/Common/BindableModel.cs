@@ -5,7 +5,7 @@ namespace Seemon.Todo.Models.Common;
 public class BindableModel : ObservableObject
 {
     private string _bindableString = string.Empty;
-    private DateTime _bindableDateTime = DateTime.Today;
+    private DateTimeOffset? _bindableDateTime = null;
     private int _bindableInt = 0;
 
     public string BindableString
@@ -13,7 +13,7 @@ public class BindableModel : ObservableObject
         get => _bindableString; set => SetProperty(ref _bindableString, value);
     }
 
-    public DateTime BindableDateTime
+    public DateTimeOffset? BindableDateTime
     {
         get => _bindableDateTime; set => SetProperty(ref _bindableDateTime, value);
     }

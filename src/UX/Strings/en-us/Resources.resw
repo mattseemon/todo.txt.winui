@@ -371,22 +371,22 @@
   <data name="PriorityPage_Priority_Label.Text" xml:space="preserve">
     <value>Set priority to:</value>
   </data>
-  <data name="ShellPage_MenuBarItem_Task_ClearPriority.AccessKey" xml:space="preserve">
+  <data name="ShellPage_MenuBarItem_Task_Priority_Clear.AccessKey" xml:space="preserve">
     <value>C</value>
   </data>
-  <data name="ShellPage_MenuBarItem_Task_ClearPriority.Text" xml:space="preserve">
+  <data name="ShellPage_MenuBarItem_Task_Priority_Clear.Text" xml:space="preserve">
     <value>Clear Priority</value>
   </data>
-  <data name="ShellPage_MenuBarItem_Task_DecreasePriority.AccessKey" xml:space="preserve">
+  <data name="ShellPage_MenuBarItem_Task_Priority_Decrease.AccessKey" xml:space="preserve">
     <value>D</value>
   </data>
-  <data name="ShellPage_MenuBarItem_Task_DecreasePriority.Text" xml:space="preserve">
+  <data name="ShellPage_MenuBarItem_Task_Priority_Decrease.Text" xml:space="preserve">
     <value>Decrease Priority</value>
   </data>
-  <data name="ShellPage_MenuBarItem_Task_IncreasePriority.AccessKey" xml:space="preserve">
-    <value>U</value>
+  <data name="ShellPage_MenuBarItem_Task_Priority_Increase.AccessKey" xml:space="preserve">
+    <value>I</value>
   </data>
-  <data name="ShellPage_MenuBarItem_Task_IncreasePriority.Text" xml:space="preserve">
+  <data name="ShellPage_MenuBarItem_Task_Priority_Increase.Text" xml:space="preserve">
     <value>Increase Priority</value>
   </data>
   <data name="ShellPage_MenuBarItem_Task_Priority.AccessKey" xml:space="preserve">
@@ -395,10 +395,88 @@
   <data name="ShellPage_MenuBarItem_Task_Priority.Text" xml:space="preserve">
     <value>Priority</value>
   </data>
-  <data name="ShellPage_MenuBarItem_Task_SetPriority.AccessKey" xml:space="preserve">
+  <data name="ShellPage_MenuBarItem_Task_Priority_Set.AccessKey" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_Priority_Set.Text" xml:space="preserve">
+    <value>Set Priority</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_DueDate.AccessKey" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_DueDate.Text" xml:space="preserve">
+    <value>Due Date</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_DueDate_Clear.AccessKey" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_DueDate_Clear.Text" xml:space="preserve">
+    <value>Clear Due Date</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_DueDate_Increase.AccessKey" xml:space="preserve">
     <value>I</value>
   </data>
-  <data name="ShellPage_MenuBarItem_Task_SetPriority.Text" xml:space="preserve">
-    <value>Set Priority</value>
+  <data name="ShellPage_MenuBarItem_Task_DueDate_Increase.Text" xml:space="preserve">
+    <value>Increase Due Date by 1 day</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_DueDate_Postpone.AccessKey" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_DueDate_Postpone.Text" xml:space="preserve">
+    <value>Postpone Due Date</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_DueDate_Set.AccessKey" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_DueDate_Set.Text" xml:space="preserve">
+    <value>Set Due Date</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_DueDate_Decrease.AccessKey" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_DueDate_Decrease.Text" xml:space="preserve">
+    <value>Decrease Due Date by 1 Day</value>
+  </data>
+  <data name="DatePage_SetDate_Label.Text" xml:space="preserve">
+    <value>Set date to:</value>
+  </data>
+  <data name="PostponePage_Postpone_Label.Text" xml:space="preserve">
+    <value>Postpone to:</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate.AccessKey" xml:space="preserve">
+    <value>T</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate.Text" xml:space="preserve">
+    <value>Threshold Date</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate_Clear.AccessKey" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate_Clear.Text" xml:space="preserve">
+    <value>Clear Threshold Date</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate_Decrease.AccessKey" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate_Decrease.Text" xml:space="preserve">
+    <value>Decrease Threshold Date by 1</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate_Increase.AccessKey" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate_Increase.Text" xml:space="preserve">
+    <value>Increase Threshold Date by 1</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate_Postpone.AccessKey" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate_Postpone.Text" xml:space="preserve">
+    <value>Postpone Threshold Date</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate_Set.AccessKey" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_ThresholdDate_Set.Text" xml:space="preserve">
+    <value>Set Threshold Date</value>
   </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -8,6 +9,7 @@ using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Exceptions;
 using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
+using Seemon.Todo.Models.Common;
 using Seemon.Todo.Models.Settings;
 
 using Task = Seemon.Todo.Models.Task;
@@ -379,11 +381,73 @@ public class TaskService : ObservableObject, ITaskService
         catch { throw; }
     }
 
-    public void ClearPriority(Task task) => SetPriority(task, string.Empty);
+    public void SetDate(Task task, string date, DateTypes type)
+    {
+        if (_activeTasks == null) return;
 
-    public void IncreasePriority(Task task) => ChangePriority(task, -1);
+        try
+        {
+            var raw = task.Raw;
+            var pattern = type == DateTypes.Due ? Constants.REGEX_TODO_DUE_DATE : Constants.REGEX_TODO_THRESHOLD_DATE;
+            var formattedDate = type == DateTypes.Due ? $"due:{date}" : $"t:{date}";
 
-    public void DecreasePriority(Task task) => ChangePriority(task, 1);
+            var regex = new Regex(pattern);
+
+            raw = string.IsNullOrEmpty(date)
+                ? regex.IsMatch(raw) ? regex.Replace(raw, string.Empty) : raw
+                : regex.IsMatch(raw) ? regex.Replace(raw, formattedDate) : $"{raw} {formattedDate}";
+
+            UpdateTask(task, raw);
+        }
+        catch (IOException ex)
+        {
+            var dateType = type == DateTypes.Due ? "due" : "threshold";
+            var message = $"Could not set {dateType} date for selected task due to an unexpected error. Please see details.";
+            throw new TaskException(message, ex);
+        }
+        catch (Exception) { throw; }
+    }
+
+    public void PostponeDate(Task task, string postpone, DateTypes type)
+    {
+        if (_activeTasks == null) return;
+
+        try
+        {
+            var raw = task.Raw;
+
+            // set default postpone date to today, in case of issues
+            DateTime? postponeDate = DateTime.Today;
+
+            // if specific date is choosen, set postpone date to that date
+            var regex = new Regex(Constants.REGEX_TODO_DATE);
+
+            if (regex.IsMatch(postpone))
+            {
+                postponeDate = Convert.ToDateTime(postpone);
+            }
+            else
+            {
+                // calculate postponed date based on exist date in task else today
+                var startDateString = type == DateTypes.Due ? task.DueDate : task.ThresholdDate;
+                var startDate = string.IsNullOrEmpty(startDateString) ? postponeDate : Convert.ToDateTime(startDateString);
+
+                postponeDate = GetPostponeDate(postpone, startDate);
+            }
+
+            if(postponeDate.HasValue)
+            {
+                SetDate(task, postponeDate.Value.ToTodoDate(), type);
+            }
+        }
+        catch (IOException ex)
+        {
+            var dateType = type == DateTypes.Due ? "due" : "threshold";
+            var message = $"Could not postpone the {dateType} date for selected task due to an unexpected error. Please see details.";
+            throw new TaskException(message, ex);
+        }
+        catch (Exception) { throw; }
+    }
 
     public Task Parse(string raw)
     {
@@ -452,7 +516,6 @@ public class TaskService : ObservableObject, ITaskService
             task.Projects.AddRange(from Match item in matches
                                    let project = item.Value.Trim()
                                    select project[1..]);
-            raw = regex.Replace(raw, string.Empty);
         }
 
         regex = new Regex(Constants.REGEX_TODO_CONTEXT, RegexOptions.IgnoreCase);
@@ -464,7 +527,6 @@ public class TaskService : ObservableObject, ITaskService
             task.Contexts.AddRange(from Match item in matches
                                    let context = item.Value.Trim()
                                    select context[1..]);
-            raw = regex.Replace(raw, string.Empty);
         }
 
         if (task.Metadata.Count > 0)
@@ -514,7 +576,7 @@ public class TaskService : ObservableObject, ITaskService
                     for (var i = 0; i < 7; i++)
                     {
                         date = date.AddDays(i);
-                        isValid = string.Equals(date.ToString("ddd"), shortDay, StringComparison.OrdinalIgnoreCase);
+                        isValid = string.Equals(date.ToString("ddd"), shortDay, StringComparison.CurrentCultureIgnoreCase);
                         if (isValid) break;
                     }
                 }
@@ -529,22 +591,50 @@ public class TaskService : ObservableObject, ITaskService
         return text;
     }
 
-    private void ChangePriority(Task task, int shift)
+    private DateTime? GetPostponeDate(string postpone, DateTime? startDate = null)
     {
-        if (string.IsNullOrEmpty(task.Priority))
-        {
-            SetPriority(task, "A");
-        }
-        else
-        {
-            var current = task.Priority[0];
-            var priority = (char)(current + shift);
+        postpone = postpone.Trim().ToLower();
 
-            if (char.IsLetter(priority))
+        // check if postpone date string is in relative date format i.e. today, tomorrow, monday..sunday
+        // assume start date for relative dates is always today
+        var regex = new Regex(Constants.REGEX_TODO_RELATIVE_DATE, RegexOptions.IgnoreCase);
+        if (regex.IsMatch(postpone))
+        {
+            bool isValid;
+            var count = 0;
+
+            switch (postpone)
             {
-                SetPriority(task, priority.ToString());
+                case "today":
+                    return DateTime.Today;
+                case "tomorrow":
+                    return DateTime.Today.AddDays(1);
+                default:
+                    var postponeDate = DateTime.Today;
+                    var shortCode = postpone.Substring(0, 3);
+                    do
+                    {
+                        count++;
+                        postponeDate = postponeDate.AddDays(1);
+                        isValid = string.Equals(postponeDate.ToString("ddd"), shortCode, StringComparison.CurrentCultureIgnoreCase);
+                    } while (!isValid && count < 7);
+                    return postponeDate;
             }
         }
+
+        // if not relative date then it must be # of days. anything else is ignored.
+        if (postpone.Length > 0)
+        {
+            try
+            {
+                if (startDate == null) startDate = DateTime.Today;
+                return startDate.Value.AddDays(Convert.ToInt32(postpone));
+            }
+            catch { }
+        }
+
+        // return null if all else fails
+        return null;
     }
 
     private void SaveActiveTasks()
