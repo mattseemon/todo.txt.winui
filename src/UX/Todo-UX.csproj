@@ -23,7 +23,7 @@
     <Product>Seemon.Todo</Product>
     <PackageId>Seemon.Todo</PackageId>
     <Title>Todo</Title>
-    <Version>0.0.1</Version>
+    <Version>0.2.0</Version>
     <Description>An implementation of todo.txt client for Windows</Description>
     <Copyright>© Copyright 2023, Matt Seemon. All rights reserved.</Copyright>
     <PackageIcon>Todo-128.png</PackageIcon>
@@ -47,7 +47,9 @@
     <None Remove="Package.appinstaller" />
     <None Remove="TemplateStudio.xml" />
     <None Remove="Views\Pages\AboutPage.xaml" />
+    <None Remove="Views\Pages\DatePage.xaml" />
     <None Remove="Views\Pages\MultipleTaskPage.xaml" />
+    <None Remove="Views\Pages\PostponePage.xaml" />
     <None Remove="Views\Pages\PriorityPage.xaml" />
     <None Remove="Views\Pages\TaskPage.xaml" />
   </ItemGroup>
@@ -76,6 +78,12 @@
     <None Update="Assets\Todo-256.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\Pages\PostponePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Pages\DatePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\Pages\PriorityPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

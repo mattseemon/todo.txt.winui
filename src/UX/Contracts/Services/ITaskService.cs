@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
+using Seemon.Todo.Models.Common;
+
 using Task = Seemon.Todo.Models.Task;
 
 namespace Seemon.Todo.Contracts.Services;
@@ -33,11 +35,9 @@ public interface ITaskService
 
     void SetPriority(Task task, string priority);
 
-    void ClearPriority(Task task);
+    void SetDate(Task task, string date, DateTypes type);
 
-    void IncreasePriority(Task task);
-
-    void DecreasePriority(Task task);
+    void PostponeDate(Task task, string postpone, DateTypes type);
 
     Task Parse(string raw);
 }

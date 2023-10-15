@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
 using System.Windows.Input;
 
 using Microsoft.UI.Xaml;
@@ -59,6 +61,11 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _clearPriorityCommand;
     private ICommand? _increasePriorityCommand;
     private ICommand? _decreasePriorityCommand;
+    private ICommand? _setDateCommand;
+    private ICommand? _postponeDateCommand;
+    private ICommand? _clearDateCommand;
+    private ICommand? _increaseDateCommand;
+    private ICommand? _decreaseDateCommand;
 
     private ICommand? _featureNotImplementedCommand;
 
@@ -112,6 +119,11 @@ public class ShellViewModel : ViewModelBase
     public ICommand ClearPriorityCommand => _clearPriorityCommand ??= RegisterCommand(OnClearPriority, CanClearPriority);
     public ICommand IncreasePriorityCommand => _increasePriorityCommand ??= RegisterCommand(OnIncreasePriority, CanIncreasePriority);
     public ICommand DecreasePriorityCommand => _decreasePriorityCommand ??= RegisterCommand(OnDecreasePriority, CanDecreasePriority);
+    public ICommand SetDateCommand => _setDateCommand ??= RegisterCommand<string>(OnSetDate, CanSetDate);
+    public ICommand PostponeDateCommand => _postponeDateCommand ??= RegisterCommand<string>(OnPostponeDate, CanPostponeDate);
+    public ICommand ClearDateCommand => _clearDateCommand ??= RegisterCommand<string>(OnClearDate, CanClearDate);
+    public ICommand IncreaseDateCommad => _increaseDateCommand ??= RegisterCommand<string>(OnIncreaseDate, CanIncreaseDate);
+    public ICommand DecreaseDateCommad => _decreaseDateCommand ??= RegisterCommand<string>(OnDecreaseDate, CanDecreaseDate);
 
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
@@ -302,7 +314,7 @@ public class ShellViewModel : ViewModelBase
     {
         foreach (var task in _taskService.SelectedTasks.ToList())
         {
-            _taskService.ClearPriority(task);
+            _taskService.SetPriority(task, string.Empty);
         }
     }
 
@@ -320,7 +332,7 @@ public class ShellViewModel : ViewModelBase
     {
         foreach (var task in _taskService.SelectedTasks.ToList())
         {
-            _taskService.IncreasePriority(task);
+            ChangePriority(task, -1);
         }
     }
 
@@ -338,7 +350,88 @@ public class ShellViewModel : ViewModelBase
     {
         foreach (var task in _taskService.SelectedTasks.ToList())
         {
-            _taskService.DecreasePriority(task);
+            ChangePriority(task, 1);
+        }
+    }
+
+    private bool CanSetDate(string parameter) => _taskService.SelectedTasks.Count > 0;
+
+    private async void OnSetDate(string parameter)
+    {
+        DateTypes type = (DateTypes)Enum.Parse(typeof(DateTypes), parameter);
+        var title = type == DateTypes.Due ? "Set Due Date" : "Set Threshold Date";
+
+        var lastSelectedTask = _taskService.SelectedTasks.LastOrDefault();
+        var model = new BindableModel
+        {
+            BindableDateTime = !string.IsNullOrEmpty(type == DateTypes.Due ? lastSelectedTask?.DueDate : lastSelectedTask?.ThresholdDate)
+                ? Convert.ToDateTime(type == DateTypes.Due ? lastSelectedTask?.DueDate : lastSelectedTask?.ThresholdDate)
+                : DateTime.Today,
+        };
+        var response = await _dialogService.ShowDialogAsync<DatePage>(title, model);
+        if (response != null && response?.BindableDateTime != null)
+        {
+            var date = response.BindableDateTime.Value.Date.ToTodoDate();
+
+            foreach (var task in _taskService.SelectedTasks.ToList())
+            {
+                _taskService.SetDate(task, date, type);
+            }
+        }
+    }
+
+    private bool CanPostponeDate(string parameter) => _taskService.SelectedTasks?.Count > 0;
+
+    private async void OnPostponeDate(string parameter)
+    {
+        DateTypes type = (DateTypes)Enum.Parse(typeof(DateTypes), parameter);
+        var title = type == DateTypes.Due ? "Postpone Task Due Date" : "Postpone Task Threshold Date";
+
+        var model = new BindableModel();
+        var response = await _dialogService.ShowDialogAsync<PostponePage>(title, model);
+
+        if (response != null && !string.IsNullOrEmpty(response?.BindableString))
+        {
+            foreach (var task in _taskService.SelectedTasks.ToList())
+            {
+                _taskService.PostponeDate(task, response.BindableString, type);
+            }
+        }
+    }
+
+    private bool CanIncreaseDate(string parameter) => _taskService.SelectedTasks.Count > 0;
+
+    private void OnIncreaseDate(string parameter)
+    {
+        DateTypes type = (DateTypes)Enum.Parse(typeof(DateTypes), parameter);
+        
+        foreach (var task in _taskService.SelectedTasks.ToList())
+        {
+            _taskService.PostponeDate(task, "1", type);
+        }
+    }
+
+    private bool CanDecreaseDate(string parameter) => _taskService.SelectedTasks.Count > 0;
+
+    private void OnDecreaseDate(string parameter)
+    {
+        DateTypes type = (DateTypes)Enum.Parse(typeof(DateTypes), parameter);
+        
+        foreach (var task in _taskService.SelectedTasks.ToList())
+        {
+            _taskService.PostponeDate(task, "-1", type);
+        }
+    }
+
+    private bool CanClearDate(string parameter) => _taskService.SelectedTasks?.Count > 0;
+
+    private void OnClearDate(string parameter)
+    {
+        DateTypes type = (DateTypes)Enum.Parse(typeof(DateTypes), parameter);
+        
+        foreach (var task in _taskService.SelectedTasks.ToList())
+        {
+            _taskService.SetDate(task, string.Empty, type);
         }
     }
 
@@ -348,12 +441,29 @@ public class ShellViewModel : ViewModelBase
 
     private void OnRecentFilesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => IsRecentEnabled = _recentFilesService.RecentFiles.Count > 0;
 
+    private void ChangePriority(Models.Task task, int shift)
+    {
+        if (string.IsNullOrEmpty(task.Priority))
+        {
+            _taskService.SetPriority(task, "A");
+        }
+        else
+        {
+            var current = task.Priority[0];
+            var priority = (char)(current + shift);
+
+            if (char.IsLetter(priority))
+            {
+                _taskService.SetPriority(task, priority.ToString());
+            }
+        }
+    }
+
     private void OpenTodo(string path)
     {
         if (string.IsNullOrEmpty(path)) return;
 
         _taskService.LoadTasks(path);
-
         _viewSettings.QuickSearchString = string.Empty;
     }
 
