@@ -10,25 +10,13 @@ namespace Seemon.Todo.ViewModels.Pages;
 
 public class AboutViewModel : ViewModelBase
 {
-    public string Copyright
-    {
-        get;
-    }
+    public string Copyright { get; }
 
-    public string Version
-    {
-        get;
-    }
+    public string Version { get; }
 
-    public string Description
-    {
-        get;
-    }
+    public string Description { get; }
 
-    public string Author
-    {
-        get;
-    }
+    public string Author { get; }
 
     public AboutViewModel()
     {

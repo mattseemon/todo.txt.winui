@@ -21,7 +21,7 @@ public class ViewSettings : ObservableObject
         get => _quickSearchString; set => SetProperty(ref _quickSearchString, value);
     }
 
-    public static ViewSettings Default = new()
+    public static ViewSettings Default => new()
     {
         CaseSensitive = false,
         QuickSearchString = string.Empty,

@@ -42,7 +42,6 @@ public class LocalSettingsService : ILocalSettingsService
         if (!_isInitialized)
         {
             _settings = await Task.Run(() => _fileService.Read<IDictionary<string, object>>(_applicationDataFolder, _localsettingsFile)) ?? new Dictionary<string, object>();
-
             _isInitialized = true;
         }
     }
@@ -65,12 +64,16 @@ public class LocalSettingsService : ILocalSettingsService
                 if (value is JObject jObject)
                 {
                     var setting = jObject.ToObject<T>();
+                    if(setting == null) return (T?)value;
+
                     _settings[key] = setting;
                     return setting;
                 }
                 else if (value is JArray jArray)
                 {
                     var setting = jArray.ToObject<T>();
+                    if (setting == null) return (T?)value;
+
                     _settings[key] = setting;
                     return setting;
                 }
@@ -84,6 +87,8 @@ public class LocalSettingsService : ILocalSettingsService
 
     public async Task SaveSettingAsync<T>(string key, T value)
     {
+        if (value == null) return;
+
         if (RuntimeHelper.IsMSIX)
         {
             ApplicationData.Current.LocalSettings.Values[key] = await JsonHelper.StringifyAsync(value);
@@ -91,9 +96,7 @@ public class LocalSettingsService : ILocalSettingsService
         else
         {
             await InitializeAsync();
-
             _settings[key] = value;
-
             await Task.Run(() => _fileService.Save(_applicationDataFolder, _localsettingsFile, _settings));
         }
     }

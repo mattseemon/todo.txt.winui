@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Input;
+
 using Seemon.Todo.Models.Common;
 
 namespace Seemon.Todo.Contracts.ViewModels;
@@ -7,10 +8,7 @@ public interface IViewModel
 {
     BindableModel BindableModel { get; set; }
 
-    string PageKey
-    {
-        get;
-    }
+    string PageKey { get; }
 
     void RaiseCommandCanExecute();
 

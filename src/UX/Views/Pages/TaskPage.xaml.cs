@@ -6,7 +6,7 @@ namespace Seemon.Todo.Views.Pages;
 
 public sealed partial class TaskPage : Page
 {
-    public TaskViewModel ViewModel {  get; set; }
+    public TaskViewModel ViewModel { get; }
 
     public TaskPage()
     {

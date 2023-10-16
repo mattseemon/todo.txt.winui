@@ -15,8 +15,10 @@ public class PriorityViewModel : ViewModelBase
 
     public ICommand PreviewKeyDownCommand => _previewKeyDownCommand ??= RegisterCommand<KeyRoutedEventArgs>(OnPreviewKeyDown);
 
-    private void OnPreviewKeyDown(KeyRoutedEventArgs args)
+    private void OnPreviewKeyDown(KeyRoutedEventArgs? args)
     {
+        if (args is null) return;
+
         if (args.Key == VirtualKey.Up || args.Key == VirtualKey.Down)
         {
             if (string.IsNullOrEmpty(BindableModel.BindableString))

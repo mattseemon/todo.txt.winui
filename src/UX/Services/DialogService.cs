@@ -40,8 +40,8 @@ public class DialogService : IDialogService
         return await dialog.ShowAsync() == ContentDialogResult.Primary ? (viewModel?.BindableModel) : null;
     }
 
-    public async Task ShowFeatureNotImpletmented(string feature) 
-        => await ShowMessageAsync(feature, $"The feature you are trying to access is currently not implemented yet.");
+    public async Task ShowFeatureNotImpletmented(string feature)
+        => await ShowMessageAsync(feature, "Feature_Not_Implemented".GetLocalized());
 
     public async Task ShowMessageAsync(string title, string message)
     {
@@ -72,7 +72,6 @@ public class DialogService : IDialogService
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
             PrimaryButtonText = "OK",
-            PrimaryButtonStyle = (Style)App.Current.Resources["AccentButtonStyle"],
             XamlRoot = shell?.XamlRoot,
             RequestedTheme = actualTheme,
         };

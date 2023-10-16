@@ -129,10 +129,6 @@
   <data name="ShellPage_MenuBarItem_File_Exit.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
-  <data name="Main_Title.Text" xml:space="preserve">
-    <value>Home</value>
-    <comment>Page title for MainPage</comment>
-  </data>
   <data name="ShellPage_AppBarButton_Settings_Tooltip.Content" xml:space="preserve">
     <value>Show Settings (F10)</value>
   </data>
@@ -478,5 +474,56 @@
   </data>
   <data name="ShellPage_MenuBarItem_Task_ThresholdDate_Set.Text" xml:space="preserve">
     <value>Set Threshold Date</value>
+  </data>
+  <data name="Feature_Not_Implemented" xml:space="preserve">
+    <value>The feature you are trying to access is currently not implemented yet.</value>
+  </data>
+  <data name="DatePage_Due_Title" xml:space="preserve">
+    <value>Set due date</value>
+  </data>
+  <data name="DatePage_Threshold_Title" xml:space="preserve">
+    <value>Set threshold date</value>
+  </data>
+  <data name="Feature_Not_Implemented_Title" xml:space="preserve">
+    <value>Feature not implemeted</value>
+  </data>
+  <data name="MSG_Delete_Confirmation_Body" xml:space="preserve">
+    <value>Are you sure you want to delete the selected tasks?</value>
+  </data>
+  <data name="MSG_Delete_Confirmation_Title" xml:space="preserve">
+    <value>Delete tasks</value>
+  </data>
+  <data name="MSG_File_Filter" xml:space="preserve">
+    <value>Plain Text</value>
+  </data>
+  <data name="MSG_Open_Recent_Alert_Body" xml:space="preserve">
+    <value>The todo file you are trying to open does not exisits.\n\n</value>
+  </data>
+  <data name="MSG_Open_Recent_Alert_Title" xml:space="preserve">
+    <value>Open todo file</value>
+  </data>
+  <data name="MultipleTaskPage_Label.Text" xml:space="preserve">
+    <value>Enter multiple tasks. (One line per tasks. Control Enter to submit):</value>
+  </data>
+  <data name="MultipleTaskPage_Title" xml:space="preserve">
+    <value>Add multiple new task</value>
+  </data>
+  <data name="PostponePage_Due_Title" xml:space="preserve">
+    <value>Postpone task due date</value>
+  </data>
+  <data name="PostponePage_Threshold_Title" xml:space="preserve">
+    <value>Postpone task threshold date</value>
+  </data>
+  <data name="PriorityPage_Title" xml:space="preserve">
+    <value>Set task priority</value>
+  </data>
+  <data name="TaskPage_New_Title" xml:space="preserve">
+    <value>Add new task</value>
+  </data>
+  <data name="TaskPage_Text.PlaceholderText" xml:space="preserve">
+    <value>Enter task based on the todo.txt format</value>
+  </data>
+  <data name="TaskPage_Update_Title" xml:space="preserve">
+    <value>Update task</value>
   </data>
 </root>

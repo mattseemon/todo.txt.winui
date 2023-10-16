@@ -75,7 +75,7 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
         }
     }
 
-    private async void OnSwitchTheme(SelectionChangedEventArgs args)
+    private async void OnSwitchTheme(SelectionChangedEventArgs? args)
         => await _themeSelectorService.SetThemeAsync((ElementTheme)Enum.Parse(typeof(ElementTheme), SelectedTheme));
 
     private async void OnSelectGlobalArchiveFile()
@@ -87,16 +87,12 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
         else TodoSettings.GlobalArchiveFilePath = filename;
     }
 
-    private void OnTextBoxFocusChanged(string value)
-    {
-        _textBoxIsFocused = Convert.ToBoolean(value);
-    }
+    private void OnTextBoxFocusChanged(string? value)
+        => _textBoxIsFocused = Convert.ToBoolean(value);
 
     public void OnNavigatedTo(object parameter) => SelectedTheme = _themeSelectorService.Theme.ToString();
 
-    public void OnNavigatedFrom()
-    {
-    }
+    public void OnNavigatedFrom() { }
 
     private async void OnAppSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         => await _localSettingsService.SaveSettingAsync(Constants.SETTING_APPLICATION, _appSettings);
@@ -104,16 +100,15 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
     private async void OnTodoSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         => await _localSettingsService.SaveSettingAsync(Constants.SETTING_TODO, _todoSettings);
 
-    private async void OnViewSettingsPropertyChanging(object? sender, System.ComponentModel.PropertyChangingEventArgs e) 
+    private async void OnViewSettingsPropertyChanging(object? sender, System.ComponentModel.PropertyChangingEventArgs e)
         => await _localSettingsService.SaveSettingAsync(Constants.SETTING_VIEW, _viewSettings);
 
     public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
     {
-        switch (args.KeyboardAccelerator.Key)
+        return args.KeyboardAccelerator.Key switch
         {
-            case Windows.System.VirtualKey.Back:
-                return _textBoxIsFocused;
-        }
-        return false;
+            Windows.System.VirtualKey.Back => _textBoxIsFocused,
+            _ => false,
+        };
     }
 }

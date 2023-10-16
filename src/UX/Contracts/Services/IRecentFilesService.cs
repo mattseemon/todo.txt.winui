@@ -1,14 +1,12 @@
-﻿using Seemon.Todo.Models.Settings;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+
+using Seemon.Todo.Models.Settings;
 
 namespace Seemon.Todo.Contracts.Services;
 
 public interface IRecentFilesService
 {
-    ObservableCollection<RecentFile> RecentFiles
-    {
-        get;
-    }
+    ObservableCollection<RecentFile> RecentFiles { get; }
 
     void Add(string path);
 
