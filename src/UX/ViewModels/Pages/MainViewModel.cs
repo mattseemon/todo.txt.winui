@@ -46,10 +46,10 @@ public class MainViewModel : ViewModelBase, INavigationAware
         };
         Tasks.SortDescriptions.Clear();
 
-        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<ViewSettings>(Constants.SETTING_VIEW)).Result ?? ViewSettings.Default;
+        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
         _viewSettings.PropertyChanged += OnViewSettingsPropertyChanged;
 
-        _appSettings = Task.Run(() => _localSettingsService?.ReadSettingAsync<AppSettings>(Constants.SETTING_APPLICATION)).Result ?? AppSettings.Default;
+        _appSettings = Task.Run(() => _localSettingsService?.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
         if (_appSettings.OpenRecentOnStartup && !_taskService.IsLoaded)
         {
             var recent = _recentFilesService.RecentFiles.FirstOrDefault();
@@ -112,7 +112,7 @@ public class MainViewModel : ViewModelBase, INavigationAware
 
     public void OnNavigatedTo(object parameter)
     {
-        _appSettings = Task.Run(() => _localSettingsService?.ReadSettingAsync<AppSettings>(Constants.SETTING_APPLICATION)).Result ?? AppSettings.Default;
+        _appSettings = Task.Run(() => _localSettingsService?.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
         Tasks.Refresh();
     }
 

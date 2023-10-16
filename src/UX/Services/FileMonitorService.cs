@@ -22,7 +22,7 @@ public class FileMonitorService : IFileMonitorService, IDisposable
     {
         if (string.IsNullOrEmpty(path)) return;
 
-        _appSettings = Task.Run(() => _localSettingsService?.ReadSettingAsync<AppSettings>(Constants.SETTING_APPLICATION)).Result ?? AppSettings.Default;
+        _appSettings = Task.Run(() => _localSettingsService?.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
 
         if (!_appSettings.AutoRefreshFile)
         {

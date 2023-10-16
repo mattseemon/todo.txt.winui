@@ -48,8 +48,8 @@ public class TaskService : ObservableObject, ITaskService
 
         _activeTasks = new ObservableCollection<Task>();
         _activeTasks.CollectionChanged += OnActiveTasksCollectionChanged;
-        _todoSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService.ReadSettingAsync<TodoSettings>(Constants.SETTING_TODO)).Result ?? TodoSettings.Default;
-        _appSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService.ReadSettingAsync<AppSettings>(Constants.SETTING_APPLICATION)).Result ?? AppSettings.Default;
+        _todoSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
+        _appSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
         _appSettings.PropertyChanged += OnAppSettingsPropertyChanged;
 
         IsLoaded = false;
@@ -652,7 +652,7 @@ public class TaskService : ObservableObject, ITaskService
 
     private string GetArchivePath()
     {
-        _todoSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService?.ReadSettingAsync<TodoSettings>(Constants.SETTING_TODO)).Result ?? TodoSettings.Default;
+        _todoSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService?.ReadSettingAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
         if (_todoSettings.EnableGlobalArchive && File.Exists(_todoSettings.GlobalArchiveFilePath))
         {
             return _todoSettings.GlobalArchiveFilePath;

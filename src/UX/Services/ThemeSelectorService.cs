@@ -43,7 +43,7 @@ public class ThemeSelectorService : IThemeSelectorService
 
     private async Task<ElementTheme> LoadThemeFromSettingsAsync()
     {
-        var appSettings = await _localSettingsService.ReadSettingAsync<AppSettings>(Constants.SETTING_APPLICATION) ?? AppSettings.Default;
+        var appSettings = await _localSettingsService.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default);
 
         if (Enum.TryParse(appSettings?.Theme, out ElementTheme cacheTheme))
         {
@@ -55,8 +55,7 @@ public class ThemeSelectorService : IThemeSelectorService
 
     private async Task SaveThemeInSettingsAsync(ElementTheme theme)
     {
-        var appSettings = await _localSettingsService.ReadSettingAsync<AppSettings>(Constants.SETTING_APPLICATION) ?? AppSettings.Default;
+        var appSettings = await _localSettingsService.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default);
         appSettings.Theme = theme.ToString();
-        await _localSettingsService.SaveSettingAsync(Constants.SETTING_APPLICATION, appSettings);
     }
 }

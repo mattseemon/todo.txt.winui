@@ -16,7 +16,7 @@ public class RecentFilesService : IRecentFilesService
     public RecentFilesService(ILocalSettingsService localSettingsService)
     {
         _localSettingsService = localSettingsService;
-        _settings = Task.Run(() => _localSettingsService.ReadSettingAsync<AppSettings>(Constants.SETTING_APPLICATION)).Result ?? AppSettings.Default;
+        _settings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
     }
 
     public async void Add(string path)

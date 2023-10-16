@@ -3,6 +3,7 @@
 using Newtonsoft.Json.Linq;
 
 using Seemon.Todo.Contracts.Services;
+using Seemon.Todo.Exceptions;
 using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Models.Settings;
 
@@ -46,7 +47,7 @@ public class LocalSettingsService : ILocalSettingsService
         }
     }
 
-    public async Task<T?> ReadSettingAsync<T>(string key)
+    public async Task<T> ReadSettingAsync<T>(string key, T defaultValue)
     {
         if (RuntimeHelper.IsMSIX)
         {
@@ -63,25 +64,25 @@ public class LocalSettingsService : ILocalSettingsService
             {
                 if (value is JObject jObject)
                 {
-                    var setting = jObject.ToObject<T>();
-                    if(setting == null) return (T?)value;
-
+                    var setting = jObject.ToObject<T>() ?? throw new TaskException($"Could not convert stored json to {typeof(T)}.");
                     _settings[key] = setting;
                     return setting;
                 }
                 else if (value is JArray jArray)
                 {
-                    var setting = jArray.ToObject<T>();
-                    if (setting == null) return (T?)value;
-
+                    var setting = jArray.ToObject<T>() ?? throw new TaskException($"Could not convert stored json to {typeof(T)}.");
                     _settings[key] = setting;
                     return setting;
                 }
                 else
                     return (T?)value;
             }
+            else if (_settings != null)
+            {
+                await SaveSettingAsync(key, defaultValue);
+                return defaultValue;
+            }
         }
-
         return default;
     }
 
