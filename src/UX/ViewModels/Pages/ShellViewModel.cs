@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection.Metadata;
 using System.Windows.Input;
 
 using Microsoft.UI.Xaml;
@@ -63,9 +61,9 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _decreasePriorityCommand;
     private ICommand? _setDateCommand;
     private ICommand? _postponeDateCommand;
-    private ICommand? _clearDateCommand;
     private ICommand? _increaseDateCommand;
     private ICommand? _decreaseDateCommand;
+    private ICommand? _clearDateCommand;
 
     private ICommand? _featureNotImplementedCommand;
 
@@ -121,9 +119,9 @@ public class ShellViewModel : ViewModelBase
     public ICommand DecreasePriorityCommand => _decreasePriorityCommand ??= RegisterCommand(OnDecreasePriority, CanDecreasePriority);
     public ICommand SetDateCommand => _setDateCommand ??= RegisterCommand<string>(OnSetDate, CanSetDate);
     public ICommand PostponeDateCommand => _postponeDateCommand ??= RegisterCommand<string>(OnPostponeDate, CanPostponeDate);
-    public ICommand ClearDateCommand => _clearDateCommand ??= RegisterCommand<string>(OnClearDate, CanClearDate);
     public ICommand IncreaseDateCommad => _increaseDateCommand ??= RegisterCommand<string>(OnIncreaseDate, CanIncreaseDate);
     public ICommand DecreaseDateCommad => _decreaseDateCommand ??= RegisterCommand<string>(OnDecreaseDate, CanDecreaseDate);
+    public ICommand ClearDateCommand => _clearDateCommand ??= RegisterCommand<string>(OnClearDate, CanClearDate);
 
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
@@ -159,7 +157,12 @@ public class ShellViewModel : ViewModelBase
 
     private void OnShowAbout() => NavigationService.NavigateTo(typeof(AboutViewModel).FullName!);
 
-    private void OnQuickSearchFocusedChanged(string value) => IsQuickSearchFocused = bool.Parse(value);
+    private void OnQuickSearchFocusedChanged(string? value)
+    {
+        if (value == null) return;
+
+        IsQuickSearchFocused = bool.Parse(value);
+    }
 
     private async void OnNewTodo()
     {
@@ -190,11 +193,11 @@ public class ShellViewModel : ViewModelBase
 
     private void OnArchiveCompletedTasks() => _taskService.ArchiveCompletedTasks();
 
-    private async void OnOpenRecent(string path)
+    private async void OnOpenRecent(string? path)
     {
         if (!File.Exists(path))
         {
-            await _dialogService.ShowMessageAsync("Open todo file", $"The todo file you are trying to open does not exisits.\n\n{path}");
+            await _dialogService.ShowMessageAsync("MSG_Open_Recent_Alert_Title".GetLocalized(), $"{"MSG_Open_Recent_Alert_Body".GetLocalized()}{path}");
             return;
         }
         OpenTodo(path);
@@ -210,7 +213,7 @@ public class ShellViewModel : ViewModelBase
 
     private async void OnAddNewTask()
     {
-        var response = await _dialogService.ShowDialogAsync<TaskPage>("Add new task");
+        var response = await _dialogService.ShowDialogAsync<TaskPage>("TaskPage_New_Title".GetLocalized());
         if (response != null)
         {
             _taskService.AddTask(response.BindableString.Trim());
@@ -219,7 +222,7 @@ public class ShellViewModel : ViewModelBase
 
     private async void OnAddMultipleNewTasks()
     {
-        var response = await _dialogService.ShowDialogAsync<MultipleTaskPage>("Add multiple new task");
+        var response = await _dialogService.ShowDialogAsync<MultipleTaskPage>("MultipleTaskPage_Title".GetLocalized());
         if (response != null)
         {
             var tasks = response.BindableString.ReplaceLineEndings().Split(Environment.NewLine);
@@ -238,7 +241,7 @@ public class ShellViewModel : ViewModelBase
         {
             BindableString = _taskService.SelectedTasks.First().Raw,
         };
-        var response = await _dialogService.ShowDialogAsync<TaskPage>("Update Task", model);
+        var response = await _dialogService.ShowDialogAsync<TaskPage>("TaskPage_Update_Title".GetLocalized(), model);
         if (response != null)
         {
             _taskService.UpdateTask(_taskService.SelectedTasks.First(), response.BindableString);
@@ -253,7 +256,7 @@ public class ShellViewModel : ViewModelBase
 
         if (_todoSettings.ConfirmBeleteDelete)
         {
-            confirmed = await _dialogService.ShowConfirmationAsync("Delete tasks", "Are you sure you want to delete the selected tasks?");
+            confirmed = await _dialogService.ShowConfirmationAsync("MSG_Delete_Confirmation_Title".GetLocalized(), "MSG_Delete_Confirmation_Body".GetLocalized());
         }
         if (confirmed)
         {
@@ -291,11 +294,11 @@ public class ShellViewModel : ViewModelBase
         var lastSelectedTask = _taskService.SelectedTasks.LastOrDefault();
         var model = new BindableModel
         {
-            BindableString = !string.IsNullOrEmpty(lastSelectedTask?.Priority) 
-                ? lastSelectedTask.Priority 
+            BindableString = !string.IsNullOrEmpty(lastSelectedTask?.Priority)
+                ? lastSelectedTask.Priority
                 : !string.IsNullOrEmpty(_todoSettings.DefaultPriority) ? _todoSettings.DefaultPriority : "A",
         };
-        var response = await _dialogService.ShowDialogAsync<PriorityPage>("Set Task Priority", model);
+        var response = await _dialogService.ShowDialogAsync<PriorityPage>("PriorityPage_Title".GetLocalized(), model);
         if (response != null)
         {
             var priority = response.BindableString.ToUpper().Trim();
@@ -354,12 +357,14 @@ public class ShellViewModel : ViewModelBase
         }
     }
 
-    private bool CanSetDate(string parameter) => _taskService.SelectedTasks.Count > 0;
+    private bool CanSetDate(string? parameter) => _taskService.SelectedTasks.Count > 0;
 
-    private async void OnSetDate(string parameter)
+    private async void OnSetDate(string? parameter)
     {
+        if (parameter == null) return;
+
         DateTypes type = (DateTypes)Enum.Parse(typeof(DateTypes), parameter);
-        var title = type == DateTypes.Due ? "Set Due Date" : "Set Threshold Date";
+        var title = type == DateTypes.Due ? "DatePage_Due_Title".GetLocalized() : "DatePage_Threshold_Title".GetLocalized();
 
         var lastSelectedTask = _taskService.SelectedTasks.LastOrDefault();
         var model = new BindableModel
@@ -380,12 +385,14 @@ public class ShellViewModel : ViewModelBase
         }
     }
 
-    private bool CanPostponeDate(string parameter) => _taskService.SelectedTasks?.Count > 0;
+    private bool CanPostponeDate(string? parameter) => _taskService.SelectedTasks?.Count > 0;
 
-    private async void OnPostponeDate(string parameter)
+    private async void OnPostponeDate(string? parameter)
     {
+        if (parameter == null) return;
+
         DateTypes type = (DateTypes)Enum.Parse(typeof(DateTypes), parameter);
-        var title = type == DateTypes.Due ? "Postpone Task Due Date" : "Postpone Task Threshold Date";
+        var title = type == DateTypes.Due ? "PostponePage_Due_Title".GetLocalized() : "PostponePage_Threshold_Title".GetLocalized();
 
         var model = new BindableModel();
         var response = await _dialogService.ShowDialogAsync<PostponePage>(title, model);
@@ -399,43 +406,49 @@ public class ShellViewModel : ViewModelBase
         }
     }
 
-    private bool CanIncreaseDate(string parameter) => _taskService.SelectedTasks.Count > 0;
+    private bool CanIncreaseDate(string? parameter) => _taskService.SelectedTasks.Count > 0;
 
-    private void OnIncreaseDate(string parameter)
+    private void OnIncreaseDate(string? parameter)
     {
+        if (parameter == null) return;
+
         DateTypes type = (DateTypes)Enum.Parse(typeof(DateTypes), parameter);
-        
+
         foreach (var task in _taskService.SelectedTasks.ToList())
         {
             _taskService.PostponeDate(task, "1", type);
         }
     }
 
-    private bool CanDecreaseDate(string parameter) => _taskService.SelectedTasks.Count > 0;
+    private bool CanDecreaseDate(string? parameter) => _taskService.SelectedTasks.Count > 0;
 
-    private void OnDecreaseDate(string parameter)
+    private void OnDecreaseDate(string? parameter)
     {
+        if (parameter == null) return;
+
         DateTypes type = (DateTypes)Enum.Parse(typeof(DateTypes), parameter);
-        
+
         foreach (var task in _taskService.SelectedTasks.ToList())
         {
             _taskService.PostponeDate(task, "-1", type);
         }
     }
 
-    private bool CanClearDate(string parameter) => _taskService.SelectedTasks?.Count > 0;
+    private bool CanClearDate(string? parameter) => _taskService.SelectedTasks?.Count > 0;
 
-    private void OnClearDate(string parameter)
+    private void OnClearDate(string? parameter)
     {
+        if (parameter == null) return;
+
         DateTypes type = (DateTypes)Enum.Parse(typeof(DateTypes), parameter);
-        
+
         foreach (var task in _taskService.SelectedTasks.ToList())
         {
             _taskService.SetDate(task, string.Empty, type);
         }
     }
 
-    private async void OnFeatureNotImplemented(string feature) => await _dialogService.ShowFeatureNotImpletmented(feature);
+    private async void OnFeatureNotImplemented(string? feature) => await _dialogService.ShowFeatureNotImpletmented(feature ?? "Feature_Not_Implemented_Title".GetLocalized());
 
     private void OnActiveTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => RaiseCommandCanExecute();
 

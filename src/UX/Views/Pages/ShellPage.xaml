@@ -115,17 +115,17 @@
                     <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_Task_Priority" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Priority_Set" Command="{x:Bind ViewModel.SetPriorityCommand}" KeyTipPlacementMode="Left">
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="S" Modifiers="Menu" />
+                                <KeyboardAccelerator Key="P" Modifiers="None" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Priority_Increase" Command="{x:Bind ViewModel.IncreasePriorityCommand}" KeyTipPlacementMode="Left">
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="Right" Modifiers="Menu" />
+                                <KeyboardAccelerator Key="Left" Modifiers="Menu" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Priority_Decrease" Command="{x:Bind ViewModel.DecreasePriorityCommand}" KeyTipPlacementMode="Left">
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="Left" Modifiers="Menu" />
+                                <KeyboardAccelerator Key="Right" Modifiers="Menu" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Priority_Clear" Command="{x:Bind ViewModel.ClearPriorityCommand}" KeyTipPlacementMode="Left">

@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -26,7 +25,7 @@ public class TaskService : ObservableObject, ITaskService
     private readonly IRecentFilesService? _recentFilesService;
 
     private TodoSettings _todoSettings;
-    private AppSettings _appSettings;
+    private readonly AppSettings _appSettings;
 
     private ObservableCollection<Task> _activeTasks;
 
@@ -435,7 +434,7 @@ public class TaskService : ObservableObject, ITaskService
                 postponeDate = GetPostponeDate(postpone, startDate);
             }
 
-            if(postponeDate.HasValue)
+            if (postponeDate.HasValue)
             {
                 SetDate(task, postponeDate.Value.ToTodoDate(), type);
             }
@@ -611,7 +610,7 @@ public class TaskService : ObservableObject, ITaskService
                     return DateTime.Today.AddDays(1);
                 default:
                     var postponeDate = DateTime.Today;
-                    var shortCode = postpone.Substring(0, 3);
+                    var shortCode = postpone[..3];
                     do
                     {
                         count++;

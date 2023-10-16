@@ -11,11 +11,11 @@ namespace Seemon.Todo.Views.Pages;
 /// </summary>
 public sealed partial class PostponePage : Page
 {
-    public PostponeViewModel ViewModel { get; set; }
+    public PostponeViewModel ViewModel { get; }
 
     public PostponePage()
     {
         ViewModel = App.GetService<PostponeViewModel>();
-        this.InitializeComponent();
+        InitializeComponent();
     }
 }

@@ -15,8 +15,6 @@ public static class DateTimeExtensions
         return d;
     }
 
-    public static string ToTodoDate(this DateTime date)
-    {
-        return date.ToString(Constants.TODO_DATE_FORMAT);
-    }
+    public static string ToTodoDate(this DateTime date) 
+        => date.ToString(Constants.TODO_DATE_FORMAT);
 }

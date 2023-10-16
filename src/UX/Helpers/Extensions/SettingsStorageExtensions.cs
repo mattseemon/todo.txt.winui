@@ -1,4 +1,5 @@
 ﻿using Seemon.Todo.Helpers.Common;
+
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -11,12 +12,12 @@ public static class SettingsStorageExtensions
     private const string FileExtension = ".json";
 
     public static bool IsRoamingStorageAvailable(this ApplicationData appData)
-    {
-        return appData.RoamingStorageQuota == 0;
-    }
+        => appData.RoamingStorageQuota == 0;
 
     public static async Task SaveAsync<T>(this StorageFolder folder, string name, T content)
     {
+        if (content == null) return;
+
         var file = await folder.CreateFileAsync(GetFileName(name), CreationCollisionOption.ReplaceExisting);
         var fileContent = await JsonHelper.StringifyAsync(content);
 
@@ -38,18 +39,17 @@ public static class SettingsStorageExtensions
 
     public static async Task SaveAsync<T>(this ApplicationDataContainer settings, string key, T value)
     {
+        if (value == null) return;
+
         settings.SaveString(key, await JsonHelper.StringifyAsync(value));
     }
 
     public static void SaveString(this ApplicationDataContainer settings, string key, string value)
-    {
-        settings.Values[key] = value;
-    }
+        => settings.Values[key] = value;
 
     public static async Task<T?> ReadAsync<T>(this ApplicationDataContainer settings, string key)
     {
-        object? obj;
-        if (settings.Values.TryGetValue(key, out obj))
+        if (settings.Values.TryGetValue(key, out object? obj))
         {
             return await JsonHelper.ToObjectAsync<T>((string)obj);
         }
@@ -58,10 +58,7 @@ public static class SettingsStorageExtensions
 
     public static async Task<StorageFile> SaveFileAsync(this StorageFolder folder, byte[] content, string fileName, CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
     {
-        if (content == null)
-        {
-            throw new ArgumentNullException(nameof(content));
-        }
+        if (content == null) throw new ArgumentNullException(nameof(content));
 
         if (string.IsNullOrEmpty(fileName))
         {
@@ -102,7 +99,5 @@ public static class SettingsStorageExtensions
     }
 
     private static string GetFileName(string name)
-    {
-        return string.Concat(name, FileExtension);
-    }
+        => string.Concat(name, FileExtension);
 }

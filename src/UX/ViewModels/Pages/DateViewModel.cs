@@ -2,6 +2,4 @@
 
 namespace Seemon.Todo.ViewModels.Pages;
 
-public class DateViewModel : ViewModelBase
-{
-}
+public class DateViewModel : ViewModelBase { }

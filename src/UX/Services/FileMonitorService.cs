@@ -41,9 +41,14 @@ public class FileMonitorService : IFileMonitorService, IDisposable
 
                 _watcher?.Dispose();
 
+                var watchedDir = Path.GetDirectoryName(_watchedPath);
+                var watchedFile = Path.GetFileName(_watchedPath);
+
+                if (watchedDir == null) return;
+
                 _watcher ??= new();
-                _watcher.Path = Path.GetDirectoryName(_watchedPath);
-                _watcher.Filter = Path.GetFileName(_watchedPath);
+                _watcher.Path = watchedDir;
+                _watcher.Filter = watchedFile;
                 _watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size;
                 _watcher.Changed += OnWatchedChanged;
                 _watcher.EnableRaisingEvents = true;

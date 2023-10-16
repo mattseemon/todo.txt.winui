@@ -16,6 +16,6 @@ public sealed partial class PriorityPage : Page
     public PriorityPage()
     {
         ViewModel = App.GetService<PriorityViewModel>();
-        this.InitializeComponent();
+        InitializeComponent();
     }
 }

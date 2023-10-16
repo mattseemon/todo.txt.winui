@@ -13,9 +13,7 @@ public class ThemeSelectorService : IThemeSelectorService
     private readonly ILocalSettingsService _localSettingsService;
 
     public ThemeSelectorService(ILocalSettingsService localSettingsService)
-    {
-        _localSettingsService = localSettingsService;
-    }
+        => _localSettingsService = localSettingsService;
 
     public async Task InitializeAsync()
     {

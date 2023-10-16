@@ -11,11 +11,11 @@ namespace Seemon.Todo.Views.Pages;
 /// </summary>
 public sealed partial class DatePage : Page
 {
-    public DateViewModel ViewModel { get; set; }
+    public DateViewModel ViewModel { get; }
 
     public DatePage()
     {
         ViewModel = App.GetService<DateViewModel>();
-        this.InitializeComponent();
+        InitializeComponent();
     }
 }

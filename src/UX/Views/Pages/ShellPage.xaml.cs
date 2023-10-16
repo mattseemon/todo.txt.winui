@@ -37,9 +37,7 @@ public sealed partial class ShellPage : Page
     }
 
     private void OnRecentFilesCollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        LoadRecentFilesMenubar();
-    }
+        => LoadRecentFilesMenubar();
 
     private void LoadRecentFilesMenubar()
     {
@@ -50,14 +48,13 @@ public sealed partial class ShellPage : Page
         {
             var item = ViewModel.RecentFiles[i];
 
-            var menuItem = new MenuFlyoutItem()
+            var menuItem = new MenuFlyoutItem
             {
                 AccessKey = (i).ToString(),
                 Text = TrimPath(item.Path),
+                Command = ViewModel.OpenRecentCommand,
+                CommandParameter = item.Path
             };
-
-            menuItem.Command = ViewModel.OpenRecentCommand;
-            menuItem.CommandParameter = item.Path;
 
             ToolTipService.SetToolTip(menuItem, item.Path);
 
@@ -102,9 +99,7 @@ public sealed partial class ShellPage : Page
         App.AppTitlebar = AppTitleBarText as UIElement;
     }
 
-    private void OnUnloaded(object sender, RoutedEventArgs e)
-    {
-    }
+    private void OnUnloaded(object sender, RoutedEventArgs e) { }
 
     private KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)
     {

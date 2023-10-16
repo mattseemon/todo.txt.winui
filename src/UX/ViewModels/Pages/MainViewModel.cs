@@ -21,7 +21,7 @@ public class MainViewModel : ViewModelBase, INavigationAware
     private readonly ILocalSettingsService _localSettingsService;
 
     private AppSettings _appSettings;
-    private ViewSettings _viewSettings;
+    private readonly ViewSettings _viewSettings;
 
     private ICommand? _selectionChangedCommand;
     private ICommand? _doubleTappedCommand;

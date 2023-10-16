@@ -6,10 +6,7 @@ namespace Seemon.Todo.Views.Pages;
 
 public sealed partial class MainPage : Page
 {
-    public MainViewModel ViewModel
-    {
-        get;
-    }
+    public MainViewModel ViewModel { get; }
 
     public MainPage()
     {

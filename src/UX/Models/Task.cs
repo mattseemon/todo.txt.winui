@@ -97,12 +97,6 @@ public class Task : ObservableObject
         var createdDate = !string.IsNullOrEmpty(CreatedDate) ? $"{CreatedDate} " : string.Empty;
         var body = !string.IsNullOrEmpty(Body) ? $"{Body}" : string.Empty;
 
-        //var items = from item in Projects select $"+{item}";
-        //var projects = string.Join(" ", items);
-
-        //items = from item in Contexts select $"@{item}";
-        //var contexts = string.Join(" ", items);
-
         var items = from item in Metadata select $"{item.Key}:{item.Value}";
         var metadata = string.Join(" ", items);
 

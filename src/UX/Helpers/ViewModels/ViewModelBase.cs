@@ -13,7 +13,7 @@ namespace Seemon.Todo.Helpers.ViewModels;
 
 public class ViewModelBase : ObservableValidator, IViewModel
 {
-    private BindableModel _bindableModel = new BindableModel();
+    private BindableModel _bindableModel = new();
 
     private readonly IList<ICommand> _commands;
 
@@ -25,7 +25,7 @@ public class ViewModelBase : ObservableValidator, IViewModel
 
     public BindableModel BindableModel { get => _bindableModel; set => SetProperty(ref _bindableModel, value); }
 
-    public ICommand RegisterCommand<T>(Action<T> execute, Predicate<T>? canExecute = null)
+    public ICommand RegisterCommand<T>(Action<T?> execute, Predicate<T?>? canExecute = null)
     {
         var command = canExecute == null ? new RelayCommand<T>(execute) : new RelayCommand<T>(execute, canExecute);
         _commands.Add(command);

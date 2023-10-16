@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+
 using Newtonsoft.Json;
 
 namespace Seemon.Todo.Models.Settings;

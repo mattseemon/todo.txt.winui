@@ -64,7 +64,7 @@ public class TodoSettings : ObservableObject
         get => _confirmBeforeDelete; set => SetProperty(ref _confirmBeforeDelete, value);
     }
 
-    public static TodoSettings Default = new()
+    public static TodoSettings Default => new()
     {
         AddCreatedDate = true,
         DefaultPriority = "None",
