@@ -15,6 +15,7 @@ using Seemon.Todo.Models.Common;
 using Seemon.Todo.Models.Settings;
 using Seemon.Todo.Views.Pages;
 
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 
 namespace Seemon.Todo.ViewModels.Pages;
@@ -48,6 +49,9 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _openRecentCommand;
     private ICommand? _clearRecentCommand;
     private ICommand? _applicationExitCommand;
+
+    private ICommand? _copyToClipboardCommand;
+    private ICommand? _pasteFromClipboardCommad;
 
     private ICommand? _addNewTaskCommand;
     private ICommand? _addMultipleNewTaskCommand;
@@ -106,6 +110,9 @@ public class ShellViewModel : ViewModelBase
     public ICommand OpenRecentCommand => _openRecentCommand ??= RegisterCommand<string>(OnOpenRecent);
     public ICommand ClearRecentCommand => _clearRecentCommand ??= RegisterCommand(OnClearRecent, CanFileClearRecent);
     public ICommand ApplicationExitCommand => _applicationExitCommand ??= RegisterCommand(OnApplicationExit);
+
+    public ICommand CopyToClipboardCommand => _copyToClipboardCommand ??= RegisterCommand(OnCopyToClipboard, CanCopyToClipboard);
+    public ICommand PasteFromClipboardCommad => _pasteFromClipboardCommad ??= RegisterCommand(OnPasteFromClipboard, CanPasteFromClipboard);
 
     public ICommand AddNewTaskCommand => _addNewTaskCommand ??= RegisterCommand(OnAddNewTask, CanAddNewTasks);
     public ICommand AddMultipleNewTasksCommand => _addMultipleNewTaskCommand ??= RegisterCommand(OnAddMultipleNewTasks, CanAddNewTasks);
@@ -208,6 +215,35 @@ public class ShellViewModel : ViewModelBase
     private void OnClearRecent() => _recentFilesService.Clear();
 
     private void OnApplicationExit() => Application.Current.Exit();
+
+    private bool CanCopyToClipboard() => _taskService.SelectedTasks.Count > 0;
+
+    private void OnCopyToClipboard()
+    {
+        var package = new DataPackage();
+
+        var content = string.Join(Environment.NewLine, _taskService.SelectedTasks.Select(t => t.Raw).ToList());
+        package.SetText(content);
+
+        Clipboard.SetContent(package);
+    }
+
+    private bool CanPasteFromClipboard() => Clipboard.GetContent().Contains(StandardDataFormats.Text);
+
+    private async void OnPasteFromClipboard()
+    {
+        var package = Clipboard.GetContent();
+        if (package.Contains(StandardDataFormats.Text))
+        {
+            var text = await package.GetTextAsync();
+            var lines = text.Split(Environment.NewLine);
+
+            foreach (var line in lines)
+            {
+                _taskService.AddTask(line);
+            }
+        }
+    }
 
     private bool CanAddNewTasks() => _taskService.IsLoaded;
 
