@@ -79,6 +79,18 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                 </MenuBarItem>
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Edit">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Edit_Copy" Command="{x:Bind ViewModel.CopyToClipboardCommand}" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="C" Modifiers="Control" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Edit_Paste" Command="{x:Bind ViewModel.PasteFromClipboardCommad}" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="V" Modifiers="Control" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                </MenuBarItem>
                 <MenuBarItem x:Uid="ShellPage_MenuBarItem_Task" KeyTipPlacementMode="Top">
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_New" Command="{x:Bind ViewModel.AddNewTaskCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>

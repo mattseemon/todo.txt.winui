@@ -526,4 +526,22 @@
   <data name="TaskPage_Update_Title" xml:space="preserve">
     <value>Update task</value>
   </data>
+  <data name="ShellPage_MenuBarItem_Edit.AccessKey" xml:space="preserve">
+    <value>E</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Edit.Title" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Edit_Copy.AccessKey" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Edit_Copy.Text" xml:space="preserve">
+    <value>Copy to Clipboard</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Edit_Paste.AccessKey" xml:space="preserve">
+    <value>V</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Edit_Paste.Text" xml:space="preserve">
+    <value>Paste from Clipboard</value>
+  </data>
 </root>
