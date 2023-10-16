@@ -147,8 +147,8 @@ public class ShellViewModel : ViewModelBase
         _recentFilesService.RecentFiles.CollectionChanged += OnRecentFilesCollectionChanged;
 
         _localSettingsService = localSettingsService;
-        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<ViewSettings>(Constants.SETTING_VIEW)).Result ?? ViewSettings.Default;
-        _todoSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<TodoSettings>(Constants.SETTING_TODO)).Result ?? TodoSettings.Default;
+        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
+        _todoSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)
@@ -228,7 +228,7 @@ public class ShellViewModel : ViewModelBase
         Clipboard.SetContent(package);
     }
 
-    private bool CanPasteFromClipboard() => Clipboard.GetContent().Contains(StandardDataFormats.Text);
+    private bool CanPasteFromClipboard() => _taskService.IsLoaded && Clipboard.GetContent().Contains(StandardDataFormats.Text);
 
     private async void OnPasteFromClipboard()
     {
@@ -273,7 +273,7 @@ public class ShellViewModel : ViewModelBase
 
     private async void OnUpdateTask()
     {
-        var model = new Models.Common.BindableModel
+        var model = new BindableModel
         {
             BindableString = _taskService.SelectedTasks.First().Raw,
         };

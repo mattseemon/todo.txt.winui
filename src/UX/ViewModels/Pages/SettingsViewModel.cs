@@ -55,13 +55,13 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
         _systemService = systemService;
         _dialogService = dialogService;
 
-        _appSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<AppSettings>(Constants.SETTING_APPLICATION)).Result ?? AppSettings.Default;
+        _appSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
         _appSettings.PropertyChanged += OnAppSettingsPropertyChanged;
 
-        _todoSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<TodoSettings>(Constants.SETTING_TODO)).Result ?? TodoSettings.Default;
+        _todoSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
         _todoSettings.PropertyChanged += OnTodoSettingsPropertyChanged;
 
-        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync<ViewSettings>(Constants.SETTING_VIEW)).Result ?? ViewSettings.Default;
+        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
         _viewSettings.PropertyChanging += OnViewSettingsPropertyChanging;
 
         SelectedTheme = _themeSelectorService.Theme.ToString();
