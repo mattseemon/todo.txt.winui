@@ -29,9 +29,6 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
 
     private string _selectedTheme = ElementTheme.Default.ToString();
     private bool _textBoxIsFocused = false;
-    private readonly IDictionary<string, string> _priorities;
-
-    public IDictionary<string, string> Priorities => _priorities;
 
     public string SelectedTheme
     {
@@ -43,6 +40,7 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
     public ViewSettings ViewSettings => _viewSettings;
 
     public IList<string> Themes => Enum.GetValues(typeof(ElementTheme)).Cast<ElementTheme>().Select(e => e.ToString()).ToList();
+    public IList<string> Priorities { get; private set; }
 
     public ICommand SwitchThemeCommand => _switchThemeCommand ??= RegisterCommand<SelectionChangedEventArgs>(OnSwitchTheme);
     public ICommand SelectGlobalArchiveFileCommand => _selectGlobalArchiveFileCommand ??= RegisterCommand(OnSelectGlobalArchiveFile);
@@ -64,15 +62,16 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
         _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
         _viewSettings.PropertyChanging += OnViewSettingsPropertyChanging;
 
-        SelectedTheme = _themeSelectorService.Theme.ToString();
-
-        _priorities ??= new Dictionary<string, string>();
-        _priorities.Add("None", "");
-        for (int i = 65; i < 91; i++)
+        Priorities = new List<string>
         {
-            var value = ((char)i).ToString();
-            _priorities.Add(value, value);
+            "None"
+        };
+        for (int i = 65; i < 90; i++)
+        {
+            Priorities.Add(((char)i).ToString());
         }
+
+        SelectedTheme = _themeSelectorService.Theme.ToString();
     }
 
     private async void OnSwitchTheme(SelectionChangedEventArgs? args)

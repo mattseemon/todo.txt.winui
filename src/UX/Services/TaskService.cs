@@ -125,7 +125,7 @@ public class TaskService : ObservableObject, ITaskService
                 }
             }
 
-            if (!string.IsNullOrEmpty(_todoSettings.DefaultPriority) && string.IsNullOrEmpty(tempTask.Priority))
+            if ((_todoSettings.DefaultPriority != "None") && string.IsNullOrEmpty(tempTask.Priority))
             {
                 raw = $"({_todoSettings.DefaultPriority.ToUpper()}) {raw}";
             }
