@@ -7,7 +7,7 @@ namespace Seemon.Todo.Models.Settings;
 public class TodoSettings : ObservableObject
 {
     private bool _addCreatedDate = true;
-    private string _defaultPriority = string.Empty;
+    private string _defaultPriority = "None";
     private bool _archiveCompleted = false;
     private bool _autoArchive = false;
     private bool _enableGlobalArchive = false;

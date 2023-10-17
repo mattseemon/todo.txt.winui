@@ -6,6 +6,6 @@ namespace Seemon.Todo.Helpers.Extensions;
 
 public static class PageExtensions
 {
-    public static IViewModel? GetPageViewModel(this Page page) 
+    public static IViewModel? GetPageViewModel(this Page page)
         => page.GetType().GetProperty("ViewModel")?.GetValue(page, null) as IViewModel;
 }

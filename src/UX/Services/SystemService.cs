@@ -1,9 +1,9 @@
-﻿using Windows.Storage;
+﻿using Seemon.Todo.Contracts.Services;
+using Seemon.Todo.Helpers.Extensions;
+
+using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
-
-using Seemon.Todo.Contracts.Services;
-using Seemon.Todo.Helpers.Extensions;
 
 namespace Seemon.Todo.Services;
 
@@ -19,7 +19,7 @@ public class SystemService : ISystemService
         var window = App.MainWindow;
         var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
         WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
-        
+
         openPicker.FileTypeFilter.Add(".txt");
         openPicker.FileTypeFilter.Add("*");
 
