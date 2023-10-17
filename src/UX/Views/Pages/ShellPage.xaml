@@ -102,6 +102,11 @@
                             <KeyboardAccelerator Key="N" Modifiers="Menu" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_CopyToNewTask" Command="{x:Bind ViewModel.CopyToNewTaskCommand}" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="N" Modifiers="Control,Menu" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Update" Command="{x:Bind ViewModel.UpdateTaskCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="U" Modifiers="None" />
