@@ -55,6 +55,7 @@ public class ShellViewModel : ViewModelBase
 
     private ICommand? _addNewTaskCommand;
     private ICommand? _addMultipleNewTaskCommand;
+    private ICommand? _copyToNewTaskCommand;
     private ICommand? _updateTaskCommand;
     private ICommand? _deleteTaskCommand;
     private ICommand? _toggleCompletedCommand;
@@ -116,6 +117,7 @@ public class ShellViewModel : ViewModelBase
 
     public ICommand AddNewTaskCommand => _addNewTaskCommand ??= RegisterCommand(OnAddNewTask, CanAddNewTasks);
     public ICommand AddMultipleNewTasksCommand => _addMultipleNewTaskCommand ??= RegisterCommand(OnAddMultipleNewTasks, CanAddNewTasks);
+    public ICommand CopyToNewTaskCommand => _copyToNewTaskCommand ??= RegisterCommand(OnCopyToNewTask, CanCopyToNewTask);
     public ICommand UpdateTaskCommand => _updateTaskCommand ??= RegisterCommand(OnUpdateTask, CanUpdateTask);
     public ICommand DeleteTaskCommand => _deleteTaskCommand ??= RegisterCommand(OnDeleteTask, CanDeleteTask);
     public ICommand ToggleCompletedCommand => _toggleCompletedCommand ??= RegisterCommand(OnToggleCompleted, CanToggleCompleted);
@@ -266,6 +268,21 @@ public class ShellViewModel : ViewModelBase
             {
                 _taskService.AddTask(task.Trim());
             }
+        }
+    }
+    private bool CanCopyToNewTask() => _taskService.SelectedTasks.Count == 1;
+
+    private async void OnCopyToNewTask()
+    {
+        var model = new BindableModel
+        {
+            BindableString = _taskService.SelectedTasks[0].Raw,
+        };
+
+        var response = await _dialogService.ShowDialogAsync<TaskPage>("TaskPage_Copy_Title".GetLocalized(), model);
+        if(response != null)
+        {
+            _taskService.AddTask(response.BindableString.Trim());
         }
     }
 

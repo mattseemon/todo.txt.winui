@@ -544,4 +544,13 @@
   <data name="ShellPage_MenuBarItem_Edit_Paste.Text" xml:space="preserve">
     <value>Paste from Clipboard</value>
   </data>
+  <data name="ShellPage_MenuBarItem_Task_CopyToNewTask.AccessKey" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_CopyToNewTask.Text" xml:space="preserve">
+    <value>Copy Task to a New Task</value>
+  </data>
+  <data name="TaskPage_Copy_Title" xml:space="preserve">
+    <value>Copy task to a new task</value>
+  </data>
 </root>
