@@ -8,7 +8,14 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:helpers="using:Seemon.Todo.Helpers.Views"
     xmlns:local="using:Seemon.Todo.Models"
+    x:Name="ThisPage"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Style TargetType="ListViewItem" x:Key="ListViewItemStyle" BasedOn="{StaticResource DefaultListViewItemStyle}">
+            <Setter Property="FontSize" Value="{x:Bind ViewModel.FontSize}"/>
+            <Setter Property="FontFamily" Value="{x:Bind ViewModel.Font}"/>
+        </Style>
+    </Page.Resources>
     <Grid x:Name="ContentArea" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -19,11 +26,11 @@
                   Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" 
                   BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" 
                   BorderThickness="0 0 0 0"
-                  helpers:FocusHelper.IsFocused="True">
+                  helpers:FocusHelper.IsFocused="True" FontFamily="{x:Bind ViewModel.Font, Mode=OneWay}" FontSize="{x:Bind ViewModel.FontSize, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:Task">
-                    <ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" >
-                        <TextBlock Text="{x:Bind Raw}" Margin="0 5 0 5" />
+                    <ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Style="{StaticResource ListViewItemStyle}" >
+                        <TextBlock Text="{x:Bind Raw}" Margin="0 5 0 5"/>
                     </ListViewItem>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -8,21 +8,21 @@ public class FileMonitorService : IFileMonitorService, IDisposable
 {
     public event IFileMonitorService.FileChanged? Changed;
 
-    private readonly ILocalSettingsService? _localSettingsService;
+    private readonly ISettingsService? _settingsService;
     private FileSystemWatcher? _watcher = null;
     private string? _watchedPath = string.Empty;
     private AppSettings? _appSettings;
 
-    public FileMonitorService(ILocalSettingsService localSettingsService)
+    public FileMonitorService(ISettingsService settingsService)
     {
-        _localSettingsService = localSettingsService;
+        _settingsService = settingsService;
     }
 
     public void WatchFile(string path)
     {
         if (string.IsNullOrEmpty(path)) return;
 
-        _appSettings = Task.Run(() => _localSettingsService?.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
+        _appSettings = Task.Run(() => _settingsService?.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
 
         if (!_appSettings.AutoRefreshFile)
         {

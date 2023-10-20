@@ -8,15 +8,15 @@ namespace Seemon.Todo.Services;
 
 public class RecentFilesService : IRecentFilesService
 {
-    private readonly ILocalSettingsService _localSettingsService;
+    private readonly ISettingsService _settingsService;
     private readonly AppSettings _settings;
 
     public ObservableCollection<RecentFile> RecentFiles => _settings.RecentFiles;
 
-    public RecentFilesService(ILocalSettingsService localSettingsService)
+    public RecentFilesService(ISettingsService settingsService)
     {
-        _localSettingsService = localSettingsService;
-        _settings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
+        _settingsService = settingsService;
+        _settings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
     }
 
     public async void Add(string path)
@@ -33,7 +33,7 @@ public class RecentFilesService : IRecentFilesService
             recent.LastAccessed = DateTime.Now;
         }
         SortAndTrimRecents();
-        await _localSettingsService.SaveSettingAsync(Constants.SETTING_APPLICATION, _settings);
+        await _settingsService.SetAsync(Constants.SETTING_APPLICATION, _settings);
     }
 
     public async void Remove(string path)
@@ -42,13 +42,13 @@ public class RecentFilesService : IRecentFilesService
         if (recent == null) return;
 
         _settings.RecentFiles.Remove(recent);
-        await _localSettingsService.SaveSettingAsync(Constants.SETTING_APPLICATION, _settings);
+        await _settingsService.SetAsync(Constants.SETTING_APPLICATION, _settings);
     }
 
     public async void Clear()
     {
         _settings.RecentFiles.Clear();
-        await _localSettingsService.SaveSettingAsync(Constants.SETTING_APPLICATION, _settings);
+        await _settingsService.SetAsync(Constants.SETTING_APPLICATION, _settings);
     }
 
     private void SortAndTrimRecents()

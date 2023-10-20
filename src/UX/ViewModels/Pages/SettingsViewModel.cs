@@ -1,8 +1,10 @@
 ﻿using System.Windows.Input;
 
+using Microsoft.Graphics.Canvas.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Contracts.ViewModels;
@@ -15,7 +17,7 @@ namespace Seemon.Todo.ViewModels.Pages;
 public class SettingsViewModel : ViewModelBase, INavigationAware
 {
     private readonly IThemeSelectorService _themeSelectorService;
-    private readonly ILocalSettingsService _localSettingsService;
+    private readonly ISettingsService _settingsService;
     private readonly ISystemService _systemService;
     private readonly IDialogService _dialogService;
 
@@ -29,6 +31,7 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
 
     private string _selectedTheme = ElementTheme.Default.ToString();
     private bool _textBoxIsFocused = false;
+    private FontFamily _selectedFont = FontFamily.XamlAutoFontFamily;
 
     public string SelectedTheme
     {
@@ -41,25 +44,30 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
 
     public IList<string> Themes => Enum.GetValues(typeof(ElementTheme)).Cast<ElementTheme>().Select(e => e.ToString()).ToList();
     public IList<string> Priorities { get; private set; }
+    public string[] Fonts => CanvasTextFormat.GetSystemFontFamilies().OrderBy(x => x).ToArray();
+    public FontFamily SelectedFont
+    {
+        get => _selectedFont; set => SetProperty(ref _selectedFont, value);
+    }
 
     public ICommand SwitchThemeCommand => _switchThemeCommand ??= RegisterCommand<SelectionChangedEventArgs>(OnSwitchTheme);
     public ICommand SelectGlobalArchiveFileCommand => _selectGlobalArchiveFileCommand ??= RegisterCommand(OnSelectGlobalArchiveFile);
     public ICommand TextBoxFocusChangedCommand => _textBoxFocusChangedCommand ??= RegisterCommand<string>(OnTextBoxFocusChanged);
 
-    public SettingsViewModel(IThemeSelectorService themeSelectorService, ILocalSettingsService localSettingsService, ISystemService systemService, IDialogService dialogService)
+    public SettingsViewModel(IThemeSelectorService themeSelectorService, ISettingsService settingsService, ISystemService systemService, IDialogService dialogService)
     {
         _themeSelectorService = themeSelectorService;
-        _localSettingsService = localSettingsService;
+        _settingsService = settingsService;
         _systemService = systemService;
         _dialogService = dialogService;
 
-        _appSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
+        _appSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
         _appSettings.PropertyChanged += OnAppSettingsPropertyChanged;
 
-        _todoSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
+        _todoSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
         _todoSettings.PropertyChanged += OnTodoSettingsPropertyChanged;
 
-        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
+        _viewSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
         _viewSettings.PropertyChanging += OnViewSettingsPropertyChanging;
 
         Priorities = new List<string>
@@ -72,6 +80,7 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
         }
 
         SelectedTheme = _themeSelectorService.Theme.ToString();
+        SelectedFont = string.IsNullOrEmpty(_appSettings.FontFamily) ? FontFamily.XamlAutoFontFamily : new FontFamily(_appSettings.FontFamily);
     }
 
     private async void OnSwitchTheme(SelectionChangedEventArgs? args)
@@ -91,16 +100,22 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
 
     public void OnNavigatedTo(object parameter) => SelectedTheme = _themeSelectorService.Theme.ToString();
 
-    public void OnNavigatedFrom() { }
+    public async void OnNavigatedFrom() => await _settingsService.PersistAsync();
 
     private async void OnAppSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        => await _localSettingsService.SaveSettingAsync(Constants.SETTING_APPLICATION, _appSettings);
+    {
+        if(e.PropertyName == nameof(AppSettings.FontFamily))
+        {
+            SelectedFont = new FontFamily(_appSettings.FontFamily);
+        }
+        await _settingsService.SetAsync(Constants.SETTING_APPLICATION, _appSettings);
+    }
 
     private async void OnTodoSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        => await _localSettingsService.SaveSettingAsync(Constants.SETTING_TODO, _todoSettings);
+        => await _settingsService.SetAsync(Constants.SETTING_TODO, _todoSettings);
 
     private async void OnViewSettingsPropertyChanging(object? sender, System.ComponentModel.PropertyChangingEventArgs e)
-        => await _localSettingsService.SaveSettingAsync(Constants.SETTING_VIEW, _viewSettings);
+        => await _settingsService.SetAsync(Constants.SETTING_VIEW, _viewSettings);
 
     public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
     {

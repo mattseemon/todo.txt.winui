@@ -28,16 +28,16 @@ public class AboutViewModel : ViewModelBase
 
     private static string GetVersionDescription()
     {
-        Version version;
+        string version;
         if (RuntimeHelper.IsMSIX)
         {
             var packageVersion = Package.Current.Id.Version;
-            version = new(packageVersion.Major, packageVersion.Minor, packageVersion.Build, packageVersion.Revision);
+            version = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
         }
         else
         {
-            version = Assembly.GetExecutingAssembly().GetName().Version!;
+            version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         }
-        return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+        return version;
     }
 }

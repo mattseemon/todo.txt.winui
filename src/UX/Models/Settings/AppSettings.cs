@@ -14,6 +14,8 @@ public class AppSettings : ObservableObject
     private bool _openRecentOnStartup = false;
     private int _maxRecentFileCount = 10;
     private bool _autoRefreshFile = false;
+    private string _fontFamily = string.Empty;
+    private double _fontSize = 14;
 
     public AppSettings()
     {
@@ -56,6 +58,22 @@ public class AppSettings : ObservableObject
         get => _autoRefreshFile; set => SetProperty(ref _autoRefreshFile, value);
     }
 
+    [JsonProperty("fontFamily")]
+    public string FontFamily
+    {
+        get => _fontFamily;
+        set
+        {
+            SetProperty(ref _fontFamily, value);
+        }
+    }
+
+    [JsonProperty("fontSize")]
+    public double FontSize
+    {
+        get => _fontSize; set => SetProperty(ref _fontSize, value);
+    }
+
     public static AppSettings Default => new()
     {
         Theme = "Default",
@@ -64,5 +82,6 @@ public class AppSettings : ObservableObject
         OpenRecentOnStartup = false,
         MaxRecentFileCount = 10,
         AutoRefreshFile = false,
+        FontFamily = string.Empty,
     };
 }

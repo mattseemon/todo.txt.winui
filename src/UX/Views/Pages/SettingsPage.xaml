@@ -17,14 +17,20 @@
             x:Uid="SettingsPage_Title"
             Style="{StaticResource PageTitleStyle}" />
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0 0 0 24" Padding="0 0 8 0">
-            <StackPanel
-            x:Name="ContentArea">
+            <StackPanel x:Name="ContentArea">
                 <Expander x:Uid="SettingsPage_Appearance" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" AccessKey="A">
                     <Grid>
+                        
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="400" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="42" />
+                            <RowDefinition Height="42" />
+                            <RowDefinition Height="42" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
                         <TextBlock x:Uid="SettingsPage_Appearance_Theme" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="0" VerticalAlignment="Center"  />
                         <ComboBox Grid.Column="1" MaxWidth="200" MinWidth="200" HorizontalAlignment="Left" ItemsSource="{x:Bind ViewModel.Themes, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}" AccessKey="L">
                             <i:Interaction.Behaviors>
@@ -33,6 +39,11 @@
                                 </ic:EventTriggerBehavior>
                             </i:Interaction.Behaviors>
                         </ComboBox>
+                        <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_Appearance_FontFamily" VerticalAlignment="Center" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" MinWidth="200" ItemsSource="{x:Bind ViewModel.Fonts}" IsEditable="True" VerticalAlignment="Center" SelectedItem="{x:Bind ViewModel.AppSettings.FontFamily, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" x:Uid="SettingsPage_Appearance_FontSize" VerticalAlignment="Center" />
+                        <NumberBox Grid.Row="2" Grid.Column="1" Minimum="8" Maximum="72" VerticalAlignment="Center" MinWidth="200" MaxWidth="200" HorizontalAlignment="Left" SpinButtonPlacementMode="Inline" Value="{x:Bind ViewModel.AppSettings.FontSize, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="3" Grid.Column="1" Margin="0 6 0 0" TextWrapping="WrapWholeWords" VerticalAlignment="Center" FontFamily="{x:Bind ViewModel.SelectedFont, Mode=OneWay}" FontSize="{x:Bind ViewModel.AppSettings.FontSize, Mode=OneWay}" Text="The quick brown fox jumps over the lazy dog" />    
                     </Grid>
                 </Expander>
                 <Expander x:Uid="SettingsPage_Application" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" AccessKey="P">

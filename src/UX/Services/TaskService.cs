@@ -20,7 +20,7 @@ public class TaskService : ObservableObject, ITaskService
     public event EventHandler<string>? Loaded;
     public event EventHandler? CollectionChanged;
 
-    private readonly ILocalSettingsService? _localSettingsService;
+    private readonly ISettingsService? _settingsService;
     private readonly IFileMonitorService? _fileMonitorService;
     private readonly IRecentFilesService? _recentFilesService;
 
@@ -37,9 +37,9 @@ public class TaskService : ObservableObject, ITaskService
 
     private bool _isLoaded = false;
 
-    public TaskService(ILocalSettingsService localSettingsService, IFileMonitorService fileMonitorService, IRecentFilesService recentFilesService)
+    public TaskService(ISettingsService settingsService, IFileMonitorService fileMonitorService, IRecentFilesService recentFilesService)
     {
-        _localSettingsService = localSettingsService;
+        _settingsService = settingsService;
 
         _fileMonitorService = fileMonitorService;
         _fileMonitorService.Changed += OnFileMonitorServiceChanged;
@@ -48,8 +48,8 @@ public class TaskService : ObservableObject, ITaskService
 
         _activeTasks = new ObservableCollection<Task>();
         _activeTasks.CollectionChanged += OnActiveTasksCollectionChanged;
-        _todoSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
-        _appSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
+        _todoSettings = System.Threading.Tasks.Task.Run(() => _settingsService.GetAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
+        _appSettings = System.Threading.Tasks.Task.Run(() => _settingsService.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
         _appSettings.PropertyChanged += OnAppSettingsPropertyChanged;
 
         IsLoaded = false;
@@ -652,7 +652,7 @@ public class TaskService : ObservableObject, ITaskService
 
     private string GetArchivePath()
     {
-        _todoSettings = System.Threading.Tasks.Task.Run(() => _localSettingsService?.ReadSettingAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
+        _todoSettings = System.Threading.Tasks.Task.Run(() => _settingsService?.GetAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
         if (_todoSettings.EnableGlobalArchive && File.Exists(_todoSettings.GlobalArchiveFilePath))
         {
             return _todoSettings.GlobalArchiveFilePath;

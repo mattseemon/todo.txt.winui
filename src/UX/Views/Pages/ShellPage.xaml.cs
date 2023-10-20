@@ -4,8 +4,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 
 using Seemon.Todo.Contracts.Services;
-using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
+using Seemon.Todo.Helpers.Views;
 using Seemon.Todo.ViewModels.Pages;
 
 using Windows.System;

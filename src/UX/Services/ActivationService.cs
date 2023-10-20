@@ -13,13 +13,16 @@ public class ActivationService : IActivationService
     private readonly ActivationHandler<LaunchActivatedEventArgs> _defaultHandler;
     private readonly IEnumerable<IActivationHandler> _activationHandlers;
     private readonly IThemeSelectorService _themeSelectorService;
+    private readonly ISettingsService _settingsService;
     private UIElement? _shell = null;
 
-    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService)
+    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, 
+        IThemeSelectorService themeSelectorService, ISettingsService settingsService)
     {
         _defaultHandler = defaultHandler;
         _activationHandlers = activationHandlers;
         _themeSelectorService = themeSelectorService;
+        _settingsService = settingsService;
     }
 
     public async Task ActivateAsync(object activationArgs)
@@ -42,6 +45,11 @@ public class ActivationService : IActivationService
 
         // Execute tasks after activation.
         await StartupAsync();
+    }
+
+    public async Task DeactivateAsync()
+    {
+        await _settingsService.PersistAsync();
     }
 
     private async Task HandleActivationAsync(object activationArgs)

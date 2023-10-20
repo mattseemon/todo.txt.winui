@@ -1,8 +1,8 @@
 ﻿namespace Seemon.Todo.Models.Settings;
 
-public class LocalSettingsOptions
+public class FileSettingsOptions
 {
     public string? ApplicationDataFolder { get; set; }
 
-    public string? LocalSettingsFile { get; set; }
+    public string? SettingsFile { get; set; }
 }

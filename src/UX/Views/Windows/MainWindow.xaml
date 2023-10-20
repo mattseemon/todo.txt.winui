@@ -8,6 +8,7 @@
     MinWidth="1024" MinHeight="768"
     Width="1024" Height="768"
     PersistenceId="MainWindow"
+    Closed="OnWindowClosed"
     mc:Ignorable="d">
     <Window.SystemBackdrop>
         <MicaBackdrop />
