@@ -54,7 +54,7 @@ public partial class App : Application
             // Other Activation Handlers
 
             // Services
-            services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
+            services.AddSingleton<ISettingsService, SettingsService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();
@@ -89,7 +89,7 @@ public partial class App : Application
             services.AddTransient<PostponePage>();
 
             // Configuration
-            services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
+            services.Configure<FileSettingsOptions>(context.Configuration.GetSection(nameof(FileSettingsOptions)));
         }).
         Build();
 

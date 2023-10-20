@@ -2,6 +2,7 @@
 
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers.Common;
+using Seemon.Todo.Helpers.Views;
 using Seemon.Todo.Models.Settings;
 
 namespace Seemon.Todo.Services;
@@ -10,10 +11,10 @@ public class ThemeSelectorService : IThemeSelectorService
 {
     public ElementTheme Theme { get; set; } = ElementTheme.Default;
 
-    private readonly ILocalSettingsService _localSettingsService;
+    private readonly ISettingsService _settingsService;
 
-    public ThemeSelectorService(ILocalSettingsService localSettingsService)
-        => _localSettingsService = localSettingsService;
+    public ThemeSelectorService(ISettingsService settingsService)
+        => _settingsService = settingsService;
 
     public async Task InitializeAsync()
     {
@@ -43,7 +44,7 @@ public class ThemeSelectorService : IThemeSelectorService
 
     private async Task<ElementTheme> LoadThemeFromSettingsAsync()
     {
-        var appSettings = await _localSettingsService.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default);
+        var appSettings = await _settingsService.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default);
 
         if (Enum.TryParse(appSettings?.Theme, out ElementTheme cacheTheme))
         {
@@ -55,7 +56,7 @@ public class ThemeSelectorService : IThemeSelectorService
 
     private async Task SaveThemeInSettingsAsync(ElementTheme theme)
     {
-        var appSettings = await _localSettingsService.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default);
+        var appSettings = await _settingsService.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default);
         appSettings.Theme = theme.ToString();
     }
 }

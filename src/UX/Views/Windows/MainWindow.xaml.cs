@@ -1,6 +1,6 @@
-﻿using Seemon.Todo.Helpers.Common;
+﻿using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers.Extensions;
-
+using Seemon.Todo.Helpers.Views;
 using Windows.UI.ViewManagement;
 
 using WinUIEx;
@@ -36,5 +36,10 @@ public sealed partial class MainWindow : WindowEx
         {
             TitleBarHelper.ApplySystemThemeToCaptionButtons();
         });
+    }
+
+    private void OnWindowClosed(object sender, Microsoft.UI.Xaml.WindowEventArgs args)
+    {
+        App.GetService<IActivationService>().DeactivateAsync();
     }
 }

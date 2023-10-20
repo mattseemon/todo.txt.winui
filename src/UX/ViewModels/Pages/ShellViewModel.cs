@@ -26,7 +26,7 @@ public class ShellViewModel : ViewModelBase
     private readonly ISystemService _systemService;
     private readonly ITaskService _taskService;
     private readonly IRecentFilesService _recentFilesService;
-    private readonly ILocalSettingsService _localSettingsService;
+    private readonly ISettingsService _settingsService;
 
     private readonly ViewSettings _viewSettings;
     private readonly TodoSettings _todoSettings;
@@ -134,7 +134,7 @@ public class ShellViewModel : ViewModelBase
 
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
-    public ShellViewModel(INavigationService navigationService, IDialogService dialogService, ISystemService systemService, ITaskService taskService, IRecentFilesService recentFilesService, ILocalSettingsService localSettingsService)
+    public ShellViewModel(INavigationService navigationService, IDialogService dialogService, ISystemService systemService, ITaskService taskService, IRecentFilesService recentFilesService, ISettingsService settingsService)
     {
         NavigationService = navigationService;
         NavigationService.Navigated += OnNavigated;
@@ -148,9 +148,9 @@ public class ShellViewModel : ViewModelBase
         _recentFilesService = recentFilesService;
         _recentFilesService.RecentFiles.CollectionChanged += OnRecentFilesCollectionChanged;
 
-        _localSettingsService = localSettingsService;
-        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
-        _todoSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
+        _settingsService = settingsService;
+        _viewSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
+        _todoSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)

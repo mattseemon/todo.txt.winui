@@ -553,4 +553,10 @@
   <data name="TaskPage_Copy_Title" xml:space="preserve">
     <value>Copy task to a new task</value>
   </data>
+  <data name="SettingsPage_Appearance_FontFamily.Text" xml:space="preserve">
+    <value>Display font for the task list</value>
+  </data>
+  <data name="SettingsPage_Appearance_FontSize" xml:space="preserve">
+    <value>Display font size for the task list</value>
+  </data>
 </root>

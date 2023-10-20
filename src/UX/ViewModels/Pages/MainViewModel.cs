@@ -4,6 +4,7 @@ using System.Windows.Input;
 using CommunityToolkit.WinUI.UI;
 
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Contracts.ViewModels;
@@ -18,10 +19,13 @@ public class MainViewModel : ViewModelBase, INavigationAware
 {
     private readonly ITaskService _taskService;
     private readonly IRecentFilesService _recentFilesService;
-    private readonly ILocalSettingsService _localSettingsService;
+    private readonly ISettingsService _settingsService;
 
     private AppSettings _appSettings;
     private readonly ViewSettings _viewSettings;
+
+    private FontFamily _fontFamily = FontFamily.XamlAutoFontFamily;
+    private double _fontSize;
 
     private ICommand? _selectionChangedCommand;
     private ICommand? _doubleTappedCommand;
@@ -31,11 +35,22 @@ public class MainViewModel : ViewModelBase, INavigationAware
 
     public AdvancedCollectionView Tasks { get; private set; }
 
-    public MainViewModel(ITaskService taskService, IRecentFilesService recentFilesService, ILocalSettingsService localSettingsService)
+
+    public FontFamily Font
+    {
+        get => _fontFamily; set => SetProperty(ref _fontFamily, value);
+    }
+
+    public double FontSize
+    {
+        get => _fontSize; set => SetProperty(ref _fontSize, value);
+    }
+
+    public MainViewModel(ITaskService taskService, IRecentFilesService recentFilesService, ISettingsService settingsService)
     {
         _taskService = taskService;
         _recentFilesService = recentFilesService;
-        _localSettingsService = localSettingsService;
+        _settingsService = settingsService;
 
         _taskService.Loaded += OnTasksLoaded;
         _taskService.CollectionChanged += OnCollectionChanged;
@@ -46,10 +61,14 @@ public class MainViewModel : ViewModelBase, INavigationAware
         };
         Tasks.SortDescriptions.Clear();
 
-        _viewSettings = Task.Run(() => _localSettingsService.ReadSettingAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
+        _viewSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
         _viewSettings.PropertyChanged += OnViewSettingsPropertyChanged;
 
-        _appSettings = Task.Run(() => _localSettingsService?.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
+        _appSettings = Task.Run(() => _settingsService?.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
+        _appSettings.PropertyChanged += OnAppSettingsPropertyChanged;
+        Font = string.IsNullOrEmpty(_appSettings.FontFamily) ? FontFamily.XamlAutoFontFamily : new FontFamily(_appSettings.FontFamily);
+        FontSize = _appSettings.FontSize;
+
         if (_appSettings.OpenRecentOnStartup && !_taskService.IsLoaded)
         {
             var recent = _recentFilesService.RecentFiles.FirstOrDefault();
@@ -64,6 +83,18 @@ public class MainViewModel : ViewModelBase, INavigationAware
                     _recentFilesService.Remove(recent.Path);
                 }
             }
+        }
+    }
+
+    private void OnAppSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if(e.PropertyName == nameof(AppSettings.FontFamily)) 
+        { 
+            Font = new FontFamily(_appSettings.FontFamily);
+        }
+        if (e.PropertyName == nameof(AppSettings.FontSize))
+        {
+            FontSize = _appSettings.FontSize;
         }
     }
 
@@ -112,7 +143,7 @@ public class MainViewModel : ViewModelBase, INavigationAware
 
     public void OnNavigatedTo(object parameter)
     {
-        _appSettings = Task.Run(() => _localSettingsService?.ReadSettingAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
+        _appSettings = Task.Run(() => _settingsService?.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
         Tasks.Refresh();
     }
 

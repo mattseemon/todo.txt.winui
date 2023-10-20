@@ -9,9 +9,9 @@
     <Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Nullable>enable</Nullable>
-	<UseWinUI>true</UseWinUI>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+	  <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <IsPublishable>False</IsPublishable>
@@ -23,7 +23,7 @@
     <Product>Seemon.Todo</Product>
     <PackageId>Seemon.Todo</PackageId>
     <Title>Todo</Title>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <Description>An implementation of todo.txt client for Windows</Description>
     <Copyright>© Copyright 2023, Matt Seemon. All rights reserved.</Copyright>
     <PackageIcon>Todo-128.png</PackageIcon>
@@ -32,11 +32,10 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>todo;todo.txt</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <AssemblyVersion>0.2.0</AssemblyVersion>
-    <FileVersion>0.2.0</FileVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <UserSecretsId>fe5c29c4-3b5e-4fab-91fa-dc0d9e75a78b</UserSecretsId>
     <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\Todo-128.png" />
@@ -62,6 +61,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -77,6 +77,10 @@
     </None>
     <None Update="Assets\Todo-256.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Versioning\AssemblyInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
     </None>
     <Page Update="Views\Pages\PostponePage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -124,6 +128,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Versioning\AssemblyInfo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
