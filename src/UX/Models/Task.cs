@@ -4,7 +4,7 @@ using Seemon.Todo.Helpers.Extensions;
 
 namespace Seemon.Todo.Models;
 
-public class Task : ObservableObject
+public class Task : ObservableObject, IComparable<Task>
 {
     private bool _isSelected = false;
 
@@ -79,14 +79,30 @@ public class Task : ObservableObject
         get => _projects; set => SetProperty(ref _projects, value);
     }
 
+    public string PrimaryProject
+    {
+        get => _projects != null && _projects.Count > 0 ? _projects[0] : string.Empty;
+    }
+
     public List<string> Contexts
     {
         get => _contexts; set => SetProperty(ref _contexts, value);
     }
 
+    public string PrimaryContext
+    {
+        get => _contexts != null && _contexts.Count > 0 ? _contexts[0] : string.Empty;
+    }
+
     public IDictionary<string, string> Metadata
     {
         get => _metadata; set => SetProperty(ref _metadata, value);
+    }
+
+    public int CompareTo(Task? other)
+    {
+        
+        return this.CompareTo(other as Task);
     }
 
     public string GetFormattedRaw()

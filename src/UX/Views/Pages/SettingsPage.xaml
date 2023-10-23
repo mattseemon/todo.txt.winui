@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:converters="using:Seemon.Todo.Helpers.Converters"
     mc:Ignorable="d">
     <Grid Margin="{StaticResource MenuBarContentMargin}" >
         <Grid.RowDefinitions>
@@ -131,8 +132,19 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="400" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Uid="SettingsPage_View_CaseSensitive" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="0" VerticalAlignment="Center"  />
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="42" />
+                            <RowDefinition Height="42" />
+                            <RowDefinition Height="42" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_View_CaseSensitive" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center"  />
                         <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.CaseSensitive, Mode=TwoWay}" AccessKey="X" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_View_Sort" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" MinWidth="200" ItemsSource="{x:Bind ViewModel.SortOptions, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedSortOption, Mode=TwoWay}"
+                                  DisplayMemberPath="Description" SelectedValuePath="Value" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" x:Uid="SettingsPage_View_SortDirection" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" />
+                        <ComboBox Grid.Row="2" Grid.Column="1" MinWidth="200" ItemsSource="{x:Bind ViewModel.SortDirections, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedSortDirection, Mode=TwoWay}"
+                                  DisplayMemberPath="Description" SelectedValuePath="Value" />
                     </Grid>
                 </Expander>
             </StackPanel>

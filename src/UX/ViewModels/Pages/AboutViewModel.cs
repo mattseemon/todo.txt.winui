@@ -36,7 +36,8 @@ public class AboutViewModel : ViewModelBase
         }
         else
         {
-            version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            var assemblyVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+            version = assemblyVersion != null ? assemblyVersion.InformationalVersion : "1.0.0.0";
         }
         return version;
     }

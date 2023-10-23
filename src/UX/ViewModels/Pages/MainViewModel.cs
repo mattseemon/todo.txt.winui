@@ -9,9 +9,12 @@ using Microsoft.UI.Xaml.Media;
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Contracts.ViewModels;
 using Seemon.Todo.Helpers.Common;
+using Seemon.Todo.Helpers.Comparers;
 using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Helpers.ViewModels;
 using Seemon.Todo.Models.Settings;
+
+using SortDirection = CommunityToolkit.WinUI.UI.SortDirection;
 
 namespace Seemon.Todo.ViewModels.Pages;
 
@@ -52,6 +55,12 @@ public class MainViewModel : ViewModelBase, INavigationAware
         _recentFilesService = recentFilesService;
         _settingsService = settingsService;
 
+        _viewSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
+        _viewSettings.PropertyChanged += OnViewSettingsPropertyChanged;
+
+        _appSettings = Task.Run(() => _settingsService?.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
+        _appSettings.PropertyChanged += OnAppSettingsPropertyChanged;
+
         _taskService.Loaded += OnTasksLoaded;
         _taskService.CollectionChanged += OnCollectionChanged;
 
@@ -59,13 +68,9 @@ public class MainViewModel : ViewModelBase, INavigationAware
         {
             Filter = QuickSearch
         };
-        Tasks.SortDescriptions.Clear();
 
-        _viewSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
-        _viewSettings.PropertyChanged += OnViewSettingsPropertyChanged;
+        SortList();
 
-        _appSettings = Task.Run(() => _settingsService?.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
-        _appSettings.PropertyChanged += OnAppSettingsPropertyChanged;
         Font = string.IsNullOrEmpty(_appSettings.FontFamily) ? FontFamily.XamlAutoFontFamily : new FontFamily(_appSettings.FontFamily);
         FontSize = _appSettings.FontSize;
 
@@ -88,8 +93,8 @@ public class MainViewModel : ViewModelBase, INavigationAware
 
     private void OnAppSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if(e.PropertyName == nameof(AppSettings.FontFamily)) 
-        { 
+        if (e.PropertyName == nameof(AppSettings.FontFamily))
+        {
             Font = new FontFamily(_appSettings.FontFamily);
         }
         if (e.PropertyName == nameof(AppSettings.FontSize))
@@ -110,6 +115,76 @@ public class MainViewModel : ViewModelBase, INavigationAware
         {
             Tasks.Refresh();
         }
+    }
+
+    public void SortList()
+    {
+        Tasks.SortDescriptions.Clear();
+
+        SortDirection direction = _viewSettings.CurrentSortDirection == Models.Settings.SortDirection.Ascending ? SortDirection.Ascending : SortDirection.Descending;
+
+        switch (_viewSettings.CurrentSort)
+        {
+            case SortOptions.Alphabetical:
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Raw), direction));
+                break;
+            case SortOptions.Completed:
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
+                break;
+            case SortOptions.Priority:
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
+                break;
+            case SortOptions.Context:
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.PrimaryContext), direction, new TodoStringComparer()));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
+                break;
+            case SortOptions.Project:
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.PrimaryProject), direction, new TodoStringComparer()));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
+                break;
+            case SortOptions.Created:
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                break;
+            case SortOptions.Due:
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
+                break;
+            case SortOptions.Threshold:
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
+                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
+                break;
+            default:
+                Tasks.SortDescriptions.Add(new SortDescription(direction, new TodoIndexComparer()));
+                break;
+
+        }
+        Tasks.RefreshSorting();
     }
 
     private bool QuickSearch(object item)

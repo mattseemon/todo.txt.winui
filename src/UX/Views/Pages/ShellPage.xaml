@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:Seemon.Todo.Helpers.Converters"
     xmlns:helpers="using:Seemon.Todo.Helpers.Views"
+    xmlns:models="using:Seemon.Todo.Models.Settings"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     Loaded="OnLoaded"
@@ -13,6 +14,8 @@
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:EnumToBooleanConverter x:Key="SortOptionsConverter" EnumType="models:SortOptions" />
+        <converters:EnumToBooleanConverter x:Key="SortDirectionConverter" EnumType="models:SortDirection" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -79,7 +82,7 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                 </MenuBarItem>
-                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Edit">
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Edit" KeyTipPlacementMode="Top">
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Edit_Copy" Command="{x:Bind ViewModel.CopyToClipboardCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="C" Modifiers="Control" />
@@ -206,6 +209,75 @@
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                     </MenuFlyoutSubItem>
+                </MenuBarItem>
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Sort" KeyTipPlacementMode="Top">
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_File" GroupName="TaskSort" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource SortOptionsConverter}, ConverterParameter=None}" KeyTipPlacementMode="Left"
+                                         Command="{x:Bind ViewModel.SortOptionCommand}" CommandParameter="None">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number0" Modifiers="Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_Alphabetical" GroupName="TaskSort" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource SortOptionsConverter}, ConverterParameter=Alphabetical}" KeyTipPlacementMode="Left"
+                                         Command="{x:Bind ViewModel.SortOptionCommand}" CommandParameter="Alphabetical">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number1" Modifiers="Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_Completed" GroupName="TaskSort" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource SortOptionsConverter}, ConverterParameter=Completed}" KeyTipPlacementMode="Left"
+                                         Command="{x:Bind ViewModel.SortOptionCommand}" CommandParameter="Completed">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number2" Modifiers="Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_Priority" GroupName="TaskSort" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource SortOptionsConverter}, ConverterParameter=Priority}" KeyTipPlacementMode="Left"
+                                         Command="{x:Bind ViewModel.SortOptionCommand}" CommandParameter="Priority">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number3" Modifiers="Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_Context" GroupName="TaskSort" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource SortOptionsConverter}, ConverterParameter=Context}" KeyTipPlacementMode="Left"
+                                         Command="{x:Bind ViewModel.SortOptionCommand}" CommandParameter="Context">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number4" Modifiers="Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_Project" GroupName="TaskSort" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource SortOptionsConverter}, ConverterParameter=Project}" KeyTipPlacementMode="Left"
+                                         Command="{x:Bind ViewModel.SortOptionCommand}" CommandParameter="Project">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number5" Modifiers="Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_CreatedDate" GroupName="TaskSort" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource SortOptionsConverter}, ConverterParameter=Created}" KeyTipPlacementMode="Left"
+                                         Command="{x:Bind ViewModel.SortOptionCommand}" CommandParameter="Created">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number6" Modifiers="Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_DueDate" GroupName="TaskSort" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource SortOptionsConverter}, ConverterParameter=Due}" KeyTipPlacementMode="Left"
+                                         Command="{x:Bind ViewModel.SortOptionCommand}" CommandParameter="Due">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number7" Modifiers="Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_ThresholdDate" GroupName="TaskSort" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource SortOptionsConverter}, ConverterParameter=Threshold}" KeyTipPlacementMode="Left"
+                                         Command="{x:Bind ViewModel.SortOptionCommand}" CommandParameter="Threshold">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number8" Modifiers="Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <MenuFlyoutSeparator />
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_SortAscending" GroupName="TaskSortOrder" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSortDirection, Mode=OneWay, Converter={StaticResource SortDirectionConverter}, ConverterParameter=Ascending}" KeyTipPlacementMode="Left"
+                                         Command="{x:Bind ViewModel.SortDirectionCommand}" CommandParameter="Ascending">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="A" Modifiers="Control,Menu" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_SortDescending" GroupName="TaskSortOrder" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSortDirection, Mode=OneWay, Converter={StaticResource SortDirectionConverter}, ConverterParameter=Descending}" KeyTipPlacementMode="Left"
+                                         Command="{x:Bind ViewModel.SortDirectionCommand}" CommandParameter="Descending">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="D" Modifiers="Control,Menu" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
                 </MenuBarItem>
             </MenuBar>
             <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 4 0" 
