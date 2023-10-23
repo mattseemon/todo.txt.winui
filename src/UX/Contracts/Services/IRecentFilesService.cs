@@ -8,9 +8,11 @@ public interface IRecentFilesService
 {
     ObservableCollection<RecentFile> RecentFiles { get; }
 
-    void Add(string path);
+    void AddAsync(string path);
 
-    void Remove(string path);
+    void RemoveAsync(string path);
 
-    void Clear();
+    void ClearAsync();
+
+    void SortAndTrimRecents();
 }
