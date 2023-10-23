@@ -10,14 +10,8 @@ public class RecentFile : ObservableObject
     private DateTime _lastAccessed = DateTime.Today;
 
     [JsonProperty("path")]
-    public string Path
-    {
-        get => _path; set => SetProperty(ref _path, value);
-    }
+    public string Path { get => _path; set => SetProperty(ref _path, value); }
 
     [JsonProperty("lastAccessed")]
-    public DateTime LastAccessed
-    {
-        get => _lastAccessed; set => SetProperty(ref _lastAccessed, value);
-    }
+    public DateTime LastAccessed { get => _lastAccessed; set => SetProperty(ref _lastAccessed, value); }
 }

@@ -149,7 +149,7 @@
     <value>I</value>
   </data>
   <data name="ShellPage_AppBarButton_Settings.AccessKey" xml:space="preserve">
-    <value>S</value>
+    <value>O</value>
   </data>
   <data name="AboutPage_Title.Text" xml:space="preserve">
     <value>About Todo</value>
@@ -558,5 +558,89 @@
   </data>
   <data name="SettingsPage_Appearance_FontSize" xml:space="preserve">
     <value>Display font size for the task list</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort.AccessKey" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort.Title" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_Alphabetical.AccessKey" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_Alphabetical.Text" xml:space="preserve">
+    <value>Alphabetical</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_Completed.AccessKey" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_Completed.Text" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_Context.AccessKey" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_Context.Text" xml:space="preserve">
+    <value>Contexts</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_CreatedDate.AccessKey" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_CreatedDate.Text" xml:space="preserve">
+    <value>Created Date</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_DueDate.AccessKey" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_DueDate.Text" xml:space="preserve">
+    <value>Due Date</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_File.AccessKey" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_File.Text" xml:space="preserve">
+    <value>Order in File</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_Priority.AccessKey" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_Priority.Text" xml:space="preserve">
+    <value>Priorities</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_Project.AccessKey" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_Project.Text" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_ShowInGroups.AccessKey" xml:space="preserve">
+    <value>G</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_ShowInGroups.Text" xml:space="preserve">
+    <value>Show in Groups</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_SortAscending.AccessKey" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_SortAscending.Text" xml:space="preserve">
+    <value>Sort Ascending</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_SortDescending.AccessKey" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_SortDescending.Text" xml:space="preserve">
+    <value>Sort Descending</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_ThresholdDate.AccessKey" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Sort_ThresholdDate.Text" xml:space="preserve">
+    <value>Threshold Date</value>
+  </data>
+  <data name="SettingsPage_View_Sort.Text" xml:space="preserve">
+    <value>Sort task list on</value>
+  </data>
+  <data name="SettingsPage_View_SortDirection.Text" xml:space="preserve">
+    <value>Sort direction</value>
   </data>
 </root>

@@ -70,6 +70,9 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _decreaseDateCommand;
     private ICommand? _clearDateCommand;
 
+    private ICommand? _sortOptionCommand;
+    private ICommand? _sortDirectionCommand;
+
     private ICommand? _featureNotImplementedCommand;
 
     public bool IsBackEnabled
@@ -131,6 +134,9 @@ public class ShellViewModel : ViewModelBase
     public ICommand IncreaseDateCommad => _increaseDateCommand ??= RegisterCommand<string>(OnIncreaseDate, CanIncreaseDate);
     public ICommand DecreaseDateCommad => _decreaseDateCommand ??= RegisterCommand<string>(OnDecreaseDate, CanDecreaseDate);
     public ICommand ClearDateCommand => _clearDateCommand ??= RegisterCommand<string>(OnClearDate, CanClearDate);
+
+    public ICommand SortOptionCommand => _sortOptionCommand ??= RegisterCommand<string>(OnSortOption);
+    public ICommand SortDirectionCommand => _sortDirectionCommand ??= RegisterCommand<string>(OnSortDirection);
 
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
@@ -280,7 +286,7 @@ public class ShellViewModel : ViewModelBase
         };
 
         var response = await _dialogService.ShowDialogAsync<TaskPage>("TaskPage_Copy_Title".GetLocalized(), model);
-        if(response != null)
+        if (response != null)
         {
             _taskService.AddTask(response.BindableString.Trim());
         }
@@ -500,6 +506,19 @@ public class ShellViewModel : ViewModelBase
             _taskService.SetDate(task, string.Empty, type);
         }
     }
+
+    private void OnSortOption(string? sortOption)
+    {
+        _viewSettings.CurrentSort = (SortOptions)Enum.Parse(typeof(SortOptions), sortOption ?? "None");
+        App.GetService<MainViewModel>().SortList();
+    }
+
+    private void OnSortDirection(string? sortDirection)
+    {
+        _viewSettings.CurrentSortDirection = (SortDirection)Enum.Parse(typeof(SortDirection), sortDirection ?? "Ascending");
+        App.GetService<MainViewModel>().SortList();
+    }
+
 
     private async void OnFeatureNotImplemented(string? feature) => await _dialogService.ShowFeatureNotImpletmented(feature ?? "Feature_Not_Implemented_Title".GetLocalized());
 

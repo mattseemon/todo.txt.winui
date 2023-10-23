@@ -16,7 +16,7 @@ public class ActivationService : IActivationService
     private readonly ISettingsService _settingsService;
     private UIElement? _shell = null;
 
-    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, 
+    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers,
         IThemeSelectorService themeSelectorService, ISettingsService settingsService)
     {
         _defaultHandler = defaultHandler;

@@ -41,6 +41,7 @@ Package|Version|Licenses
 [CommunityToolkit.Mvvm](#communitytoolkitmvvm)|8.2.1|MIT
 [CommunityToolkit.WinUI.UI](#communitytoolkitwinuiui)|7.1.2|MIT
 [Microsoft.Extensions.Hosting](#microsoftextensionshosting)|7.0.1|MIT
+[Microsoft.Graphics.Win2D](#microsoftgraphicswin2d)|1.0.5.1|MIT
 [Microsoft.WindowsAppSDK](#microsoftwindowsappsdk)|1.4.2|MIT
 [Microsoft.Xaml.Behaviors.WinUI.Managed](#microsoftxamlbehaviorswinuimanaged)|2.0.9|MIT
 [Newtonsoft.Json](#newtonsoftjson)|13.0.3|MIT
@@ -175,6 +176,47 @@ Hosting and startup infrastructures for applications.
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
     ```
+[Back to Top](#complete-list-of-credits-for-todo)
+
+---
+
+## Microsoft.Graphics.Win2D
+### Description
+Win2D is an easy-to-use Windows Runtime API for immediate mode 2D graphics rendering with GPU acceleration. It is available to C#, C++ and VB developers writing apps for WinUI2 or WinUI3. It utilizes the power of Direct2D, and integrates seamlessly with XAML.
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|1.0.5.1|
+|License|MIT License|
+|Author|Microsoft|
+|Homepage|https://microsoft.github.io/Win2D/html/Introduction.htm|
+### Declared License(s)
+  * MIT
+  ```
+  Win2D
+
+  Copyright (c) Microsoft Corporation. All rights reserved.
+
+  MIT License
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy 
+  of this software and associated documentation files (the ""Software""), to 
+  deal in the Software without restriction, including without limitation the 
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
+  sell copies of the Software, and to permit persons to whom the Software is 
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all 
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+  SOFTWARE.
+  ```
 [Back to Top](#complete-list-of-credits-for-todo)
 
 ---

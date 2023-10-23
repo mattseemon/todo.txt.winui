@@ -15,16 +15,10 @@ public class TodoSettings : ObservableObject
     private bool _confirmBeforeDelete = true;
 
     [JsonProperty("addCreatedDate")]
-    public bool AddCreatedDate
-    {
-        get => _addCreatedDate; set => SetProperty(ref _addCreatedDate, value);
-    }
+    public bool AddCreatedDate { get => _addCreatedDate; set => SetProperty(ref _addCreatedDate, value); }
 
     [JsonProperty("defaultPriority")]
-    public string DefaultPriority
-    {
-        get => _defaultPriority; set => SetProperty(ref _defaultPriority, value);
-    }
+    public string DefaultPriority { get => _defaultPriority; set => SetProperty(ref _defaultPriority, value); }
 
     [JsonProperty("archiveCompleted")]
     public bool ArchiveCompleted
@@ -41,28 +35,16 @@ public class TodoSettings : ObservableObject
     }
 
     [JsonProperty("autoArchive")]
-    public bool AutoArchive
-    {
-        get => _autoArchive; set => SetProperty(ref _autoArchive, value);
-    }
+    public bool AutoArchive { get => _autoArchive; set => SetProperty(ref _autoArchive, value); }
 
     [JsonProperty("enableGlobalArchive")]
-    public bool EnableGlobalArchive
-    {
-        get => _enableGlobalArchive; set => SetProperty(ref _enableGlobalArchive, value);
-    }
+    public bool EnableGlobalArchive { get => _enableGlobalArchive; set => SetProperty(ref _enableGlobalArchive, value); }
 
     [JsonProperty("globalArchiveFilePath")]
-    public string GlobalArchiveFilePath
-    {
-        get => _globalArchiveFilePath; set => SetProperty(ref _globalArchiveFilePath, value);
-    }
+    public string GlobalArchiveFilePath { get => _globalArchiveFilePath; set => SetProperty(ref _globalArchiveFilePath, value); }
 
     [JsonProperty("confirmBeforeDelete")]
-    public bool ConfirmBeleteDelete
-    {
-        get => _confirmBeforeDelete; set => SetProperty(ref _confirmBeforeDelete, value);
-    }
+    public bool ConfirmBeleteDelete { get => _confirmBeforeDelete; set => SetProperty(ref _confirmBeforeDelete, value); }
 
     public static TodoSettings Default => new()
     {

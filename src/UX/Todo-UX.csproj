@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows10.0.18362.0</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>Seemon.Todo</RootNamespace>
     <ApplicationIcon>Assets\Todo.ico</ApplicationIcon>
@@ -34,9 +34,13 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <UserSecretsId>fe5c29c4-3b5e-4fab-91fa-dc0d9e75a78b</UserSecretsId>
-    <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Helpers\Views\AdvancedCollectionViewEx.cs" />
+    <Compile Remove="Helpers\Views\ObservableVector.cs" />
+  </ItemGroup>
   <ItemGroup>
     <Content Remove="Assets\Todo-128.png" />
     <Content Remove="Assets\Todo-256.png" />
