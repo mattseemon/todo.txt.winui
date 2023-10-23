@@ -35,6 +35,7 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
     private FontFamily _selectedFont = FontFamily.XamlAutoFontFamily;
     private ValueDescription? _selectedSortOption = null;
     private ValueDescription? _selectedSortDirection = null;
+    private ValueDescription? _selectedPriority = null;
 
     public AppSettings AppSettings => _appSettings;
     public TodoSettings TodoSettings => _todoSettings;
@@ -43,10 +44,20 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
     public IList<string> Themes { get; private set; }
     public string SelectedTheme { get => _selectedTheme; set => SetProperty(ref _selectedTheme, value); }
 
-    public IList<string> Priorities { get; private set; }
 
+    public IList<ValueDescription> Priorities { get; private set; }
     public IList<ValueDescription> SortOptions { get; private set; }
     public IList<ValueDescription> SortDirections { get; private set; }
+
+    public ValueDescription SelectedPriority
+    {
+        get => _selectedPriority;
+        set
+        {
+            SetProperty(ref _selectedPriority, value);
+            TodoSettings.DefaultPriority = value.Value.ToString() ?? string.Empty;
+        }
+    }
 
     public ValueDescription SelectedSortOption
     {
@@ -94,14 +105,16 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
 
         Themes = Enum.GetValues(typeof(ElementTheme)).Cast<ElementTheme>().Select(e => e.ToString()).ToList();
 
-        Priorities = new List<string>
+        Priorities = new List<ValueDescription>
         {
-            "None"
+            new ValueDescription{ Value = string.Empty, Description = "None"},
         };
         for (int i = 65; i < 90; i++)
         {
-            Priorities.Add(((char)i).ToString());
+            var val = ((char)i).ToString();
+            Priorities.Add(new ValueDescription { Description = val, Value = val });
         }
+        SelectedPriority = Priorities.FirstOrDefault(p => p.Value.ToString() == TodoSettings.DefaultPriority) ?? Priorities.First();
 
         SortOptions = Enum.GetValues(typeof(SortOptions)).Cast<Enum>().Select((e) => new ValueDescription() { Value = e, Description = e.GetDescription() }).ToList();
         SelectedSortOption = SortOptions.FirstOrDefault(s => s.Value.ToString() == ViewSettings.CurrentSort.ToString()) ?? SortOptions.First();

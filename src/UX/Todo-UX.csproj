@@ -38,6 +38,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Helpers\Converters\EnumToCollectionConverter.cs" />
     <Compile Remove="Helpers\Views\AdvancedCollectionViewEx.cs" />
     <Compile Remove="Helpers\Views\ObservableVector.cs" />
   </ItemGroup>

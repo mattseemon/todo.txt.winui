@@ -355,7 +355,7 @@ public class ShellViewModel : ViewModelBase
         {
             BindableString = !string.IsNullOrEmpty(lastSelectedTask?.Priority)
                 ? lastSelectedTask.Priority
-                : (_todoSettings.DefaultPriority != "None") ? _todoSettings.DefaultPriority.ToString() : "A",
+                : (string.IsNullOrEmpty(_todoSettings.DefaultPriority)) ? _todoSettings.DefaultPriority.ToString() : "A",
         };
         var response = await _dialogService.ShowDialogAsync<PriorityPage>("PriorityPage_Title".GetLocalized(), model);
         if (response != null)
