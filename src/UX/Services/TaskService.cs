@@ -101,7 +101,7 @@ public class TaskService : ObservableObject, ITaskService
         IsLoaded = true;
         Loaded?.Invoke(this, path);
         _fileMonitorService?.WatchFile(_todoPath);
-        _recentFilesService?.Add(path);
+        _recentFilesService?.AddAsync(path);
     }
 
     public void ReloadTasks() => LoadTasks(_todoPath);

@@ -1,4 +1,6 @@
-﻿using Seemon.Todo.Contracts.Services;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Models.Settings;
 
@@ -57,6 +59,8 @@ public class FileMonitorService : IFileMonitorService, IDisposable
         catch { }
     }
 
+    DateTime _lastRead = DateTime.MinValue;
+
     public void UnWatchFile()
     {
         if (_watcher == null) return;
@@ -73,8 +77,13 @@ public class FileMonitorService : IFileMonitorService, IDisposable
 
     private void OnWatchedChanged(object sender, FileSystemEventArgs e)
     {
-        Thread.Sleep(1000);
-        Changed?.Invoke();
+        DateTime lastWriteTime = File.GetLastWriteTime(e.FullPath);
+        if (lastWriteTime != _lastRead)
+        {
+            Thread.Sleep(1000);
+            Changed?.Invoke();
+            _lastRead = lastWriteTime;
+        }
     }
 
     public void Dispose() => _watcher?.Dispose();

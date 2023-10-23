@@ -19,7 +19,7 @@ public class RecentFilesService : IRecentFilesService
         _settings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
     }
 
-    public async void Add(string path)
+    public async void AddAsync(string path)
     {
         if (string.IsNullOrEmpty(path)) return;
 
@@ -32,11 +32,10 @@ public class RecentFilesService : IRecentFilesService
         {
             recent.LastAccessed = DateTime.Now;
         }
-        SortAndTrimRecents();
         await _settingsService.SetAsync(Constants.SETTING_APPLICATION, _settings);
     }
 
-    public async void Remove(string path)
+    public async void RemoveAsync(string path)
     {
         var recent = _settings.RecentFiles.FirstOrDefault(r => r.Path == path);
         if (recent == null) return;
@@ -45,13 +44,13 @@ public class RecentFilesService : IRecentFilesService
         await _settingsService.SetAsync(Constants.SETTING_APPLICATION, _settings);
     }
 
-    public async void Clear()
+    public async void ClearAsync()
     {
         _settings.RecentFiles.Clear();
         await _settingsService.SetAsync(Constants.SETTING_APPLICATION, _settings);
     }
 
-    private void SortAndTrimRecents()
+    public void SortAndTrimRecents()
     {
         var recents = _settings.RecentFiles.OrderByDescending(r => r.LastAccessed).ToList();
 

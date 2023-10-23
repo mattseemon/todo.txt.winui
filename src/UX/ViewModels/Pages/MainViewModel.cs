@@ -85,7 +85,7 @@ public class MainViewModel : ViewModelBase, INavigationAware
                 }
                 else
                 {
-                    _recentFilesService.Remove(recent.Path);
+                    _recentFilesService.RemoveAsync(recent.Path);
                 }
             }
         }

@@ -220,7 +220,7 @@ public class ShellViewModel : ViewModelBase
 
     private bool CanFileClearRecent() => _recentFilesService.RecentFiles.Count > 0;
 
-    private void OnClearRecent() => _recentFilesService.Clear();
+    private void OnClearRecent() => _recentFilesService.ClearAsync();
 
     private void OnApplicationExit() => Application.Current.Exit();
 
