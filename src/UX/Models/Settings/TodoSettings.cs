@@ -49,7 +49,7 @@ public class TodoSettings : ObservableObject
     public static TodoSettings Default => new()
     {
         AddCreatedDate = true,
-        DefaultPriority = "None",
+        DefaultPriority = string.Empty,
         ArchiveCompleted = false,
         AutoArchive = false,
         EnableGlobalArchive = false,
