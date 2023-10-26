@@ -1,17 +1,16 @@
-﻿<Page
-    x:Class="Seemon.Todo.Views.Pages.ShellPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters="using:Seemon.Todo.Helpers.Converters"
-    xmlns:helpers="using:Seemon.Todo.Helpers.Views"
-    xmlns:models="using:Seemon.Todo.Models.Settings"
-    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    Loaded="OnLoaded"
-    Unloaded="OnUnloaded"
-    mc:Ignorable="d">
+﻿<Page x:Class="Seemon.Todo.Views.Pages.ShellPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:converters="using:Seemon.Todo.Helpers.Converters"
+      xmlns:helpers="using:Seemon.Todo.Helpers.Views"
+      xmlns:models="using:Seemon.Todo.Models.Settings"
+      xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
+      Loaded="OnLoaded"
+      Unloaded="OnUnloaded"
+      mc:Ignorable="d">
     <Page.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:EnumToBooleanConverter x:Key="SortOptionsConverter" EnumType="models:SortOptions" />
@@ -278,6 +277,12 @@
                             <KeyboardAccelerator Key="D" Modifiers="Control,Menu" />
                         </RadioMenuFlyoutItem.KeyboardAccelerators>
                     </RadioMenuFlyoutItem>
+                    <MenuFlyoutSeparator />
+                    <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_ShowInGroups" IsChecked="{x:Bind ViewModel.ViewSettings.AllowGrouping, Mode=TwoWay}" Command="{x:Bind ViewModel.ShowInGroupsCommand}">
+                        <ToggleMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="G" Modifiers="Control" />
+                        </ToggleMenuFlyoutItem.KeyboardAccelerators>
+                    </ToggleMenuFlyoutItem>
                 </MenuBarItem>
             </MenuBar>
             <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 4 0" 

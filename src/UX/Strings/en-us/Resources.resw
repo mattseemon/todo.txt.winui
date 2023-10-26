@@ -643,4 +643,7 @@
   <data name="SettingsPage_View_SortDirection.Text" xml:space="preserve">
     <value>Sort direction</value>
   </data>
+  <data name="SettingsPage_View_AllowGrouping.Text" xml:space="preserve">
+    <value>Show takslist in groups</value>
+  </data>
 </root>

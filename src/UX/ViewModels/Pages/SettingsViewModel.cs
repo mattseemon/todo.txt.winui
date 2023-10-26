@@ -44,7 +44,6 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
     public IList<string> Themes { get; private set; }
     public string SelectedTheme { get => _selectedTheme; set => SetProperty(ref _selectedTheme, value); }
 
-
     public IList<ValueDescription> Priorities { get; private set; }
     public IList<ValueDescription> SortOptions { get; private set; }
     public IList<ValueDescription> SortDirections { get; private set; }

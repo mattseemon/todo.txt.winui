@@ -11,21 +11,21 @@ public class ViewSettings : ObservableObject
     private string _quickSearchString = string.Empty;
     private SortOptions _currentSort = SortOptions.None;
     private SortDirection _currentSortDirection = SortDirection.Ascending;
+    private bool _allowGrouping = false;
 
     [JsonProperty("caseSensitive")]
     public bool CaseSensitive { get => _caseSensitive; set => SetProperty(ref _caseSensitive, value); }
 
     [JsonProperty("currentSort")]
     [JsonConverter(typeof(StringEnumConverter))]
-    public SortOptions CurrentSort
-    {
-        get => _currentSort;
-        set => SetProperty(ref _currentSort, value);
-    }
+    public SortOptions CurrentSort { get => _currentSort; set => SetProperty(ref _currentSort, value); }
 
     [JsonProperty("currentSortDirection")]
     [JsonConverter(typeof(StringEnumConverter))]
     public SortDirection CurrentSortDirection { get => _currentSortDirection; set => SetProperty(ref _currentSortDirection, value); }
+
+    [JsonProperty("allowGroupin")]
+    public bool AllowGrouping { get => _allowGrouping; set => SetProperty(ref _allowGrouping, value); }
 
     [JsonIgnore]
     public string QuickSearchString { get => _quickSearchString; set => SetProperty(ref _quickSearchString, value); }
@@ -36,5 +36,6 @@ public class ViewSettings : ObservableObject
         QuickSearchString = string.Empty,
         CurrentSort = SortOptions.None,
         CurrentSortDirection = SortDirection.Ascending,
+        AllowGrouping = false
     };
 }
