@@ -29,12 +29,9 @@ public class TaskService : ObservableObject, ITaskService
 
     private ObservableCollection<Task> _activeTasks;
 
-    public IList<Task> SelectedTasks => _activeTasks.Where(t => t.IsSelected).ToList();
-
     private const string ARCHIVE_FILENAME = "done.txt";
 
     private string _todoPath = string.Empty;
-
     private bool _isLoaded = false;
 
     public TaskService(ISettingsService settingsService, IFileMonitorService fileMonitorService, IRecentFilesService recentFilesService)
@@ -55,26 +52,11 @@ public class TaskService : ObservableObject, ITaskService
         IsLoaded = false;
     }
 
-    private void OnAppSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        if (_appSettings.AutoRefreshFile)
-        {
-            _fileMonitorService?.WatchFile(_todoPath);
-        }
-        else
-        {
-            _fileMonitorService?.UnWatchFile();
-        }
-    }
-
-    private void OnFileMonitorServiceChanged() => ReloadTasks();
-
-    public bool IsLoaded
-    {
-        get => _isLoaded; set => SetProperty(ref _isLoaded, value);
-    }
+    public bool IsLoaded { get => _isLoaded; set => SetProperty(ref _isLoaded, value); }
 
     public ObservableCollection<Task> ActiveTasks => _activeTasks;
+
+    public IList<Task> SelectedTasks => _activeTasks.Where(t => t.IsSelected).ToList();
 
     private void OnActiveTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => CollectionChanged?.Invoke(this, e);
 
@@ -264,27 +246,17 @@ public class TaskService : ObservableObject, ITaskService
                 recurrance = recurrance.Replace(temp, string.Empty);
                 var frequency = Convert.ToInt32(recurrance);
 
-                var dueDate = DateTime.Now;
-
                 var startDate = !strict ? DateTime.Today : string.IsNullOrEmpty(task.DueDate) ? DateTime.Today : DateTime.Parse(task.DueDate);
-                switch (recurrance)
+
+                var dueDate = recurrance switch
                 {
-                    case "d":
-                        dueDate = startDate.AddDays(frequency);
-                        break;
-                    case "b":
-                        dueDate = startDate.AddBusinessDays(frequency);
-                        break;
-                    case "w":
-                        dueDate = startDate.AddDays(frequency * 7);
-                        break;
-                    case "m":
-                        dueDate = startDate.AddMonths(frequency);
-                        break;
-                    case "y":
-                        dueDate = startDate.AddYears(frequency);
-                        break;
-                }
+                    "d" => startDate.AddDays(frequency),
+                    "b" => startDate.AddBusinessDays(frequency),
+                    "w" => startDate.AddDays(frequency * 7),
+                    "m" => startDate.AddMonths(frequency),
+                    "y" => startDate.AddYears(frequency),
+                    _ => DateTime.Now
+                };
 
                 raw = task.Raw;
 
@@ -716,4 +688,18 @@ public class TaskService : ObservableObject, ITaskService
             _fileMonitorService?.WatchFile(_todoPath);
         }
     }
+
+    private void OnAppSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (_appSettings.AutoRefreshFile)
+        {
+            _fileMonitorService?.WatchFile(_todoPath);
+        }
+        else
+        {
+            _fileMonitorService?.UnWatchFile();
+        }
+    }
+
+    private void OnFileMonitorServiceChanged() => ReloadTasks();
 }

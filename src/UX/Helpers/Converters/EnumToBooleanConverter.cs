@@ -21,7 +21,7 @@ public class EnumToBooleanConverter : IValueConverter
         throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, string language) 
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
         => parameter is string enumString
             ? Enum.Parse(EnumType, enumString)
             : throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");

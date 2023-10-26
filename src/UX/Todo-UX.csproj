@@ -39,8 +39,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Helpers\Converters\EnumToCollectionConverter.cs" />
-    <Compile Remove="Helpers\Views\AdvancedCollectionViewEx.cs" />
-    <Compile Remove="Helpers\Views\ObservableVector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Assets\Todo-128.png" />

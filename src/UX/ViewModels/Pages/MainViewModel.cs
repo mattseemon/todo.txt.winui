@@ -1,20 +1,19 @@
-﻿using System.ComponentModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 
-using CommunityToolkit.WinUI.UI;
-
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Contracts.ViewModels;
 using Seemon.Todo.Helpers.Common;
-using Seemon.Todo.Helpers.Comparers;
 using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Helpers.ViewModels;
+using Seemon.Todo.Helpers.Views;
 using Seemon.Todo.Models.Settings;
-
-using SortDirection = CommunityToolkit.WinUI.UI.SortDirection;
 
 namespace Seemon.Todo.ViewModels.Pages;
 
@@ -24,11 +23,16 @@ public class MainViewModel : ViewModelBase, INavigationAware
     private readonly IRecentFilesService _recentFilesService;
     private readonly ISettingsService _settingsService;
 
-    private AppSettings _appSettings;
+    private readonly AppSettings _appSettings;
     private readonly ViewSettings _viewSettings;
+
+    private CollectionViewSource _tasksCollectionView = new CollectionViewSource();
+    private ObservableCollection<Models.Task> _filteredTasks = new ObservableCollection<Models.Task>();
+    private ObservableCollection<GroupTaskList> _groupedTasks = new ObservableCollection<GroupTaskList>();
 
     private FontFamily _fontFamily = FontFamily.XamlAutoFontFamily;
     private double _fontSize;
+    private Func<object, object>? _group = null;
 
     private ICommand? _selectionChangedCommand;
     private ICommand? _doubleTappedCommand;
@@ -36,18 +40,11 @@ public class MainViewModel : ViewModelBase, INavigationAware
     public ICommand SelectionChangedCommand => _selectionChangedCommand ??= RegisterCommand(OnSelectionChanged);
     public ICommand DoubleTappedCommand => _doubleTappedCommand ??= RegisterCommand(OnDoubleTapped);
 
-    public AdvancedCollectionView Tasks { get; private set; }
+    public CollectionViewSource TasksCollectionView { get => _tasksCollectionView; set => SetProperty(ref _tasksCollectionView, value); }
 
+    public FontFamily Font { get => _fontFamily; set => SetProperty(ref _fontFamily, value); }
 
-    public FontFamily Font
-    {
-        get => _fontFamily; set => SetProperty(ref _fontFamily, value);
-    }
-
-    public double FontSize
-    {
-        get => _fontSize; set => SetProperty(ref _fontSize, value);
-    }
+    public double FontSize { get => _fontSize; set => SetProperty(ref _fontSize, value); }
 
     public MainViewModel(ITaskService taskService, IRecentFilesService recentFilesService, ISettingsService settingsService)
     {
@@ -64,15 +61,10 @@ public class MainViewModel : ViewModelBase, INavigationAware
         _taskService.Loaded += OnTasksLoaded;
         _taskService.CollectionChanged += OnCollectionChanged;
 
-        Tasks = new AdvancedCollectionView(_taskService.ActiveTasks)
-        {
-            Filter = QuickSearch
-        };
-
-        SortList();
-
         Font = string.IsNullOrEmpty(_appSettings.FontFamily) ? FontFamily.XamlAutoFontFamily : new FontFamily(_appSettings.FontFamily);
         FontSize = _appSettings.FontSize;
+
+        UpdateCollectionView();
 
         if (_appSettings.OpenRecentOnStartup && !_taskService.IsLoaded)
         {
@@ -113,78 +105,8 @@ public class MainViewModel : ViewModelBase, INavigationAware
     {
         if (e.PropertyName == nameof(ViewSettings.QuickSearchString))
         {
-            Tasks.Refresh();
+            UpdateCollectionView();
         }
-    }
-
-    public void SortList()
-    {
-        Tasks.SortDescriptions.Clear();
-
-        SortDirection direction = _viewSettings.CurrentSortDirection == Models.Settings.SortDirection.Ascending ? SortDirection.Ascending : SortDirection.Descending;
-
-        switch (_viewSettings.CurrentSort)
-        {
-            case SortOptions.Alphabetical:
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Raw), direction));
-                break;
-            case SortOptions.Completed:
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
-                break;
-            case SortOptions.Priority:
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
-                break;
-            case SortOptions.Context:
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.PrimaryContext), direction, new TodoStringComparer()));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
-                break;
-            case SortOptions.Project:
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.PrimaryProject), direction, new TodoStringComparer()));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
-                break;
-            case SortOptions.Created:
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                break;
-            case SortOptions.Due:
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
-                break;
-            case SortOptions.Threshold:
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.ThresholdDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.IsCompleted), direction));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.Priority), direction, new TodoStringComparer()));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.DueDate), direction, new TodoDateComparer(DateTime.MaxValue)));
-                Tasks.SortDescriptions.Add(new SortDescription(nameof(Models.Task.CreatedDate), direction, new TodoDateComparer(DateTime.MinValue)));
-                break;
-            default:
-                Tasks.SortDescriptions.Add(new SortDescription(direction, new TodoIndexComparer()));
-                break;
-
-        }
-        Tasks.RefreshSorting();
     }
 
     private bool QuickSearch(object item)
@@ -212,18 +134,207 @@ public class MainViewModel : ViewModelBase, INavigationAware
         };
     }
 
-    private void OnCollectionChanged(object? sender, EventArgs e) => Tasks.Refresh();
+    private void OnCollectionChanged(object? sender, EventArgs e) => UpdateCollectionView();
 
-    private void OnTasksLoaded(object? sender, string e) => Tasks.Refresh();
+    private void OnTasksLoaded(object? sender, string e) => UpdateCollectionView();
 
-    public void OnNavigatedTo(object parameter)
-    {
-        _appSettings = Task.Run(() => _settingsService?.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
-        Tasks.Refresh();
-    }
+    public void OnNavigatedTo(object parameter) => UpdateCollectionView();
 
     public void OnNavigatedFrom() { }
 
     public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
         => base.ShellKeyEventTriggered(args);
+
+    public void UpdateCollectionView()
+    {
+        ApplyFilter();
+        ApplyQuickSearch();
+        _filteredTasks = SortTasks();
+        if (_viewSettings.AllowGrouping && _viewSettings.CurrentSort != SortOptions.None && _viewSettings.CurrentSort != SortOptions.Alphabetical)
+        {
+            _groupedTasks = GroupTasks();
+            TasksCollectionView.IsSourceGrouped = true;
+            TasksCollectionView.Source = _groupedTasks;
+        }
+        else
+        {
+            TasksCollectionView.IsSourceGrouped = false;
+            TasksCollectionView.Source = _filteredTasks;
+        }
+    }
+
+    private List<string> GetGroupKeys(object item)
+    {
+        var grouping = _group?.Invoke(item);
+        return grouping is List<string> list
+            ? list.Count > 0 ? list : new List<string> { "[n/a]" }
+            : string.IsNullOrEmpty(grouping as string) ? new List<string> { "[n/a]" } : new List<string> { (string)grouping };
+    }
+
+    private ObservableCollection<GroupTaskList> GroupTasks()
+    {
+        var groupedTasks = new List<GroupTaskList>();
+
+        _group = (_viewSettings.CurrentSort) switch
+        {
+            SortOptions.Completed => x => ((Models.Task)x).CompletedDate,
+            SortOptions.Priority => x => ((Models.Task)x).Priority,
+            SortOptions.Context => x => ((Models.Task)x).Contexts,
+            SortOptions.Project => x => ((Models.Task)x).Projects,
+            SortOptions.Created => x => ((Models.Task)x).CreatedDate,
+            SortOptions.Due => x => ((Models.Task)x).DueDate,
+            SortOptions.Threshold => x => ((Models.Task)x).ThresholdDate,
+            _ => x => (Models.Task)x
+        };
+
+        foreach (var task in _filteredTasks)
+        {
+            var keys = GetGroupKeys(task);
+            foreach (var key in keys)
+            {
+                var group = groupedTasks.FirstOrDefault(x => Comparer.Default.Compare(x.Key, key) == 0);
+                if (group == null)
+                {
+                    group = new GroupTaskList() { Key = key };
+                    groupedTasks.Add(group);
+                }
+                group.Add(task);
+            }
+        }
+
+        return _viewSettings.CurrentSortDirection == SortDirection.Ascending
+            ? new ObservableCollection<GroupTaskList>(groupedTasks.OrderBy(g => g.Key?.ToString() == "[n/a]").ThenBy(g => g.Key))
+            : new ObservableCollection<GroupTaskList>(groupedTasks.OrderBy(g => g.Key?.ToString() == "[n/a]").ThenByDescending(g => g.Key));
+    }
+
+    private ObservableCollection<Models.Task> SortTasks()
+    {
+        IOrderedEnumerable<Models.Task> sortedList;
+
+        if (_viewSettings.CurrentSortDirection == SortDirection.Ascending)
+        {
+            sortedList = _viewSettings.CurrentSort switch
+            {
+                SortOptions.Alphabetical => _filteredTasks.OrderBy(t => t.Raw),
+                SortOptions.Completed => _filteredTasks.OrderBy(t => t.IsCompleted)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                SortOptions.Priority => _filteredTasks.OrderBy(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenBy(t => t.IsCompleted)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                SortOptions.Context => _filteredTasks.OrderBy(t => t.Contexts != null && t.Contexts.Count > 0 ? t.PrimaryContext : "ZZZ")
+                                                .ThenBy(t => t.IsCompleted)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                SortOptions.Project => _filteredTasks.OrderBy(t => t.Projects != null && t.Projects.Count > 0 ? t.PrimaryProject : "ZZZ")
+                                                .ThenBy(t => t.IsCompleted)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                SortOptions.Created => _filteredTasks.OrderBy(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate)
+                                                .ThenBy(t => t.IsCompleted)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate),
+                SortOptions.Due => _filteredTasks.OrderBy(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenBy(t => t.IsCompleted)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                SortOptions.Threshold => _filteredTasks.OrderBy(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenBy(t => t.IsCompleted)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenBy(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                _ => _filteredTasks.OrderBy(t => t),
+            };
+        }
+        else
+        {
+            sortedList = _viewSettings.CurrentSort switch
+            {
+                SortOptions.Alphabetical => _filteredTasks.OrderByDescending(t => t.Raw),
+                SortOptions.Completed => _filteredTasks.OrderByDescending(t => t.IsCompleted)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                SortOptions.Priority => _filteredTasks.OrderByDescending(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenByDescending(t => t.IsCompleted)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                SortOptions.Context => _filteredTasks.OrderByDescending(t => t.Contexts != null && t.Contexts.Count > 0 ? t.PrimaryContext : "ZZZ")
+                                                .ThenByDescending(t => t.IsCompleted)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                SortOptions.Project => _filteredTasks.OrderByDescending(t => t.Projects != null && t.Projects.Count > 0 ? t.PrimaryProject : "ZZZ")
+                                                .ThenByDescending(t => t.IsCompleted)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                SortOptions.Created => _filteredTasks.OrderByDescending(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate)
+                                                .ThenByDescending(t => t.IsCompleted)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate),
+                SortOptions.Due => _filteredTasks.OrderByDescending(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenByDescending(t => t.IsCompleted)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                SortOptions.Threshold => _filteredTasks.OrderByDescending(t => string.IsNullOrEmpty(t.ThresholdDate) ? "9999-99-99" : t.ThresholdDate)
+                                                .ThenByDescending(t => t.IsCompleted)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.Priority) ? "ZZZ" : t.Priority)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.DueDate) ? "9999-99-99" : t.DueDate)
+                                                .ThenByDescending(t => string.IsNullOrEmpty(t.CreatedDate) ? "0000-00-00" : t.CreatedDate),
+                _ => _filteredTasks.OrderByDescending(_t => _t),
+            };
+        }
+
+        return new ObservableCollection<Models.Task>(sortedList);
+    }
+
+    private void ApplyFilter() => _filteredTasks = new ObservableCollection<Models.Task>(_taskService.ActiveTasks);
+
+    private void ApplyQuickSearch()
+    {
+        var filtered = _filteredTasks.Where(t => QuickSearch(t));
+        RemoveNonMatching(filtered);
+        AddBackMatching(filtered);
+    }
+
+    private void RemoveNonMatching(IEnumerable<Models.Task> filteredData)
+    {
+        for (int i = _filteredTasks.Count - 1; i >= 0; i--)
+        {
+            var task = _filteredTasks[i];
+
+            if (!filteredData.Contains(task))
+            {
+                _filteredTasks.Remove(task);
+            }
+        }
+    }
+
+    private void AddBackMatching(IEnumerable<Models.Task> filteredData)
+    {
+        foreach (var task in filteredData)
+        {
+            if (!_filteredTasks.Contains(task))
+            {
+                _filteredTasks.Add(task);
+            }
+        }
+    }
 }

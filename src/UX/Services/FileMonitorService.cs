@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using Seemon.Todo.Contracts.Services;
+﻿using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Models.Settings;
 
@@ -14,11 +12,9 @@ public class FileMonitorService : IFileMonitorService, IDisposable
     private FileSystemWatcher? _watcher = null;
     private string? _watchedPath = string.Empty;
     private AppSettings? _appSettings;
+    private DateTime _lastRead = DateTime.MinValue;
 
-    public FileMonitorService(ISettingsService settingsService)
-    {
-        _settingsService = settingsService;
-    }
+    public FileMonitorService(ISettingsService settingsService) => _settingsService = settingsService;
 
     public void WatchFile(string path)
     {
@@ -40,7 +36,6 @@ public class FileMonitorService : IFileMonitorService, IDisposable
             if (_watchedPath != path)
             {
                 _watchedPath = path;
-
                 _watcher?.Dispose();
 
                 var watchedDir = Path.GetDirectoryName(_watchedPath);
@@ -58,8 +53,6 @@ public class FileMonitorService : IFileMonitorService, IDisposable
         }
         catch { }
     }
-
-    DateTime _lastRead = DateTime.MinValue;
 
     public void UnWatchFile()
     {
