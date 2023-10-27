@@ -27,7 +27,7 @@ public class Task : ObservableObject, IComparable<Task>
     /// </summary>
     public bool IsSelected { get => _isSelected; set => SetProperty(ref _isSelected, value); }
 
-    public bool IsHidden { get => _isCompleted; set => SetProperty(ref _isHidden, value); }
+    public bool IsHidden { get => _isHidden; set => SetProperty(ref _isHidden, value); }
 
     public bool IsCompleted { get => _isCompleted; set => SetProperty(ref _isCompleted, value); }
 

@@ -131,6 +131,8 @@
                             <RowDefinition Height="42" />
                             <RowDefinition Height="42" />
                             <RowDefinition Height="42" />
+                            <RowDefinition Height="42" />
+                            <RowDefinition Height="42" />
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_View_CaseSensitive" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" />
                         <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.CaseSensitive, Mode=TwoWay}" AccessKey="X" />
@@ -140,6 +142,10 @@
                         <ComboBox Grid.Row="2" Grid.Column="1" MinWidth="200" ItemsSource="{x:Bind ViewModel.SortDirections, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedSortDirection, Mode=TwoWay}" DisplayMemberPath="Description" SelectedValuePath="Value" />
                         <TextBlock Grid.Row="3" Grid.Column="0" x:Uid="SettingsPage_View_AllowGrouping" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" />
                         <ToggleSwitch Grid.Row="3" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.AllowGrouping, Mode=TwoWay}" AccessKey="G" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" x:Uid="SettingsPage_View_HideFutureTasks" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" />
+                        <ToggleSwitch Grid.Row="4" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.HideFutureTasks, Mode=TwoWay}" AccessKey="H" />
+                        <TextBlock Grid.Row="5" Grid.Column="0" x:Uid="SettingsPage_View_ShowHiddenTasks" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" />
+                        <ToggleSwitch Grid.Row="5" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.ShowHiddenTasks, Mode=TwoWay}" AccessKey="H" />
                     </Grid>
                 </Expander>
             </StackPanel>

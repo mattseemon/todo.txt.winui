@@ -28,8 +28,10 @@ public class ShellViewModel : ViewModelBase
     private readonly IRecentFilesService _recentFilesService;
     private readonly ISettingsService _settingsService;
 
+    private readonly AppSettings _appSettings;
     private readonly ViewSettings _viewSettings;
     private readonly TodoSettings _todoSettings;
+    private readonly FilterSettings _filterSettings;
 
     private bool _isBackEnabled;
     private bool _isMenuVisible;
@@ -74,6 +76,11 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _sortDirectionCommand;
     private ICommand? _showInGroupsCommand;
 
+    private ICommand? _hideFutureTasksCommand;
+    private ICommand? _showHiddentTasksCommand;
+    private ICommand? _showFiltersCommannd;
+    private ICommand? _applyPresetFilterCommand;
+
     private ICommand? _featureNotImplementedCommand;
 
     public bool IsBackEnabled { get => _isBackEnabled; set => SetProperty(ref _isBackEnabled, value); }
@@ -87,6 +94,10 @@ public class ShellViewModel : ViewModelBase
     public INavigationService NavigationService { get; }
 
     public ViewSettings ViewSettings => _viewSettings;
+
+    public AppSettings AppSettings => _appSettings;
+
+    public FilterSettings FilterSettings => _filterSettings;
 
     public ObservableCollection<RecentFile> RecentFiles => _recentFilesService.RecentFiles;
 
@@ -128,6 +139,11 @@ public class ShellViewModel : ViewModelBase
     public ICommand SortDirectionCommand => _sortDirectionCommand ??= RegisterCommand<string>(OnSortDirection);
     public ICommand ShowInGroupsCommand => _showInGroupsCommand ??= RegisterCommand(OnShowInGroups);
 
+    public ICommand HideFutureTasksCommand => _hideFutureTasksCommand ??= RegisterCommand(OnHideFutureTasks);
+    public ICommand ShowHiddenTasksCommand => _showHiddentTasksCommand ??= RegisterCommand(OnShowHiddenTasks);
+    public ICommand ShowFiltersCommand => _showFiltersCommannd ??= RegisterCommand(OnShowFilters);
+    public ICommand ApplyPresetFilterCommand => _applyPresetFilterCommand ??= RegisterCommand<string>(OnApplyPresetFilter);
+
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
     public ShellViewModel(INavigationService navigationService, IDialogService dialogService, ISystemService systemService, ITaskService taskService, IRecentFilesService recentFilesService, ISettingsService settingsService)
@@ -145,8 +161,10 @@ public class ShellViewModel : ViewModelBase
         _recentFilesService.RecentFiles.CollectionChanged += OnRecentFilesCollectionChanged;
 
         _settingsService = settingsService;
+        _appSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
         _viewSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
         _todoSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
+        _filterSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_FILTER, FilterSettings.Default)).Result;
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)
@@ -510,6 +528,37 @@ public class ShellViewModel : ViewModelBase
     }
 
     private void OnShowInGroups() => App.GetService<MainViewModel>().UpdateCollectionView();
+
+    private void OnHideFutureTasks() => App.GetService<MainViewModel>().UpdateCollectionView();
+
+    private void OnShowHiddenTasks() => App.GetService<MainViewModel>().UpdateCollectionView();
+
+    private void OnShowFilters() => _filterSettings.IsFiltersVisible = !_filterSettings.IsFiltersVisible;
+
+    private void OnApplyPresetFilter(string? index)
+    {
+        if (string.IsNullOrEmpty(index)) return;
+
+        var ndx = Int32.Parse(index);
+
+        _filterSettings.ActiveFilter = ndx switch
+        {
+            1 => _filterSettings.PresetFilter1,
+            2 => _filterSettings.PresetFilter2,
+            3 => _filterSettings.PresetFilter3,
+            4 => _filterSettings.PresetFilter4,
+            5 => _filterSettings.PresetFilter5,
+            6 => _filterSettings.PresetFilter6,
+            7 => _filterSettings.PresetFilter7,
+            8 => _filterSettings.PresetFilter8,
+            9 => _filterSettings.PresetFilter9,
+            _ => string.Empty
+        };
+
+        _filterSettings.CurrentPresetFilter = (PresetFilters)Enum.Parse(typeof(PresetFilters), index);
+
+        App.GetService<MainViewModel>().UpdateCollectionView();
+    }
 
     private async void OnFeatureNotImplemented(string? feature) => await _dialogService.ShowFeatureNotImpletmented(feature ?? "Feature_Not_Implemented_Title".GetLocalized());
 

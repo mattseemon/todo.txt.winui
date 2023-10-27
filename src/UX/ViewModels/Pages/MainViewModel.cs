@@ -25,6 +25,7 @@ public class MainViewModel : ViewModelBase, INavigationAware
 
     private readonly AppSettings _appSettings;
     private readonly ViewSettings _viewSettings;
+    private readonly FilterSettings _filterSettings;
 
     private CollectionViewSource _tasksCollectionView = new CollectionViewSource();
     private ObservableCollection<Models.Task> _filteredTasks = new ObservableCollection<Models.Task>();
@@ -33,18 +34,29 @@ public class MainViewModel : ViewModelBase, INavigationAware
     private FontFamily _fontFamily = FontFamily.XamlAutoFontFamily;
     private double _fontSize;
     private Func<object, object>? _group = null;
+    private string _currentFilter = string.Empty;
 
     private ICommand? _selectionChangedCommand;
     private ICommand? _doubleTappedCommand;
 
+    private ICommand? _clearActiveFilterCommand;
+    private ICommand? _clearAllFiltersCommand;
+    private ICommand? _closeFilterCommand;
+
     public ICommand SelectionChangedCommand => _selectionChangedCommand ??= RegisterCommand(OnSelectionChanged);
     public ICommand DoubleTappedCommand => _doubleTappedCommand ??= RegisterCommand(OnDoubleTapped);
+    public ICommand ClearActiveFilterCommand => _clearActiveFilterCommand ??= RegisterCommand(OnClearActiveFilter);
+    public ICommand ClearAllFiltersCommand => _clearAllFiltersCommand ??= RegisterCommand(OnClearAllFilters);
+    public ICommand CloseFilterCommand => _closeFilterCommand ??= RegisterCommand(OnCloseFilter);
 
     public CollectionViewSource TasksCollectionView { get => _tasksCollectionView; set => SetProperty(ref _tasksCollectionView, value); }
 
     public FontFamily Font { get => _fontFamily; set => SetProperty(ref _fontFamily, value); }
 
     public double FontSize { get => _fontSize; set => SetProperty(ref _fontSize, value); }
+
+    public AppSettings AppSettings => _appSettings;
+    public FilterSettings FilterSettings => _filterSettings;
 
     public MainViewModel(ITaskService taskService, IRecentFilesService recentFilesService, ISettingsService settingsService)
     {
@@ -58,11 +70,15 @@ public class MainViewModel : ViewModelBase, INavigationAware
         _appSettings = Task.Run(() => _settingsService?.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
         _appSettings.PropertyChanged += OnAppSettingsPropertyChanged;
 
+        _filterSettings = Task.Run(() => _settingsService?.GetAsync(Constants.SETTING_FILTER, FilterSettings.Default)).Result;
+        _filterSettings.PropertyChanged += OnFilterSettingsPropertyChanged;
+
         _taskService.Loaded += OnTasksLoaded;
         _taskService.CollectionChanged += OnCollectionChanged;
 
         Font = string.IsNullOrEmpty(_appSettings.FontFamily) ? FontFamily.XamlAutoFontFamily : new FontFamily(_appSettings.FontFamily);
         FontSize = _appSettings.FontSize;
+        _currentFilter = _filterSettings.ActiveFilter;
 
         UpdateCollectionView();
 
@@ -95,12 +111,6 @@ public class MainViewModel : ViewModelBase, INavigationAware
         }
     }
 
-    private void OnSelectionChanged()
-        => App.GetService<ShellViewModel>().RaiseCommandCanExecute();
-
-    private void OnDoubleTapped()
-        => App.GetService<ShellViewModel>().UpdateTaskCommand?.Execute(null);
-
     private void OnViewSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(ViewSettings.QuickSearchString))
@@ -108,6 +118,40 @@ public class MainViewModel : ViewModelBase, INavigationAware
             UpdateCollectionView();
         }
     }
+
+    private void OnFilterSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(_filterSettings.ActiveFilter))
+        {
+            if (_currentFilter != _filterSettings.ActiveFilter)
+            {
+                _currentFilter = _filterSettings.ActiveFilter;
+                UpdateCollectionView();
+            }
+        }
+    }
+
+    private void OnSelectionChanged() => App.GetService<ShellViewModel>().RaiseCommandCanExecute();
+
+    private void OnDoubleTapped() => App.GetService<ShellViewModel>().UpdateTaskCommand?.Execute(null);
+
+    private void OnClearActiveFilter() => _filterSettings.ActiveFilter = string.Empty;
+
+    private void OnClearAllFilters()
+    {
+        _filterSettings.PresetFilter1 = string.Empty;
+        _filterSettings.PresetFilter2 = string.Empty;
+        _filterSettings.PresetFilter3 = string.Empty;
+        _filterSettings.PresetFilter4 = string.Empty;
+        _filterSettings.PresetFilter5 = string.Empty;
+        _filterSettings.PresetFilter6 = string.Empty;
+        _filterSettings.PresetFilter7 = string.Empty;
+        _filterSettings.PresetFilter8 = string.Empty;
+        _filterSettings.PresetFilter9 = string.Empty;
+        _filterSettings.ActiveFilter = string.Empty;
+    }
+
+    private void OnCloseFilter() => _filterSettings.IsFiltersVisible = false;
 
     private bool QuickSearch(object item)
     {
@@ -140,7 +184,7 @@ public class MainViewModel : ViewModelBase, INavigationAware
 
     public void OnNavigatedTo(object parameter) => UpdateCollectionView();
 
-    public void OnNavigatedFrom() { }
+    public void OnNavigatedFrom() => App.GetService<ShellViewModel>().RaiseCommandCanExecute();
 
     public override bool ShellKeyEventTriggered(KeyboardAcceleratorInvokedEventArgs args)
         => base.ShellKeyEventTriggered(args);
@@ -305,7 +349,88 @@ public class MainViewModel : ViewModelBase, INavigationAware
         return new ObservableCollection<Models.Task>(sortedList);
     }
 
-    private void ApplyFilter() => _filteredTasks = new ObservableCollection<Models.Task>(_taskService.ActiveTasks);
+    private void ApplyFilter()
+    {
+        var filters = _filterSettings.ActiveFilter.FixNewLines();
+        var comparer = _viewSettings.CaseSensitive ? StringComparison.InvariantCulture : StringComparison.InvariantCultureIgnoreCase;
+
+        var filtered = new List<Models.Task>();
+
+        foreach (var task in _taskService.ActiveTasks)
+        {
+            bool include = true;
+
+            if (!_viewSettings.ShowHiddenTasks)
+            {
+                include = !task.IsHidden;
+            }
+
+            if (include)
+            {
+                if (_viewSettings.HideFutureTasks)
+                {
+                    include = string.IsNullOrEmpty(task.ThresholdDate) || task.ThresholdDate.IsDateLesserThan(DateTime.Today.AddDays(1));
+                }
+            }
+
+            if (include)
+            {
+                foreach (var filter in filters.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (filter.Equals("due:today", StringComparison.OrdinalIgnoreCase) && task.DueDate.Equals(DateTime.Today.ToTodoDate())) continue;
+                    if (filter.Equals("due:future", StringComparison.OrdinalIgnoreCase) && task.DueDate.IsDateGreaterThan(DateTime.Today)) continue;
+                    if (filter.Equals("due:past", StringComparison.OrdinalIgnoreCase) && task.DueDate.IsDateLesserThan(DateTime.Today)) continue;
+                    if (filter.Equals("due:active", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrEmpty(task.DueDate) && !task.DueDate.IsDateGreaterThan(DateTime.Today)) continue;
+
+                    if (filter.Equals("-due:today", StringComparison.OrdinalIgnoreCase) && task.DueDate.Equals(DateTime.Today.ToTodoDate()))
+                    {
+                        include = false;
+                        continue;
+                    }
+                    if (filter.Equals("-due:future", StringComparison.OrdinalIgnoreCase) && task.DueDate.IsDateGreaterThan(DateTime.Today))
+                    {
+                        include = false;
+                        continue;
+                    }
+                    if (filter.Equals("-due:past", StringComparison.OrdinalIgnoreCase) && task.DueDate.IsDateLesserThan(DateTime.Today))
+                    {
+                        include = false;
+                        continue;
+                    }
+                    if (filter.Equals("-due:active", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrEmpty(task.DueDate) && !task.DueDate.IsDateGreaterThan(DateTime.Today))
+                    {
+                        include = false;
+                        continue;
+                    }
+
+                    if (filter.Equals("-DONE", StringComparison.Ordinal))
+                    {
+                        if (task.IsCompleted) include = false;
+                    }
+                    else if (filter.Equals("DONE", StringComparison.Ordinal))
+                    {
+                        if (!task.IsCompleted) include = false;
+                    }
+                    else
+                    {
+                        if (filter[..1].Equals("-", StringComparison.Ordinal))
+                        {
+                            if (task.Raw.Contains(filter[1..], comparer)) include = false;
+
+                        }
+                        else if (!task.Raw.Contains(filter, comparer)) include = false;
+                    }
+                }
+            }
+
+            if (include)
+            {
+                filtered.Add(task);
+            }
+        }
+
+        _filteredTasks = new ObservableCollection<Models.Task>(filtered);
+    }
 
     private void ApplyQuickSearch()
     {
