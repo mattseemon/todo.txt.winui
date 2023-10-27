@@ -15,6 +15,7 @@
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:EnumToBooleanConverter x:Key="SortOptionsConverter" EnumType="models:SortOptions" />
         <converters:EnumToBooleanConverter x:Key="SortDirectionConverter" EnumType="models:SortDirection" />
+        <converters:EnumToBooleanConverter x:Key="PresetFilterConverter" EnumType="models:PresetFilters" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -71,7 +72,7 @@
                     <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_File_Recents" x:Name="RecentFilesMenu" IsEnabled="{x:Bind ViewModel.IsRecentEnabled, Mode=OneWay}" KeyTipPlacementMode="Left" />
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_Recents_Clear" Command="{x:Bind ViewModel.ClearRecentCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="Number0" Modifiers="Control,Menu" />
+                            <KeyboardAccelerator Key="C" Modifiers="Control,Menu" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
@@ -278,14 +279,115 @@
                         </RadioMenuFlyoutItem.KeyboardAccelerators>
                     </RadioMenuFlyoutItem>
                     <MenuFlyoutSeparator />
-                    <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_ShowInGroups" IsChecked="{x:Bind ViewModel.ViewSettings.AllowGrouping, Mode=TwoWay}" Command="{x:Bind ViewModel.ShowInGroupsCommand}">
+                    <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_ShowInGroups" IsChecked="{x:Bind ViewModel.ViewSettings.AllowGrouping, Mode=TwoWay}" Command="{x:Bind ViewModel.ShowInGroupsCommand}" KeyTipPlacementMode="Left">
                         <ToggleMenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="G" Modifiers="Control" />
                         </ToggleMenuFlyoutItem.KeyboardAccelerators>
                     </ToggleMenuFlyoutItem>
                 </MenuBarItem>
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Filter">
+                    <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_HideFuture" KeyTipPlacementMode="Left" IsChecked="{x:Bind ViewModel.ViewSettings.HideFutureTasks, Mode=TwoWay}" Command="{x:Bind ViewModel.HideFutureTasksCommand}">
+                        <ToggleMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F" Modifiers="Control" />
+                        </ToggleMenuFlyoutItem.KeyboardAccelerators>
+                    </ToggleMenuFlyoutItem>
+                    <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_ShowHidden" KeyTipPlacementMode="Left" IsChecked="{x:Bind ViewModel.ViewSettings.ShowHiddenTasks, Mode=TwoWay}" Command="{x:Bind ViewModel.ShowHiddenTasksCommand}">
+                        <ToggleMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="H" Modifiers="Control" />
+                        </ToggleMenuFlyoutItem.KeyboardAccelerators>
+                    </ToggleMenuFlyoutItem>
+                    <MenuFlyoutSeparator />
+                    <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_Define" IsChecked="{x:Bind ViewModel.FilterSettings.IsFiltersVisible, Mode=OneWay}" Command="{x:Bind ViewModel.ShowFiltersCommand}" KeyTipPlacementMode="Left">
+                        <ToggleMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F" />
+                        </ToggleMenuFlyoutItem.KeyboardAccelerators>
+                    </ToggleMenuFlyoutItem>
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_ClearActive" KeyTipPlacementMode="Left" Command="{x:Bind ViewModel.ApplyPresetFilterCommand}" CommandParameter="0">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number0" Modifiers="Menu,Control" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutSeparator />
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_ApplyPreset1" KeyTipPlacementMode="Left" GroupName="FilterPresets"
+                                         IsChecked="{x:Bind ViewModel.FilterSettings.CurrentPresetFilter, Mode=OneWay, Converter={StaticResource PresetFilterConverter}, ConverterParameter=PresetFilter1}"
+                                         Command="{x:Bind ViewModel.ApplyPresetFilterCommand}" CommandParameter="1">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number1" Modifiers="Menu,Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_ApplyPreset2" KeyTipPlacementMode="Left" GroupName="FilterPresets" 
+                                         IsChecked="{x:Bind ViewModel.FilterSettings.CurrentPresetFilter, Mode=OneWay, Converter={StaticResource PresetFilterConverter}, ConverterParameter=PresetFilter2}"
+                                         Command="{x:Bind ViewModel.ApplyPresetFilterCommand}" CommandParameter="2">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number2" Modifiers="Menu,Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_ApplyPreset3" KeyTipPlacementMode="Left" GroupName="FilterPresets" 
+                                         IsChecked="{x:Bind ViewModel.FilterSettings.CurrentPresetFilter, Mode=OneWay, Converter={StaticResource PresetFilterConverter}, ConverterParameter=PresetFilter3}"
+                                         Command="{x:Bind ViewModel.ApplyPresetFilterCommand}" CommandParameter="3">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number3" Modifiers="Menu,Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_ApplyPreset4" KeyTipPlacementMode="Left" GroupName="FilterPresets" 
+                                         IsChecked="{x:Bind ViewModel.FilterSettings.CurrentPresetFilter, Mode=OneWay, Converter={StaticResource PresetFilterConverter}, ConverterParameter=PresetFilter4}"
+                                         Command="{x:Bind ViewModel.ApplyPresetFilterCommand}" CommandParameter="4">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number4" Modifiers="Menu,Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_ApplyPreset5" KeyTipPlacementMode="Left" GroupName="FilterPresets" 
+                                         IsChecked="{x:Bind ViewModel.FilterSettings.CurrentPresetFilter, Mode=OneWay, Converter={StaticResource PresetFilterConverter}, ConverterParameter=PresetFilter5}"
+                                         Command="{x:Bind ViewModel.ApplyPresetFilterCommand}" CommandParameter="5">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number5" Modifiers="Menu,Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_ApplyPreset6" KeyTipPlacementMode="Left" GroupName="FilterPresets" 
+                                         IsChecked="{x:Bind ViewModel.FilterSettings.CurrentPresetFilter, Mode=OneWay, Converter={StaticResource PresetFilterConverter}, ConverterParameter=PresetFilter6}"
+                                         Command="{x:Bind ViewModel.ApplyPresetFilterCommand}" CommandParameter="6">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number6" Modifiers="Menu,Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_ApplyPreset7" KeyTipPlacementMode="Left" GroupName="FilterPresets" 
+                                         IsChecked="{x:Bind ViewModel.FilterSettings.CurrentPresetFilter, Mode=OneWay, Converter={StaticResource PresetFilterConverter}, ConverterParameter=PresetFilter7}"
+                                         Command="{x:Bind ViewModel.ApplyPresetFilterCommand}" CommandParameter="7">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number7" Modifiers="Menu,Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_ApplyPreset8" KeyTipPlacementMode="Left" GroupName="FilterPresets" 
+                                         IsChecked="{x:Bind ViewModel.FilterSettings.CurrentPresetFilter, Mode=OneWay, Converter={StaticResource PresetFilterConverter}, ConverterParameter=PresetFilter8}"
+                                         Command="{x:Bind ViewModel.ApplyPresetFilterCommand}" CommandParameter="8">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number8" Modifiers="Menu,Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                    <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_ApplyPreset9" KeyTipPlacementMode="Left" GroupName="FilterPresets" 
+                                         IsChecked="{x:Bind ViewModel.FilterSettings.CurrentPresetFilter, Mode=OneWay, Converter={StaticResource PresetFilterConverter}, ConverterParameter=PresetFilter9}"
+                                         Command="{x:Bind ViewModel.ApplyPresetFilterCommand}" CommandParameter="9">
+                        <RadioMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number9" Modifiers="Menu,Control" />
+                        </RadioMenuFlyoutItem.KeyboardAccelerators>
+                    </RadioMenuFlyoutItem>
+                </MenuBarItem>
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Help" KeyTipPlacementMode="Top">
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Help_Settings" KeyTipPlacementMode="Left" Command="{x:Bind ViewModel.ShowSettingsCommand}">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F10" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Help_About" KeyTipPlacementMode="Left" Command="{x:Bind ViewModel.ShowAboutCommand}">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F1" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                </MenuBarItem>
             </MenuBar>
-            <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 4 0" 
+            <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 6 0" 
                             helpers:FocusHelper.IsFocused="{x:Bind ViewModel.IsQuickSearchFocused, Mode=OneWay}" 
                             Visibility="{x:Bind ViewModel.IsMenuVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
                             Text="{x:Bind ViewModel.ViewSettings.QuickSearchString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
@@ -298,12 +400,12 @@
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AutoSuggestBox>
-            <AppBarButton Grid.Column="3" x:Uid="ShellPage_AppBarButton_Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}" Icon="Setting" ToolTipService.Placement="Bottom">
+            <AppBarButton Grid.Column="3" x:Uid="ShellPage_AppBarButton_Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}" Icon="Setting" ToolTipService.Placement="Bottom" Visibility="Visible">
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="ShellPage_AppBarButton_Settings_Tooltip" />
                 </ToolTipService.ToolTip>
             </AppBarButton>
-            <AppBarButton Grid.Column="4" x:Uid="ShellPage_AppBarButton_About" ToolTipService.Placement="Bottom" Command="{x:Bind ViewModel.ShowAboutCommand}">
+            <AppBarButton Grid.Column="4" x:Uid="ShellPage_AppBarButton_About" ToolTipService.Placement="Bottom" Command="{x:Bind ViewModel.ShowAboutCommand}" Visibility="Visible">
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="ShellPage_AppBarButton_About_Tooltip" />
                 </ToolTipService.ToolTip>

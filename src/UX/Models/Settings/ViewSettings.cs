@@ -12,6 +12,8 @@ public class ViewSettings : ObservableObject
     private SortOptions _currentSort = SortOptions.None;
     private SortDirection _currentSortDirection = SortDirection.Ascending;
     private bool _allowGrouping = false;
+    private bool _hideFutureTasks = false;
+    private bool _showHiddenTasks = false;
 
     [JsonProperty("caseSensitive")]
     public bool CaseSensitive { get => _caseSensitive; set => SetProperty(ref _caseSensitive, value); }
@@ -26,6 +28,12 @@ public class ViewSettings : ObservableObject
 
     [JsonProperty("allowGroupin")]
     public bool AllowGrouping { get => _allowGrouping; set => SetProperty(ref _allowGrouping, value); }
+
+    [JsonProperty("hideFutureTasks")]
+    public bool HideFutureTasks { get => _hideFutureTasks; set => SetProperty(ref _hideFutureTasks, value); }
+
+    [JsonProperty("showHiddenTasks")]
+    public bool ShowHiddenTasks { get => _showHiddenTasks; set => SetProperty(ref _showHiddenTasks, value); }
 
     [JsonIgnore]
     public string QuickSearchString { get => _quickSearchString; set => SetProperty(ref _quickSearchString, value); }

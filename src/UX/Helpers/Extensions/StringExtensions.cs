@@ -40,4 +40,9 @@ public static class StringExtensions
 
         return comparison.Date < date.Date;
     }
+
+    public static string FixNewLines(this string text)
+    {
+        return text.Replace("\r", Environment.NewLine);
+    }
 }
