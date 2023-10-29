@@ -379,6 +379,14 @@
                         </RadioMenuFlyoutItem.KeyboardAccelerators>
                     </RadioMenuFlyoutItem>
                 </MenuBarItem>
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_View" KeyTipPlacementMode="Top">
+                    <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_View_StatusBar" KeyTipPlacementMode="Left"
+                                          IsChecked="{x:Bind ViewModel.AppSettings.ShowStatusBar, Mode=TwoWay}">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="S" Modifiers="Control" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </ToggleMenuFlyoutItem>
+                </MenuBarItem>
                 <MenuBarItem x:Uid="ShellPage_MenuBarItem_Help" KeyTipPlacementMode="Top">
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Help_Settings" KeyTipPlacementMode="Left" Command="{x:Bind ViewModel.ShowSettingsCommand}">
                         <MenuFlyoutItem.KeyboardAccelerators>

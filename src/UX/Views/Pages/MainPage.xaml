@@ -7,6 +7,7 @@
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:helpers="using:Seemon.Todo.Helpers.Views"
       xmlns:local="using:Seemon.Todo.Models"
+      xmlns:converters="using:Seemon.Todo.Helpers.Converters"
       x:Name="ThisPage"
       mc:Ignorable="d">
     <Page.Resources>
@@ -17,12 +18,14 @@
         <Style TargetType="TextBlock" x:Key="ListViewHeaderTextBlockStyle" BasedOn="{StaticResource BodyStrongTextBlockStyle}">
             <Setter Property="FontFamily" Value="{x:Bind ViewModel.Font}" />
         </Style>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
     </Page.Resources>
     <Grid x:Name="ContentArea">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="28"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <SplitView Grid.Row="1" IsPaneOpen="{x:Bind ViewModel.FilterSettings.IsFiltersVisible, Mode=TwoWay}" 
                    OpenPaneLength="400" DisplayMode="Inline" PanePlacement="Right" 
@@ -68,7 +71,7 @@
                       BorderBrush="{ThemeResource CardBackgroundFillColorSecondaryBrush}" 
                       BorderThickness="0 0 0 1"
                       ShowsScrollingPlaceholders="True"
-                      helpers:FocusHelper.IsFocused="True" FontFamily="{x:Bind ViewModel.Font, Mode=OneWay}" FontSize="{x:Bind ViewModel.FontSize, Mode=OneWay}">
+                      helpers:FocusHelper.IsFocused="{x:Bind ViewModel.IsTaskListFocused, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Font, Mode=OneWay}" FontSize="{x:Bind ViewModel.FontSize, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:Task">
                         <ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Style="{StaticResource ListViewItemStyle}" >
@@ -97,8 +100,55 @@
                 </i:Interaction.Behaviors>
             </ListView>
         </SplitView>
-        <Grid Grid.Row="2" Padding="12 0" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}">
-            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Filter" VerticalAlignment="Center" />
+        <Grid Grid.Row="2" Padding="12 0" Height="32" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}" 
+              Visibility="{x:Bind ViewModel.AppSettings.ShowStatusBar, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <AppBarSeparator />
+                <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Padding="5 0" Text="{x:Bind ViewModel.FilterSettings.CurrentPresetFilter, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind ViewModel.FilterSettings.ActiveFilter}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+                <AppBarSeparator />
+                <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Padding="5 0">
+                    <Run>Sort:</Run>
+                    <Run Text="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}"/> 
+                </TextBlock>
+                <AppBarSeparator />
+                <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Padding="5 0">
+                    <Run>Direction:</Run>
+                    <Run Text="{x:Bind ViewModel.ViewSettings.CurrentSortDirection, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}" />
+                </TextBlock>
+                <AppBarSeparator />
+                <TextBlock VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}" Padding="5 0">
+                    <Run>Tasks:</Run>
+                    <Run Text="{x:Bind ViewModel.Summary.FilteredCount, Mode=OneWay}" />
+                    <Run>of</Run>
+                    <Run Text="{x:Bind ViewModel.Summary.TotalCount, Mode=OneWay}" />
+                </TextBlock>
+                <AppBarSeparator />
+                <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Padding="5 0">
+                    <Run>Incomplete:</Run>
+                    <Run Text="{x:Bind ViewModel.Summary.Incomplete, Mode=OneWay}" />
+                </TextBlock>
+                <AppBarSeparator />
+                <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Padding="5 0">
+                    <Run>Due Today:</Run>          
+                    <Run Text="{x:Bind ViewModel.Summary.DueToday, Mode=OneWay}" />
+                </TextBlock>
+                <AppBarSeparator />
+                <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Padding="5 0">
+                    <Run>Overdue:</Run>
+                    <Run Text="{x:Bind ViewModel.Summary.Overdue, Mode=OneWay}" />
+                </TextBlock>
+                <AppBarSeparator />
+                <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Padding="5 0">
+                    <Run>Hidden:</Run>
+                    <Run Text="{x:Bind ViewModel.Summary.Hidden, Mode=OneWay}" />
+                </TextBlock>
+                <AppBarSeparator />
+            </StackPanel>
+            
         </Grid>
     </Grid>
 </Page>

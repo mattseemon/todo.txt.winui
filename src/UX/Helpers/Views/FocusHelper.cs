@@ -17,7 +17,7 @@ public static class FocusHelper
     {
         if (sender is UIElement element && (bool)e.NewValue)
         {
-            element.Focus(FocusState.Keyboard);
+            element.Focus(FocusState.Programmatic);
         }
     }
 }

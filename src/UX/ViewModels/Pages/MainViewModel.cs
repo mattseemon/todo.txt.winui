@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Input;
 
 using Microsoft.UI.Xaml.Data;
@@ -35,6 +36,8 @@ public class MainViewModel : ViewModelBase, INavigationAware
     private double _fontSize;
     private Func<object, object>? _group = null;
     private string _currentFilter = string.Empty;
+    private bool _isTaskListFocused;
+    private Models.TasksSummary _tasksSummary;
 
     private ICommand? _selectionChangedCommand;
     private ICommand? _doubleTappedCommand;
@@ -55,8 +58,12 @@ public class MainViewModel : ViewModelBase, INavigationAware
 
     public double FontSize { get => _fontSize; set => SetProperty(ref _fontSize, value); }
 
+    public bool IsTaskListFocused { get => _isTaskListFocused; set => SetProperty(ref _isTaskListFocused, value); }
+
     public AppSettings AppSettings => _appSettings;
+    public ViewSettings ViewSettings => _viewSettings;
     public FilterSettings FilterSettings => _filterSettings;
+    public Models.TasksSummary Summary => _tasksSummary;
 
     public MainViewModel(ITaskService taskService, IRecentFilesService recentFilesService, ISettingsService settingsService)
     {
@@ -75,6 +82,8 @@ public class MainViewModel : ViewModelBase, INavigationAware
 
         _taskService.Loaded += OnTasksLoaded;
         _taskService.CollectionChanged += OnCollectionChanged;
+
+        _tasksSummary ??= new Models.TasksSummary();
 
         Font = string.IsNullOrEmpty(_appSettings.FontFamily) ? FontFamily.XamlAutoFontFamily : new FontFamily(_appSettings.FontFamily);
         FontSize = _appSettings.FontSize;
@@ -205,6 +214,44 @@ public class MainViewModel : ViewModelBase, INavigationAware
             TasksCollectionView.IsSourceGrouped = false;
             TasksCollectionView.Source = _filteredTasks;
         }
+
+        UpdateSummary();
+
+        IsTaskListFocused = true;
+    }
+
+    private void UpdateSummary()
+    {
+        if (_taskService.ActiveTasks == null) return;
+
+        _tasksSummary ??= new Models.TasksSummary();
+
+        _tasksSummary.TotalCount = _taskService.ActiveTasks.Count;
+        _tasksSummary.FilteredCount = _filteredTasks.Count;
+
+        int incomplete = 0, dueToday = 0, overdue = 0, hidden = 0;
+
+        hidden = _taskService.ActiveTasks.Where(t => t.IsHidden).Count();
+
+        foreach (var task in _filteredTasks)
+        {
+            if (!task.IsCompleted)
+            {
+                incomplete++;
+                if (!string.IsNullOrEmpty(task.DueDate))
+                {
+                    if (DateTime.TryParseExact(task.DueDate, Constants.TODO_DATE_FORMAT, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dueDate))
+                    {
+                        if (dueDate.Date == DateTime.Today.Date) dueToday++;
+                        else if (dueDate.Date < DateTime.Today.Date) overdue++;
+                    }
+                }
+            }
+        }
+        _tasksSummary.DueToday = dueToday;
+        _tasksSummary.Incomplete = incomplete;
+        _tasksSummary.Overdue = overdue;
+        _tasksSummary.Hidden = _viewSettings.ShowHiddenTasks ? 0 : hidden;
     }
 
     private List<string> GetGroupKeys(object item)
