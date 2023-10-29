@@ -112,12 +112,18 @@
                     </MenuFlyoutItem>
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Update" Command="{x:Bind ViewModel.UpdateTaskCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="U" Modifiers="None" />
+                            <KeyboardAccelerator Key="E" Modifiers="None" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Append" Command="{x:Bind ViewModel.AppendTextToTaskCommand}" KeyTipPlacementMode="Left">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="A" Modifiers="None" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_Delete" Command="{x:Bind ViewModel.DeleteTaskCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="Delete" Modifiers="None" />
+                            <KeyboardAccelerator Key="D" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
@@ -158,7 +164,7 @@
                     <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_Task_DueDate" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_DueDate_Set" Command="{x:Bind ViewModel.SetDateCommand}" CommandParameter="Due" KeyTipPlacementMode="Left">
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="S" Modifiers="Control" />
+                                <KeyboardAccelerator Key="U" Modifiers="None" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_DueDate_Postpone" Command="{x:Bind ViewModel.PostponeDateCommand}" CommandParameter="Due" KeyTipPlacementMode="Left">
@@ -185,7 +191,7 @@
                     <MenuFlyoutSubItem x:Uid="ShellPage_MenuBarItem_Task_ThresholdDate" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_ThresholdDate_Set" Command="{x:Bind ViewModel.SetDateCommand}" CommandParameter="Threshold" KeyTipPlacementMode="Left">
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="S" Modifiers="Control,Menu" />
+                                <KeyboardAccelerator Key="T" Modifiers="None" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_ThresholdDate_Postpone" Command="{x:Bind ViewModel.PostponeDateCommand}" CommandParameter="Threshold" KeyTipPlacementMode="Left">

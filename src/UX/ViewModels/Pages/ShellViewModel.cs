@@ -59,6 +59,7 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _addMultipleNewTaskCommand;
     private ICommand? _copyToNewTaskCommand;
     private ICommand? _updateTaskCommand;
+    private ICommand? _appendTextToTaskCommand;
     private ICommand? _deleteTaskCommand;
     private ICommand? _toggleCompletedCommand;
     private ICommand? _toggleHiddenCommand;
@@ -121,6 +122,7 @@ public class ShellViewModel : ViewModelBase
     public ICommand AddNewTaskCommand => _addNewTaskCommand ??= RegisterCommand(OnAddNewTask, CanAddNewTasks);
     public ICommand AddMultipleNewTasksCommand => _addMultipleNewTaskCommand ??= RegisterCommand(OnAddMultipleNewTasks, CanAddNewTasks);
     public ICommand CopyToNewTaskCommand => _copyToNewTaskCommand ??= RegisterCommand(OnCopyToNewTask, CanCopyToNewTask);
+    public ICommand AppendTextToTaskCommand => _appendTextToTaskCommand ??= RegisterCommand(OnAppendTextToTask, CanAppendTextToTask);
     public ICommand UpdateTaskCommand => _updateTaskCommand ??= RegisterCommand(OnUpdateTask, CanUpdateTask);
     public ICommand DeleteTaskCommand => _deleteTaskCommand ??= RegisterCommand(OnDeleteTask, CanDeleteTask);
     public ICommand ToggleCompletedCommand => _toggleCompletedCommand ??= RegisterCommand(OnToggleCompleted, CanToggleCompleted);
@@ -312,6 +314,26 @@ public class ShellViewModel : ViewModelBase
         if (response != null)
         {
             _taskService.UpdateTask(_taskService.SelectedTasks.First(), response.BindableString);
+        }
+    }
+
+    private bool CanAppendTextToTask() => _taskService.SelectedTasks.Count > 0;
+    
+    private async void OnAppendTextToTask()
+    {
+        var response = await _dialogService.ShowDialogAsync<TaskPage>("TaskPage_Append_Title".GetLocalized());
+        if (response != null)
+        {
+            foreach(var task in  _taskService.SelectedTasks)
+            {
+                var tempTask = _taskService.Parse(task.Raw);
+                if (tempTask != null)
+                {
+                    tempTask.Body = $"{tempTask.Body} {response.BindableString}";
+                    _taskService.UpdateTask(task, tempTask.GetFormattedRaw());
+                }
+            }
+            
         }
     }
 
