@@ -338,10 +338,10 @@
     <value>Add New Task</value>
   </data>
   <data name="ShellPage_MenuBarItem_Task_Update.AccessKey" xml:space="preserve">
-    <value>U</value>
+    <value>E</value>
   </data>
   <data name="ShellPage_MenuBarItem_Task_Update.Text" xml:space="preserve">
-    <value>Update Selected Task</value>
+    <value>Edit Selected Task</value>
   </data>
   <data name="SettingsPage_Task_ConfirmBeforeDeleting.Text" xml:space="preserve">
     <value>Confirm before deleting tasks</value>
@@ -398,7 +398,7 @@
     <value>Set Priority</value>
   </data>
   <data name="ShellPage_MenuBarItem_Task_DueDate.AccessKey" xml:space="preserve">
-    <value>A</value>
+    <value>U</value>
   </data>
   <data name="ShellPage_MenuBarItem_Task_DueDate.Text" xml:space="preserve">
     <value>Due Date</value>
@@ -753,5 +753,14 @@
   </data>
   <data name="SettingsPage_View_ShowHiddenTasks.Text" xml:space="preserve">
     <value>Show hiddent tasks in task list</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_Append.AccessKey" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_Task_Append.Text" xml:space="preserve">
+    <value>Append Text to Task</value>
+  </data>
+  <data name="TaskPage_Append_Title" xml:space="preserve">
+    <value>Append Text to task</value>
   </data>
 </root>
