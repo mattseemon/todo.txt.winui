@@ -16,6 +16,7 @@ public class AppSettings : ObservableObject
     private bool _autoRefreshFile = false;
     private string _fontFamily = string.Empty;
     private double _fontSize = 14;
+    private bool _showStatusBar = true;
 
     public AppSettings() => _recentFiles = new ObservableCollection<RecentFile>();
 
@@ -43,6 +44,9 @@ public class AppSettings : ObservableObject
     [JsonProperty("fontSize")]
     public double FontSize { get => _fontSize; set => SetProperty(ref _fontSize, value); }
 
+    [JsonProperty("showStatusBar")]
+    public bool ShowStatusBar { get => _showStatusBar; set => SetProperty(ref _showStatusBar, value); }
+
     public static AppSettings Default => new()
     {
         Theme = "Default",
@@ -52,5 +56,6 @@ public class AppSettings : ObservableObject
         MaxRecentFileCount = 10,
         AutoRefreshFile = false,
         FontFamily = string.Empty,
+        ShowStatusBar = false,
     };
 }

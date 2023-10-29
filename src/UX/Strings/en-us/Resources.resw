@@ -710,7 +710,7 @@
     <value>0</value>
   </data>
   <data name="ShellPage_MenuBarItem_Filter_ClearActive.Text" xml:space="preserve">
-    <value>Clear Active Filters</value>
+    <value>Clear Active Filter</value>
   </data>
   <data name="ShellPage_MenuBarItem_Filter_Define.AccessKey" xml:space="preserve">
     <value>D</value>
@@ -762,5 +762,20 @@
   </data>
   <data name="TaskPage_Append_Title" xml:space="preserve">
     <value>Append Text to task</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_View.AccessKey" xml:space="preserve">
+    <value>V</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_View.Title" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_View_StatusBar.AccessKey" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_View_StatusBar.Text" xml:space="preserve">
+    <value>Show Status Bar</value>
+  </data>
+  <data name="SettingsPage_Application_ShowStatusBar.Text" xml:space="preserve">
+    <value>Show status bar with tasks summary information</value>
   </data>
 </root>

@@ -51,6 +51,7 @@
                             <RowDefinition Height="42" />
                             <RowDefinition Height="42"/>
                             <RowDefinition Height="42"/>
+                            <RowDefinition Height="42"/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_Application_AutoRefresh" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
                         <ToggleSwitch Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.AutoRefreshFile, Mode=TwoWay}" OnContent="" OffContent="" AccessKey="R" />
@@ -67,6 +68,8 @@
                                 </ic:EventTriggerBehavior>
                             </i:Interaction.Behaviors>
                         </NumberBox>
+                        <TextBlock Grid.Row="3" Grid.Column="0" x:Uid="SettingsPage_Application_ShowStatusBar" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
+                        <ToggleSwitch Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.ShowStatusBar, Mode=TwoWay}" OnContent="" OffContent="" AccessKey="R" />
                     </Grid>
                 </Expander>
                 <Expander x:Uid="SettingsPage_Task" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" AccessKey="T">
