@@ -4,10 +4,12 @@ namespace Seemon.Todo.Helpers.Converters;
 
 public class EnumToBooleanConverter : IValueConverter
 {
-    public Type EnumType { get; set; }
+    public Type? EnumType { get; set; }
 
     public object Convert(object value, Type targetType, object parameter, string language)
     {
+        if (EnumType == null) throw new ArgumentNullException(nameof(EnumType));
+
         if (parameter is string enumString)
         {
             if (!Enum.IsDefined(EnumType, value))
@@ -22,7 +24,11 @@ public class EnumToBooleanConverter : IValueConverter
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
-        => parameter is string enumString
-            ? Enum.Parse(EnumType, enumString)
-            : throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
+    {
+        if (EnumType == null) throw new ArgumentNullException(nameof(EnumType));
+
+        return parameter is string enumString
+                ? Enum.Parse(EnumType, enumString)
+                : throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
+    }
 }

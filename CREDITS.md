@@ -38,7 +38,7 @@ The following 3rd-party software libraries were used to develop **Todo** and are
 
 Package|Version|Licenses
 ---|---:|:---:
-[CommunityToolkit.Mvvm](#communitytoolkitmvvm)|8.2.1|MIT
+[CommunityToolkit.Mvvm](#communitytoolkitmvvm)|8.2.2|MIT
 [CommunityToolkit.WinUI.UI](#communitytoolkitwinuiui)|7.1.2|MIT
 [Microsoft.Extensions.Hosting](#microsoftextensionshosting)|7.0.1|MIT
 [Microsoft.Graphics.Win2D](#microsoftgraphicswin2d)|1.0.5.1|MIT
@@ -61,7 +61,7 @@ This package includes a .NET MVVM library with helpers such as:
 ### Additional Information
 |Type|Value|
 |---|---|
-|Version|8.2.1|
+|Version|8.2.2|
 |License|MIT|
 |Author|Microsoft|
 |Homepage|https://github.com/CommunityToolkit/dotnet|

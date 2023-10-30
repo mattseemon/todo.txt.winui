@@ -46,7 +46,7 @@
                 TODO: Update item titles by updating <x:Uid>.Text entries in Strings/en-us/Resources.resw.
                 https://docs.microsoft.com/windows/uwp/app-resources/localize-strings-ui-manifest#refer-to-a-string-resource-identifier-from-xaml
                 -->
-                <MenuBarItem x:Uid="ShellPage_MenuBarItem_File" KeyTipPlacementMode="Top">
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_File" KeyTipPlacementMode="Bottom">
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_New" Command="{x:Bind ViewModel.NewTodoCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="N" Modifiers="Control" />
@@ -82,7 +82,7 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                 </MenuBarItem>
-                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Edit" KeyTipPlacementMode="Top">
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Edit" KeyTipPlacementMode="Bottom">
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Edit_Copy" Command="{x:Bind ViewModel.CopyToClipboardCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="C" Modifiers="Control" />
@@ -94,7 +94,7 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                 </MenuBarItem>
-                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Task" KeyTipPlacementMode="Top">
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Task" KeyTipPlacementMode="Bottom">
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Task_New" Command="{x:Bind ViewModel.AddNewTaskCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="N" Modifiers="None" />
@@ -216,7 +216,7 @@
                         </MenuFlyoutItem>
                     </MenuFlyoutSubItem>
                 </MenuBarItem>
-                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Sort" KeyTipPlacementMode="Top">
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Sort" KeyTipPlacementMode="Bottom">
                     <RadioMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Sort_File" GroupName="TaskSort" IsChecked="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource SortOptionsConverter}, ConverterParameter=None}" KeyTipPlacementMode="Left"
                                          Command="{x:Bind ViewModel.SortOptionCommand}" CommandParameter="None">
                         <RadioMenuFlyoutItem.KeyboardAccelerators>
@@ -291,7 +291,7 @@
                         </ToggleMenuFlyoutItem.KeyboardAccelerators>
                     </ToggleMenuFlyoutItem>
                 </MenuBarItem>
-                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Filter">
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Filter" KeyTipPlacementMode="Bottom">
                     <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Filter_HideFuture" KeyTipPlacementMode="Left" IsChecked="{x:Bind ViewModel.ViewSettings.HideFutureTasks, Mode=TwoWay}" Command="{x:Bind ViewModel.HideFutureTasksCommand}">
                         <ToggleMenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="F" Modifiers="Control" />
@@ -379,7 +379,7 @@
                         </RadioMenuFlyoutItem.KeyboardAccelerators>
                     </RadioMenuFlyoutItem>
                 </MenuBarItem>
-                <MenuBarItem x:Uid="ShellPage_MenuBarItem_View" KeyTipPlacementMode="Top">
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_View" KeyTipPlacementMode="Bottom">
                     <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_View_StatusBar" KeyTipPlacementMode="Left"
                                           IsChecked="{x:Bind ViewModel.AppSettings.ShowStatusBar, Mode=TwoWay}">
                         <MenuFlyoutItem.KeyboardAccelerators>
@@ -387,7 +387,7 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </ToggleMenuFlyoutItem>
                 </MenuBarItem>
-                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Help" KeyTipPlacementMode="Top">
+                <MenuBarItem x:Uid="ShellPage_MenuBarItem_Help" KeyTipPlacementMode="Bottom">
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Help_Settings" KeyTipPlacementMode="Left" Command="{x:Bind ViewModel.ShowSettingsCommand}">
                         <MenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="F10" />
@@ -404,7 +404,7 @@
             <AutoSuggestBox Grid.Column="2" x:Uid="ShellPage_QuickSearch" Width="300" VerticalAlignment="Center" QueryIcon="Find" Margin="0 0 6 0" 
                             helpers:FocusHelper.IsFocused="{x:Bind ViewModel.IsQuickSearchFocused, Mode=OneWay}" 
                             Visibility="{x:Bind ViewModel.IsMenuVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
-                            Text="{x:Bind ViewModel.ViewSettings.QuickSearchString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            Text="{x:Bind ViewModel.ViewSettings.QuickSearchString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" KeyTipPlacementMode="Bottom">
                 <i:Interaction.Behaviors>
                     <ic:EventTriggerBehavior EventName="GotFocus">
                         <ic:InvokeCommandAction Command="{x:Bind ViewModel.QuickSearchFocusedChangedCommand}" CommandParameter="True" />
@@ -414,12 +414,12 @@
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AutoSuggestBox>
-            <AppBarButton Grid.Column="3" x:Uid="ShellPage_AppBarButton_Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}" Icon="Setting" ToolTipService.Placement="Bottom" Visibility="Visible">
+            <AppBarButton Grid.Column="3" x:Uid="ShellPage_AppBarButton_Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}" Icon="Setting" ToolTipService.Placement="Bottom" Visibility="Visible" KeyTipPlacementMode="Bottom">
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="ShellPage_AppBarButton_Settings_Tooltip" />
                 </ToolTipService.ToolTip>
             </AppBarButton>
-            <AppBarButton Grid.Column="4" x:Uid="ShellPage_AppBarButton_About" ToolTipService.Placement="Bottom" Command="{x:Bind ViewModel.ShowAboutCommand}" Visibility="Visible">
+            <AppBarButton Grid.Column="4" x:Uid="ShellPage_AppBarButton_About" ToolTipService.Placement="Bottom" Command="{x:Bind ViewModel.ShowAboutCommand}" Visibility="Visible" KeyTipPlacementMode="Bottom">
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="ShellPage_AppBarButton_About_Tooltip" />
                 </ToolTipService.ToolTip>

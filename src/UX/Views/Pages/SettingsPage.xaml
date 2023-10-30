@@ -14,7 +14,7 @@
         <TextBlock Grid.Row="0" x:Uid="SettingsPage_Title" Style="{StaticResource PageTitleStyle}" />
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0 0 0 24" Padding="0 0 8 0">
             <StackPanel x:Name="ContentArea">
-                <Expander x:Uid="SettingsPage_Appearance" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" AccessKey="A">
+                <Expander x:Uid="SettingsPage_Appearance" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyTipPlacementMode="Left">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -27,7 +27,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <TextBlock x:Uid="SettingsPage_Appearance_Theme" Style="{StaticResource BodyTextBlockStyle}" Grid.Column="0" VerticalAlignment="Center"  />
-                        <ComboBox Grid.Column="1" MaxWidth="200" MinWidth="200" HorizontalAlignment="Left" ItemsSource="{x:Bind ViewModel.Themes, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}" AccessKey="L">
+                        <ComboBox Grid.Column="1" MaxWidth="200" MinWidth="200" HorizontalAlignment="Left" ItemsSource="{x:Bind ViewModel.Themes, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
                             <i:Interaction.Behaviors>
                                 <ic:EventTriggerBehavior EventName="SelectionChanged">
                                     <ic:InvokeCommandAction Command="{x:Bind ViewModel.SwitchThemeCommand}" />
@@ -41,7 +41,7 @@
                         <TextBlock Grid.Row="3" Grid.Column="1" Margin="0 6 0 0" TextWrapping="WrapWholeWords" VerticalAlignment="Center" FontFamily="{x:Bind ViewModel.SelectedFont, Mode=OneWay}" FontSize="{x:Bind ViewModel.AppSettings.FontSize, Mode=OneWay}" Text="The quick brown fox jumps over the lazy dog" />
                     </Grid>
                 </Expander>
-                <Expander x:Uid="SettingsPage_Application" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" AccessKey="P">
+                <Expander x:Uid="SettingsPage_Application" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" KeyTipPlacementMode="Left">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -54,11 +54,11 @@
                             <RowDefinition Height="42"/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_Application_AutoRefresh" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
-                        <ToggleSwitch Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.AutoRefreshFile, Mode=TwoWay}" OnContent="" OffContent="" AccessKey="R" />
+                        <ToggleSwitch Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.AutoRefreshFile, Mode=TwoWay}" OnContent="" OffContent="" />
                         <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_Application_LoadMostRecent" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}"  />
-                        <ToggleSwitch Grid.Row="1" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.OpenRecentOnStartup, Mode=TwoWay}" AccessKey="O" />
+                        <ToggleSwitch Grid.Row="1" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.OpenRecentOnStartup, Mode=TwoWay}" />
                         <TextBlock Grid.Row="2" Grid.Column="0" x:Uid="SettingsPage_Application_MaxRecent" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
-                        <NumberBox Grid.Row="2" Grid.Column="1" Minimum="1" Maximum="10" HorizontalAlignment="Left" MaxWidth="200" MinWidth="200" VerticalAlignment="Center" Value="{x:Bind ViewModel.AppSettings.MaxRecentFileCount, Mode=TwoWay}" SpinButtonPlacementMode="Inline" AccessKey="N">
+                        <NumberBox Grid.Row="2" Grid.Column="1" Minimum="1" Maximum="10" HorizontalAlignment="Left" MaxWidth="200" MinWidth="200" VerticalAlignment="Center" Value="{x:Bind ViewModel.AppSettings.MaxRecentFileCount, Mode=TwoWay}" SpinButtonPlacementMode="Inline">
                             <i:Interaction.Behaviors>
                                 <ic:EventTriggerBehavior EventName="GotFocus">
                                     <ic:InvokeCommandAction Command="{x:Bind ViewModel.TextBoxFocusChangedCommand}" CommandParameter="True" />
@@ -69,10 +69,10 @@
                             </i:Interaction.Behaviors>
                         </NumberBox>
                         <TextBlock Grid.Row="3" Grid.Column="0" x:Uid="SettingsPage_Application_ShowStatusBar" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
-                        <ToggleSwitch Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.ShowStatusBar, Mode=TwoWay}" OnContent="" OffContent="" AccessKey="R" />
+                        <ToggleSwitch Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.ShowStatusBar, Mode=TwoWay}" OnContent="" OffContent="" />
                     </Grid>
                 </Expander>
-                <Expander x:Uid="SettingsPage_Task" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" AccessKey="T">
+                <Expander x:Uid="SettingsPage_Task" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" KeyTipPlacementMode="Left">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -88,17 +88,17 @@
                             <RowDefinition Height="42" />
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_Task_AddCreatedDate" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
-                        <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.AddCreatedDate, Mode=TwoWay}" AccessKey="X" />
+                        <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.AddCreatedDate, Mode=TwoWay}" />
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Confirm before deleting tasks" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
-                        <ToggleSwitch Grid.Row="1" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.ConfirmBeleteDelete, Mode=TwoWay}" AccessKey="X" />
+                        <ToggleSwitch Grid.Row="1" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.ConfirmBeleteDelete, Mode=TwoWay}" />
                         <TextBlock Grid.Row="2" Grid.Column="0" x:Uid="SettingsPage_Task_DefaultPriority" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
                         <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{x:Bind ViewModel.Priorities, Mode=OneTime}" VerticalAlignment="Center" MinWidth="200" SelectedItem="{x:Bind ViewModel.SelectedPriority, Mode=TwoWay}" DisplayMemberPath="Description" SelectedValuePath="Value" />
                         <TextBlock Grid.Row="3" Grid.Column="0" x:Uid="SettingsPage_Task_ArchiveCompleted" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
-                        <ToggleSwitch Grid.Row="3" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.ArchiveCompleted, Mode=TwoWay}" AccessKey="X" />
+                        <ToggleSwitch Grid.Row="3" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.ArchiveCompleted, Mode=TwoWay}" />
                         <TextBlock Grid.Row="4" Grid.Column="0" x:Uid="SettingsPage_Task_AutoArchive"  VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
-                        <ToggleSwitch Grid.Row="4" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.AutoArchive, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.TodoSettings.ArchiveCompleted, Mode=OneWay}" AccessKey="C" />
+                        <ToggleSwitch Grid.Row="4" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.AutoArchive, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.TodoSettings.ArchiveCompleted, Mode=OneWay}" />
                         <TextBlock Grid.Row="5" Grid.Column="0" x:Uid="SettingsPage_Task_EnableGlobalArchive" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
-                        <ToggleSwitch Grid.Row="5" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.EnableGlobalArchive, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.TodoSettings.ArchiveCompleted, Mode=OneWay}" AccessKey="G" />
+                        <ToggleSwitch Grid.Row="5" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.EnableGlobalArchive, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.TodoSettings.ArchiveCompleted, Mode=OneWay}" />
                         <TextBlock Grid.Row="6" Grid.Column="0" x:Uid="SettingsPage_Task_GlobalArchivePath" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
                         <Grid Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
@@ -115,7 +115,7 @@
                                     </ic:EventTriggerBehavior>
                                 </i:Interaction.Behaviors>
                             </TextBox>
-                            <Button Grid.Column="1" Content="..." Margin="4 0 0 0" IsEnabled="{x:Bind ViewModel.TodoSettings.EnableGlobalArchive, Mode=OneWay}" Command="{x:Bind ViewModel.SelectGlobalArchiveFileCommand}" AccessKey="F">
+                            <Button Grid.Column="1" Content="..." Margin="4 0 0 0" IsEnabled="{x:Bind ViewModel.TodoSettings.EnableGlobalArchive, Mode=OneWay}" Command="{x:Bind ViewModel.SelectGlobalArchiveFileCommand}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip x:Uid="SettingsPage_Task_GlobalArchivePath_Tooltip" />
                                 </ToolTipService.ToolTip>
@@ -123,7 +123,7 @@
                         </Grid>
                     </Grid>
                 </Expander>
-                <Expander x:Uid="SettingsPage_View" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" AccessKey="A">
+                <Expander x:Uid="SettingsPage_View" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" KeyTipPlacementMode="Left">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -138,17 +138,17 @@
                             <RowDefinition Height="42" />
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_View_CaseSensitive" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" />
-                        <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.CaseSensitive, Mode=TwoWay}" AccessKey="X" />
-                        <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_View_Sort" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" />
+                        <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.CaseSensitive, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_View_Sort" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" />
                         <ComboBox Grid.Row="1" Grid.Column="1" MinWidth="200" ItemsSource="{x:Bind ViewModel.SortOptions, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedSortOption, Mode=TwoWay}" DisplayMemberPath="Description" SelectedValuePath="Value" />
-                        <TextBlock Grid.Row="2" Grid.Column="0" x:Uid="SettingsPage_View_SortDirection" Style="{StaticResource BaseTextBlockStyle}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" x:Uid="SettingsPage_View_SortDirection" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" />
                         <ComboBox Grid.Row="2" Grid.Column="1" MinWidth="200" ItemsSource="{x:Bind ViewModel.SortDirections, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.SelectedSortDirection, Mode=TwoWay}" DisplayMemberPath="Description" SelectedValuePath="Value" />
                         <TextBlock Grid.Row="3" Grid.Column="0" x:Uid="SettingsPage_View_AllowGrouping" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" />
-                        <ToggleSwitch Grid.Row="3" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.AllowGrouping, Mode=TwoWay}" AccessKey="G" />
+                        <ToggleSwitch Grid.Row="3" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.AllowGrouping, Mode=TwoWay}" />
                         <TextBlock Grid.Row="4" Grid.Column="0" x:Uid="SettingsPage_View_HideFutureTasks" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" />
-                        <ToggleSwitch Grid.Row="4" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.HideFutureTasks, Mode=TwoWay}" AccessKey="H" />
+                        <ToggleSwitch Grid.Row="4" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.HideFutureTasks, Mode=TwoWay}" />
                         <TextBlock Grid.Row="5" Grid.Column="0" x:Uid="SettingsPage_View_ShowHiddenTasks" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" />
-                        <ToggleSwitch Grid.Row="5" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.ShowHiddenTasks, Mode=TwoWay}" AccessKey="H" />
+                        <ToggleSwitch Grid.Row="5" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.ShowHiddenTasks, Mode=TwoWay}" />
                     </Grid>
                 </Expander>
             </StackPanel>
