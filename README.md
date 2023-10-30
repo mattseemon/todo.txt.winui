@@ -62,7 +62,7 @@ Todo was developed using the below tools and technologies.
 
 Library | Version 
 ------- | -------:
-[CommunityToolkit.Mvvm ](https://github.com/CommunityToolkit/dotnet)|8.2.1
+[CommunityToolkit.Mvvm ](https://github.com/CommunityToolkit/dotnet)|8.2.2
 [CommunityToolkit.WinUI.UI](https://github.com/CommunityToolkit/WindowsCommunityToolkit)|7.1.2
 [Microsoft.Extensions.Hosting](https://github.com/dotnet/runtime)|7.0.1
 [Microsoft.Graphics.Win2D](https://microsoft.github.io/Win2D/html/Introduction.htm)|1.0.5.1

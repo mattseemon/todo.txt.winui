@@ -752,7 +752,7 @@
     <value>Hide future tasks in task list</value>
   </data>
   <data name="SettingsPage_View_ShowHiddenTasks.Text" xml:space="preserve">
-    <value>Show hiddent tasks in task list</value>
+    <value>Show hidden tasks in task list</value>
   </data>
   <data name="ShellPage_MenuBarItem_Task_Append.AccessKey" xml:space="preserve">
     <value>A</value>
@@ -777,5 +777,17 @@
   </data>
   <data name="SettingsPage_Application_ShowStatusBar.Text" xml:space="preserve">
     <value>Show status bar with tasks summary information</value>
+  </data>
+  <data name="SettingsPage_Appearance.AccessKey" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="SettingsPage_Application.AccessKey" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="SettingsPage_Task.AccessKey" xml:space="preserve">
+    <value>T</value>
+  </data>
+  <data name="SettingsPage_View.AccessKey" xml:space="preserve">
+    <value>V</value>
   </data>
 </root>
