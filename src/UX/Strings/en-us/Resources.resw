@@ -287,7 +287,7 @@
     <value>Archive completed tasks</value>
   </data>
   <data name="SettingsPage_Task_AutoArchive.Text" xml:space="preserve">
-    <value>Auto archive completed tasks</value>
+    <value>Automatically archive tasks when marked as completed</value>
   </data>
   <data name="SettingsPage_Task_EnableGlobalArchive.Text" xml:space="preserve">
     <value>Archive all completed tasks to a single archive file</value>
@@ -305,7 +305,7 @@
     <value>Quick Search...</value>
   </data>
   <data name="SettingsPage_Application_AutoRefresh.Text" xml:space="preserve">
-    <value>Automatically refresh todo file</value>
+    <value>Automatically refresh todo file when changes detected</value>
   </data>
   <data name="SettingsPage_View.Header" xml:space="preserve">
     <value>View</value>
@@ -344,7 +344,7 @@
     <value>Edit Selected Task</value>
   </data>
   <data name="SettingsPage_Task_ConfirmBeforeDeleting.Text" xml:space="preserve">
-    <value>Confirm before deleting tasks</value>
+    <value>Prompt user to confirm before deleting tasks</value>
   </data>
   <data name="ShellPage_MenuBarItem_Task_Delete.AccessKey" xml:space="preserve">
     <value>D</value>
@@ -556,7 +556,7 @@
   <data name="SettingsPage_Appearance_FontFamily.Text" xml:space="preserve">
     <value>Display font for the task list</value>
   </data>
-  <data name="SettingsPage_Appearance_FontSize" xml:space="preserve">
+  <data name="SettingsPage_Appearance_FontSize.Text" xml:space="preserve">
     <value>Display font size for the task list</value>
   </data>
   <data name="ShellPage_MenuBarItem_Sort.AccessKey" xml:space="preserve">
@@ -644,7 +644,7 @@
     <value>Sort direction</value>
   </data>
   <data name="SettingsPage_View_AllowGrouping.Text" xml:space="preserve">
-    <value>Show takslist in groups</value>
+    <value>When sorting tasks, show taks list in groups</value>
   </data>
   <data name="ShellPage_MenuBarItem_Filter.AccessKey" xml:space="preserve">
     <value>R</value>
@@ -789,5 +789,29 @@
   </data>
   <data name="SettingsPage_View.AccessKey" xml:space="preserve">
     <value>V</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_View_ShowCalendar.AccessKey" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_View_ShowCalendar.Text" xml:space="preserve">
+    <value>Show Calendar</value>
+  </data>
+  <data name="ShellPage_AppBarButton_Calendar.AccessKey" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="ShellPage_AppBarButton_Calendar_Tooltip.Content" xml:space="preserve">
+    <value>Show Calendar (Ctrl+Shift+C)</value>
+  </data>
+  <data name="AboutPage_Author_Label.Text" xml:space="preserve">
+    <value>Author:</value>
+  </data>
+  <data name="AboutPage_Footer1.Text" xml:space="preserve">
+    <value>Built with</value>
+  </data>
+  <data name="AboutPage_Footer2.Text" xml:space="preserve">
+    <value>in Goa, India</value>
+  </data>
+  <data name="AboutPage_Version.Text" xml:space="preserve">
+    <value>Version</value>
   </data>
 </root>
