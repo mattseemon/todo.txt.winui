@@ -112,7 +112,7 @@
                 <AppBarSeparator />
                 <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Padding="5 0">
                     <Run>Sort:</Run>
-                    <Run Text="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}"/> 
+                    <Run Text="{x:Bind ViewModel.ViewSettings.CurrentSort, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}"/>
                 </TextBlock>
                 <AppBarSeparator />
                 <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" Padding="5 0">
@@ -148,7 +148,6 @@
                 </TextBlock>
                 <AppBarSeparator />
             </StackPanel>
-            
         </Grid>
     </Grid>
 </Page>

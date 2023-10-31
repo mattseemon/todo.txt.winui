@@ -16,6 +16,7 @@
         <converters:EnumToBooleanConverter x:Key="SortOptionsConverter" EnumType="models:SortOptions" />
         <converters:EnumToBooleanConverter x:Key="SortDirectionConverter" EnumType="models:SortDirection" />
         <converters:EnumToBooleanConverter x:Key="PresetFilterConverter" EnumType="models:PresetFilters" />
+        <converters:NullableBooleanToBooleanConverter x:Key="NullableBooleanToBooleanConverter" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -34,6 +35,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" x:Name="BackButton" Command="{x:Bind ViewModel.GoBackCommand}" AccessKey="B"
                     Visibility="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -42,10 +44,6 @@
                 <FontIcon Glyph="&#xE830;" />
             </Button>
             <MenuBar Grid.Column="1" Visibility="{x:Bind ViewModel.IsMenuVisible, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <!--
-                TODO: Update item titles by updating <x:Uid>.Text entries in Strings/en-us/Resources.resw.
-                https://docs.microsoft.com/windows/uwp/app-resources/localize-strings-ui-manifest#refer-to-a-string-resource-identifier-from-xaml
-                -->
                 <MenuBarItem x:Uid="ShellPage_MenuBarItem_File" KeyTipPlacementMode="Bottom">
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_File_New" Command="{x:Bind ViewModel.NewTodoCommand}" KeyTipPlacementMode="Left">
                         <MenuFlyoutItem.KeyboardAccelerators>
@@ -380,6 +378,11 @@
                     </RadioMenuFlyoutItem>
                 </MenuBarItem>
                 <MenuBarItem x:Uid="ShellPage_MenuBarItem_View" KeyTipPlacementMode="Bottom">
+                    <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_View_ShowCalendar" KeyTipPlacementMode="Left" IsChecked="{x:Bind CalendarToggle.IsChecked, Mode=TwoWay, Converter={StaticResource NullableBooleanToBooleanConverter}}">
+                        <ToggleMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="C" Modifiers="Control,Shift" />
+                        </ToggleMenuFlyoutItem.KeyboardAccelerators>
+                    </ToggleMenuFlyoutItem>
                     <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_View_StatusBar" KeyTipPlacementMode="Left"
                                           IsChecked="{x:Bind ViewModel.AppSettings.ShowStatusBar, Mode=TwoWay}">
                         <MenuFlyoutItem.KeyboardAccelerators>
@@ -414,12 +417,22 @@
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AutoSuggestBox>
-            <AppBarButton Grid.Column="3" x:Uid="ShellPage_AppBarButton_Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}" Icon="Setting" ToolTipService.Placement="Bottom" Visibility="Visible" KeyTipPlacementMode="Bottom">
+            <AppBarToggleButton Grid.Column="3" Icon="Calendar" x:Name="CalendarToggle" x:Uid="ShellPage_AppBarButton_Calendar" KeyTipPlacementMode="Bottom" ToolTipService.Placement="Bottom" Visibility="Visible" >
+                <ToolTipService.ToolTip>
+                    <ToolTip x:Uid="ShellPage_AppBarButton_Calendar_Tooltip" />
+                </ToolTipService.ToolTip>
+            </AppBarToggleButton>
+            <TeachingTip Title="Calendar" Target="{x:Bind CalendarToggle}" IsOpen="{x:Bind CalendarToggle.IsChecked, Mode=TwoWay, Converter={StaticResource NullableBooleanToBooleanConverter}}">
+                <TeachingTip.HeroContent>
+                    <CalendarView DisplayMode="Month" SelectionMode="None" IsGroupLabelVisible="True" IsOutOfScopeEnabled="False" />
+                </TeachingTip.HeroContent>
+            </TeachingTip>
+            <AppBarButton Grid.Column="4" x:Uid="ShellPage_AppBarButton_Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}" Icon="Setting" ToolTipService.Placement="Bottom" Visibility="Visible" KeyTipPlacementMode="Bottom">
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="ShellPage_AppBarButton_Settings_Tooltip" />
                 </ToolTipService.ToolTip>
             </AppBarButton>
-            <AppBarButton Grid.Column="4" x:Uid="ShellPage_AppBarButton_About" ToolTipService.Placement="Bottom" Command="{x:Bind ViewModel.ShowAboutCommand}" Visibility="Visible" KeyTipPlacementMode="Bottom">
+            <AppBarButton Grid.Column="5" x:Uid="ShellPage_AppBarButton_About" ToolTipService.Placement="Bottom" Command="{x:Bind ViewModel.ShowAboutCommand}" Visibility="Visible" KeyTipPlacementMode="Bottom">
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="ShellPage_AppBarButton_About_Tooltip" />
                 </ToolTipService.ToolTip>
