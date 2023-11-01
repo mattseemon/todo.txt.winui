@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-
-using Microsoft.Graphics.Canvas.Text;
+﻿using Microsoft.Graphics.Canvas.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -12,6 +10,8 @@ using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Helpers.ViewModels;
 using Seemon.Todo.Models.Settings;
+
+using System.Windows.Input;
 
 namespace Seemon.Todo.ViewModels.Pages;
 

@@ -1,10 +1,4 @@
-﻿using System.Collections;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Globalization;
-using System.Windows.Input;
-
-using Microsoft.UI.Xaml.Data;
+﻿using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 
@@ -15,6 +9,12 @@ using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Helpers.ViewModels;
 using Seemon.Todo.Helpers.Views;
 using Seemon.Todo.Models.Settings;
+
+using System.Collections;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Globalization;
+using System.Windows.Input;
 
 namespace Seemon.Todo.ViewModels.Pages;
 

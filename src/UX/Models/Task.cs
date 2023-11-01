@@ -27,6 +27,22 @@ public class Task : ObservableObject, IComparable<Task>
     /// </summary>
     public bool IsSelected { get => _isSelected; set => SetProperty(ref _isSelected, value); }
 
+    public TaskDue IsTaskdue
+    {
+        get
+        {
+            if (IsCompleted) return TaskDue.NotDue;
+
+            if (!DateTime.TryParse(DueDate, out DateTime dueDate)) return TaskDue.NotDue;
+
+            if (dueDate.Date < DateTime.Today.Date) return TaskDue.Overdue;
+
+            if (dueDate.Date == DateTime.Today.Date) return TaskDue.Today;
+
+            return TaskDue.NotDue;
+        }
+    }
+
     public bool IsHidden { get => _isHidden; set => SetProperty(ref _isHidden, value); }
 
     public bool IsCompleted { get => _isCompleted; set => SetProperty(ref _isCompleted, value); }

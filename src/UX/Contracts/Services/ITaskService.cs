@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Seemon.Todo.Models.Common;
 
-using Seemon.Todo.Models.Common;
+using System.Collections.ObjectModel;
 
 using Task = Seemon.Todo.Models.Task;
 

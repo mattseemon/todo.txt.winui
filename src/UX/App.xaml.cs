@@ -90,6 +90,7 @@ public partial class App : Application
 
             // Configuration
             services.Configure<FileSettingsOptions>(context.Configuration.GetSection(nameof(FileSettingsOptions)));
+            services.Configure<ApplicationUrls>(context.Configuration.GetSection("Urls"));
         }).
         Build();
 

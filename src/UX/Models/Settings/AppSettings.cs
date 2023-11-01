@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
-
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 using Newtonsoft.Json;
+
+using System.Collections.ObjectModel;
 
 namespace Seemon.Todo.Models.Settings;
 
@@ -17,6 +17,7 @@ public class AppSettings : ObservableObject
     private string _fontFamily = string.Empty;
     private double _fontSize = 14;
     private bool _showStatusBar = true;
+    private bool _alwaysOnTop = false;
 
     public AppSettings() => _recentFiles = new ObservableCollection<RecentFile>();
 
@@ -47,6 +48,9 @@ public class AppSettings : ObservableObject
     [JsonProperty("showStatusBar")]
     public bool ShowStatusBar { get => _showStatusBar; set => SetProperty(ref _showStatusBar, value); }
 
+    [JsonProperty("alwaysOnTop")]
+    public bool AlwaysOnTop { get => _alwaysOnTop; set => SetProperty(ref _alwaysOnTop, value); }
+
     public static AppSettings Default => new()
     {
         Theme = "Default",
@@ -57,5 +61,6 @@ public class AppSettings : ObservableObject
         AutoRefreshFile = false,
         FontFamily = string.Empty,
         ShowStatusBar = false,
+        AlwaysOnTop = false,
     };
 }

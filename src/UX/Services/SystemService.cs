@@ -1,6 +1,8 @@
 ﻿using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers.Extensions;
 
+using System.Diagnostics;
+
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
@@ -54,5 +56,18 @@ public class SystemService : ISystemService
             };
         }
         return string.Empty;
+    }
+
+    public void OpenInWebBrowser(string url)
+    {
+        if (!string.IsNullOrEmpty(url))
+        {
+            var psi = new ProcessStartInfo
+            {
+                UseShellExecute = true,
+                FileName = url
+            };
+            Process.Start(psi);
+        }
     }
 }
