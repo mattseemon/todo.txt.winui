@@ -154,24 +154,6 @@
   <data name="AboutPage_Title.Text" xml:space="preserve">
     <value>About Todo</value>
   </data>
-  <data name="AboutPage_credits.NavigateUri" xml:space="preserve">
-    <value>https://github.com/mattseemon/todo.txt.winui/blob/main/CREDITS.md</value>
-  </data>
-  <data name="AboutPage_license.NavigateUri" xml:space="preserve">
-    <value>https://github.com/mattseemon/todo.txt.winui/blob/main/LICENSE</value>
-  </data>
-  <data name="AboutPage_privacy.NavigateUri" xml:space="preserve">
-    <value>https://github.com/mattseemon/todo.txt.winui/blob/main/PRIVACY.md</value>
-  </data>
-  <data name="AboutPage_source.NavigateUri" xml:space="preserve">
-    <value>https://github.com/mattseemon/todo.txt.winui</value>
-  </data>
-  <data name="AboutPage_todotxtnet.NavigateUri" xml:space="preserve">
-    <value>https://github.com/benrhughes/todotxt.net</value>
-  </data>
-  <data name="AboutPage_todotxtspec.NavigateUri" xml:space="preserve">
-    <value>https://github.com/todotxt/todo.txt</value>
-  </data>
   <data name="AboutPage_Intro.Text" xml:space="preserve">
     <value>This is an implementation of todo.txt for Windows built using the .NET Framework and Win UI 3. This is inspired by todotxt.net built by Ben Hughes. This implementation confroms to the original todo.txt format specifications defined by Gina Trapani.</value>
   </data>
@@ -220,16 +202,10 @@
   <data name="AboutPage_license_Title.Text" xml:space="preserve">
     <value>License</value>
   </data>
-  <data name="AboutPage_contributing.NavigateUri" xml:space="preserve">
-    <value>https://github.com/mattseemon/todo.txt.winui/blob/main/CONTRIBUTING.md</value>
-  </data>
   <data name="AboutPage_todotxtnet_license.Content" xml:space="preserve">
     <value>FreeBSD License</value>
   </data>
-  <data name="AboutPage_todotxtnet_license.NavigateUri" xml:space="preserve">
-    <value>https://github.com/benrhughes/todotxt.net/blob/dev/BSD_LICENSE.txt</value>
-  </data>
-  <data name="SettingsPage_Appearance.Header" xml:space="preserve">
+  <data name="SettingsPage_Appearance.Text" xml:space="preserve">
     <value>Appearance</value>
   </data>
   <data name="SettingsPage_Appearance_Theme.Text" xml:space="preserve">
@@ -271,7 +247,7 @@
   <data name="ShellPage_MenuBarItem_File_Recents_Clear.Text" xml:space="preserve">
     <value>Clear Recent Todo Files</value>
   </data>
-  <data name="SettingsPage_Application.Header" xml:space="preserve">
+  <data name="SettingsPage_Application.Text" xml:space="preserve">
     <value>Application</value>
   </data>
   <data name="SettingsPage_Application_LoadMostRecent.Text" xml:space="preserve">
@@ -280,7 +256,7 @@
   <data name="SettingsPage_Application_MaxRecent.Text" xml:space="preserve">
     <value>Maximum number of recently opened todo files to maintain</value>
   </data>
-  <data name="SettingsPage_Task.Header" xml:space="preserve">
+  <data name="SettingsPage_Task.Text" xml:space="preserve">
     <value>Tasks</value>
   </data>
   <data name="SettingsPage_Task_ArchiveCompleted.Text" xml:space="preserve">
@@ -298,16 +274,13 @@
   <data name="SettingsPage_Task_GlobalArchivePath_Tooltip.Content" xml:space="preserve">
     <value>Open file browser</value>
   </data>
-  <data name="ShellPage_QuickSearch.AccessKey" xml:space="preserve">
-    <value>Q</value>
-  </data>
   <data name="ShellPage_QuickSearch.PlaceholderText" xml:space="preserve">
     <value>Quick Search...</value>
   </data>
   <data name="SettingsPage_Application_AutoRefresh.Text" xml:space="preserve">
     <value>Automatically refresh todo file when changes detected</value>
   </data>
-  <data name="SettingsPage_View.Header" xml:space="preserve">
+  <data name="SettingsPage_View.Text" xml:space="preserve">
     <value>View</value>
   </data>
   <data name="SettingsPage_View_CaseSensitive.Text" xml:space="preserve">
@@ -778,18 +751,6 @@
   <data name="SettingsPage_Application_ShowStatusBar.Text" xml:space="preserve">
     <value>Show status bar with tasks summary information</value>
   </data>
-  <data name="SettingsPage_Appearance.AccessKey" xml:space="preserve">
-    <value>A</value>
-  </data>
-  <data name="SettingsPage_Application.AccessKey" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="SettingsPage_Task.AccessKey" xml:space="preserve">
-    <value>T</value>
-  </data>
-  <data name="SettingsPage_View.AccessKey" xml:space="preserve">
-    <value>V</value>
-  </data>
   <data name="ShellPage_MenuBarItem_View_ShowCalendar.AccessKey" xml:space="preserve">
     <value>C</value>
   </data>
@@ -813,5 +774,20 @@
   </data>
   <data name="AboutPage_Version.Text" xml:space="preserve">
     <value>Version</value>
+  </data>
+  <data name="SettingsPage_Application_AlwaysOnTop.Text" xml:space="preserve">
+    <value>Keep application window always on top</value>
+  </data>
+  <data name="ShellPage_AppBarButton_Calendar_Title.Title" xml:space="preserve">
+    <value>Quick Calendar</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_View_AlwaysOnTop.AccessKey" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="ShellPage_MenuBarItem_View_AlwaysOnTop.Text" xml:space="preserve">
+    <value>Always on Top</value>
+  </data>
+  <data name="AboutPage_Website.Content" xml:space="preserve">
+    <value>Todo Website</value>
   </data>
 </root>

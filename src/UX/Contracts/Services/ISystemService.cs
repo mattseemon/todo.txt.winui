@@ -5,4 +5,6 @@ public interface ISystemService
     Task<string> OpenFileDialogAsync();
 
     Task<string> OpenSaveDialogAsync(string filename = "todo");
+
+    void OpenInWebBrowser(string url);
 }

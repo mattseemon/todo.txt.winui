@@ -1,8 +1,13 @@
-﻿using System.Reflection;
+﻿using Microsoft.Extensions.Options;
 
+using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Helpers.ViewModels;
+using Seemon.Todo.Models.Settings;
+
+using System.Reflection;
+using System.Windows.Input;
 
 using Windows.ApplicationModel;
 
@@ -10,6 +15,11 @@ namespace Seemon.Todo.ViewModels.Pages;
 
 public class AboutViewModel : ViewModelBase
 {
+    private readonly ApplicationUrls _urls;
+    private readonly ISystemService _systemService;
+
+    private ICommand? _openInBrowserCommand;
+
     public string Copyright { get; }
 
     public string Version { get; }
@@ -18,12 +28,16 @@ public class AboutViewModel : ViewModelBase
 
     public string Author { get; }
 
-    public AboutViewModel()
+    public ICommand OpenInBrowserCommand => _openInBrowserCommand ??= RegisterCommand<string>(OnOpenInBrowser);
+
+    public AboutViewModel(IOptions<ApplicationUrls> applicationUrls, ISystemService systemService)
     {
         Copyright = "AboutPage_Copyright".GetLocalized();
         Author = "AboutPage_Author".GetLocalized();
         Description = "AboutPage_Description".GetLocalized();
         Version = GetVersionDescription();
+        _urls = applicationUrls.Value;
+        _systemService = systemService;
     }
 
     private static string GetVersionDescription()
@@ -41,4 +55,6 @@ public class AboutViewModel : ViewModelBase
         }
         return version;
     }
+
+    private void OnOpenInBrowser(string parameter) => _systemService.OpenInWebBrowser(_urls[parameter]);
 }

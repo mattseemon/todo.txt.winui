@@ -70,12 +70,29 @@
                       Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" 
                       BorderBrush="{ThemeResource CardBackgroundFillColorSecondaryBrush}" 
                       BorderThickness="0 0 0 1"
+                      ScrollViewer.HorizontalScrollMode="Enabled"
+                      ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                      ScrollViewer.IsHorizontalRailEnabled="True"
+                      ScrollViewer.VerticalScrollMode="Enabled"
                       ShowsScrollingPlaceholders="True"
                       helpers:FocusHelper.IsFocused="{x:Bind ViewModel.IsTaskListFocused, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Font, Mode=OneWay}" FontSize="{x:Bind ViewModel.FontSize, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:Task">
                         <ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Style="{StaticResource ListViewItemStyle}" >
-                            <TextBlock Text="{x:Bind Raw}" Margin="0 5 0 5" TextWrapping="Wrap"/>
+                            <TextBlock Text="{x:Bind Raw}" Margin="0 5 0 5" x:Name="TaskText" TextWrapping="Wrap">
+                                <i:Interaction.Behaviors>
+                                    <ic:DataTriggerBehavior Binding="{Binding IsTaskdue, Converter={StaticResource EnumToDescriptionConverter}}" ComparisonCondition="Equal" Value="Overdue">
+                                        <ic:ChangePropertyAction TargetObject="{Binding ElementName=TaskText}" PropertyName="Foreground" Value="Red" />
+                                    </ic:DataTriggerBehavior>
+                                    <ic:DataTriggerBehavior Binding="{Binding IsTaskdue, Converter={StaticResource EnumToDescriptionConverter}}" ComparisonCondition="Equal" Value="Today">
+                                        <ic:ChangePropertyAction TargetObject="{Binding ElementName=TaskText}" PropertyName="Foreground" Value="Green" />
+                                    </ic:DataTriggerBehavior>
+                                    <ic:DataTriggerBehavior Binding="{Binding IsCompleted}" ComparisonCondition="Equal" Value="True">
+                                        <ic:ChangePropertyAction TargetObject="{Binding ElementName=TaskText}" PropertyName="TextDecorations" Value="Strikethrough" />
+                                        <ic:ChangePropertyAction TargetObject="{Binding ElementName=TaskText}" PropertyName="Opacity" Value=".5" />
+                                    </ic:DataTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                            </TextBlock>
                         </ListViewItem>
                     </DataTemplate>
                 </ListView.ItemTemplate>

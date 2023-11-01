@@ -30,32 +30,33 @@
                     <Run x:Uid="AboutPage_Author_Label" FontWeight="SemiBold" /> <Run Text="{x:Bind ViewModel.Author, Mode=OneWay}" />
                 </TextBlock>
                 <TextBlock Text="{x:Bind ViewModel.Copyright, Mode=OneWay}" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
+                <HyperlinkButton x:Uid="AboutPage_Website" Command="{x:Bind ViewModel.OpenInBrowserCommand}" CommandParameter="website" Margin="0 5 0 0" />
             </StackPanel>
             <Border Grid.Row="1" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}" Margin="{StaticResource SmallTopBottomMargin}" CornerRadius="8">
                 <ScrollViewer Padding="0 0 12 0" VerticalScrollBarVisibility="Auto" Margin="{StaticResource XXSmallLeftTopRightBottomMargin}" >
                     <StackPanel >
                         <TextBlock x:Uid="AboutPage_Intro" TextAlignment="Justify" TextWrapping="Wrap" Style="{StaticResource BodyTextStyle}" />
                         <StackPanel Orientation="Horizontal">
-                            <HyperlinkButton x:Uid="AboutPage_todotxtspec" />
-                            <HyperlinkButton x:Uid="AboutPage_todotxtnet" />
+                            <HyperlinkButton x:Uid="AboutPage_todotxtspec" Command="{x:Bind ViewModel.OpenInBrowserCommand}" CommandParameter="todo.txt.spec" />
+                            <HyperlinkButton x:Uid="AboutPage_todotxtnet" Command="{x:Bind ViewModel.OpenInBrowserCommand}" CommandParameter="todotxt.net" />
                         </StackPanel>
                         <TextBlock x:Uid="AboutPage_Privacy_Title" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyStrongTextBlockStyle}" />
                         <TextBlock x:Uid="AboutPage_Privacy_Text" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
                         <StackPanel Orientation="Horizontal">
-                            <HyperlinkButton x:Uid="AboutPage_privacy" />
+                            <HyperlinkButton x:Uid="AboutPage_privacy" Command="{x:Bind ViewModel.OpenInBrowserCommand}" CommandParameter="privacy" />
                         </StackPanel>
                         <TextBlock x:Uid="AboutPage_license_Title" Margin="{StaticResource SmallTopMargin}" Style="{StaticResource BodyStrongTextBlockStyle}" />
                         <TextBlock x:Uid="AboutPage_license_Text" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
                         <StackPanel Orientation="Horizontal">
-                            <HyperlinkButton x:Uid="AboutPage_license" />
-                            <HyperlinkButton x:Uid="AboutPage_todotxtnet_license" />
+                            <HyperlinkButton x:Uid="AboutPage_license" Command="{x:Bind ViewModel.OpenInBrowserCommand}" CommandParameter="privacy" />
+                            <HyperlinkButton x:Uid="AboutPage_todotxtnet_license" Command="{x:Bind ViewModel.OpenInBrowserCommand}" CommandParameter="todotxt.net.license" />
                         </StackPanel>
                         <TextBlock x:Uid="AboutPage_Source_Title" Margin="{StaticResource SmallTopMargin}" Style="{StaticResource BodyStrongTextBlockStyle}" />
                         <TextBlock x:Uid="AboutPage_Source_Text" TextAlignment="Justify" TextWrapping="Wrap" Margin="{StaticResource XSmallTopMargin}" Style="{StaticResource BodyTextStyle}" />
                         <StackPanel Orientation="Horizontal">
-                            <HyperlinkButton x:Uid="AboutPage_source" />
-                            <HyperlinkButton x:Uid="AboutPage_contributing" />
-                            <HyperlinkButton x:Uid="AboutPage_credits" />
+                            <HyperlinkButton x:Uid="AboutPage_source" Command="{x:Bind ViewModel.OpenInBrowserCommand}" CommandParameter="source" />
+                            <HyperlinkButton x:Uid="AboutPage_contributing" Command="{x:Bind ViewModel.OpenInBrowserCommand}" CommandParameter="contributing" />
+                            <HyperlinkButton x:Uid="AboutPage_credits" Command="{x:Bind ViewModel.OpenInBrowserCommand}" CommandParameter="credits" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>

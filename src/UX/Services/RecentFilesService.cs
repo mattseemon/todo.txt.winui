@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
-
-using Seemon.Todo.Contracts.Services;
+﻿using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Models.Settings;
+
+using System.Collections.ObjectModel;
 
 namespace Seemon.Todo.Services;
 

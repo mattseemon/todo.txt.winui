@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Seemon.Todo.Models.Settings;
 
-using Seemon.Todo.Models.Settings;
+using System.Collections.ObjectModel;
 
 namespace Seemon.Todo.Contracts.Services;
 

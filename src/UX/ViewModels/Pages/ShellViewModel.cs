@@ -1,8 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Windows.Input;
-
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 
@@ -15,8 +11,14 @@ using Seemon.Todo.Models.Common;
 using Seemon.Todo.Models.Settings;
 using Seemon.Todo.Views.Pages;
 
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Windows.Input;
+
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
+
+using WinUIEx;
 
 namespace Seemon.Todo.ViewModels.Pages;
 
@@ -82,6 +84,8 @@ public class ShellViewModel : ViewModelBase
     private ICommand? _showFiltersCommannd;
     private ICommand? _applyPresetFilterCommand;
 
+    private ICommand? _alwaysOnTopCommand;
+
     private ICommand? _featureNotImplementedCommand;
 
     public bool IsBackEnabled { get => _isBackEnabled; set => SetProperty(ref _isBackEnabled, value); }
@@ -145,6 +149,7 @@ public class ShellViewModel : ViewModelBase
     public ICommand ShowHiddenTasksCommand => _showHiddentTasksCommand ??= RegisterCommand(OnShowHiddenTasks);
     public ICommand ShowFiltersCommand => _showFiltersCommannd ??= RegisterCommand(OnShowFilters);
     public ICommand ApplyPresetFilterCommand => _applyPresetFilterCommand ??= RegisterCommand<string>(OnApplyPresetFilter);
+    public ICommand AlwaysOnTopCommand => _alwaysOnTopCommand ??= RegisterCommand(OnAlwaysOnTop);
 
     public ICommand FeatureNotImplementedCommand => _featureNotImplementedCommand ??= RegisterCommand<string>(OnFeatureNotImplemented);
 
@@ -164,9 +169,18 @@ public class ShellViewModel : ViewModelBase
 
         _settingsService = settingsService;
         _appSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_APPLICATION, AppSettings.Default)).Result;
+        _appSettings.PropertyChanged += OnAppSettingsPropertyChanged;
         _viewSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
         _todoSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_TODO, TodoSettings.Default)).Result;
         _filterSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_FILTER, FilterSettings.Default)).Result;
+    }
+
+    private void OnAppSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppSettings.AlwaysOnTop))
+        {
+            ((WindowEx)(App.MainWindow)).SetIsAlwaysOnTop(AppSettings.AlwaysOnTop);
+        }
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)
@@ -318,13 +332,13 @@ public class ShellViewModel : ViewModelBase
     }
 
     private bool CanAppendTextToTask() => _taskService.SelectedTasks.Count > 0;
-    
+
     private async void OnAppendTextToTask()
     {
         var response = await _dialogService.ShowDialogAsync<TaskPage>("TaskPage_Append_Title".GetLocalized());
         if (response != null)
         {
-            foreach(var task in  _taskService.SelectedTasks)
+            foreach (var task in _taskService.SelectedTasks)
             {
                 var tempTask = _taskService.Parse(task.Raw);
                 if (tempTask != null)
@@ -333,7 +347,7 @@ public class ShellViewModel : ViewModelBase
                     _taskService.UpdateTask(task, tempTask.GetFormattedRaw());
                 }
             }
-            
+
         }
     }
 
@@ -556,6 +570,12 @@ public class ShellViewModel : ViewModelBase
     private void OnShowHiddenTasks() => App.GetService<MainViewModel>().UpdateCollectionView();
 
     private void OnShowFilters() => _filterSettings.IsFiltersVisible = !_filterSettings.IsFiltersVisible;
+
+    private void OnAlwaysOnTop()
+    {
+        AppSettings.AlwaysOnTop = !AppSettings.AlwaysOnTop;
+        ((WindowEx)(App.MainWindow)).SetIsAlwaysOnTop(AppSettings.AlwaysOnTop);
+    }
 
     private void OnApplyPresetFilter(string? index)
     {

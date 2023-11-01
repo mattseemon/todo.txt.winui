@@ -1,8 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Text.RegularExpressions;
-
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Exceptions;
@@ -10,6 +6,10 @@ using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Models.Common;
 using Seemon.Todo.Models.Settings;
+
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Text.RegularExpressions;
 
 using Task = Seemon.Todo.Models.Task;
 

@@ -389,6 +389,12 @@
                             <KeyboardAccelerator Key="S" Modifiers="Control" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </ToggleMenuFlyoutItem>
+
+                    <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_View_AlwaysOnTop" KeyTipPlacementMode="Left" IsChecked="{x:Bind ViewModel.AppSettings.AlwaysOnTop, Mode=OneWay}" Command="{x:Bind ViewModel.AlwaysOnTopCommand}">
+                        <ToggleMenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="T" Modifiers="Control" />
+                        </ToggleMenuFlyoutItem.KeyboardAccelerators>
+                    </ToggleMenuFlyoutItem>
                 </MenuBarItem>
                 <MenuBarItem x:Uid="ShellPage_MenuBarItem_Help" KeyTipPlacementMode="Bottom">
                     <MenuFlyoutItem x:Uid="ShellPage_MenuBarItem_Help_Settings" KeyTipPlacementMode="Left" Command="{x:Bind ViewModel.ShowSettingsCommand}">
@@ -422,9 +428,9 @@
                     <ToolTip x:Uid="ShellPage_AppBarButton_Calendar_Tooltip" />
                 </ToolTipService.ToolTip>
             </AppBarToggleButton>
-            <TeachingTip Title="Calendar" Target="{x:Bind CalendarToggle}" IsOpen="{x:Bind CalendarToggle.IsChecked, Mode=TwoWay, Converter={StaticResource NullableBooleanToBooleanConverter}}">
+            <TeachingTip x:Uid="ShellPage_AppBarButton_Calendar_Title" Target="{x:Bind CalendarToggle}" IsOpen="{x:Bind CalendarToggle.IsChecked, Mode=TwoWay, Converter={StaticResource NullableBooleanToBooleanConverter}}">
                 <TeachingTip.HeroContent>
-                    <CalendarView DisplayMode="Month" SelectionMode="None" IsGroupLabelVisible="True" IsOutOfScopeEnabled="False" />
+                    <CalendarView DisplayMode="Month" SelectionMode="None" IsGroupLabelVisible="True" IsOutOfScopeEnabled="False" Margin="0" HorizontalAlignment="Stretch" CornerRadius="0"/>
                 </TeachingTip.HeroContent>
             </TeachingTip>
             <AppBarButton Grid.Column="4" x:Uid="ShellPage_AppBarButton_Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}" Icon="Setting" ToolTipService.Placement="Bottom" Visibility="Visible" KeyTipPlacementMode="Bottom">

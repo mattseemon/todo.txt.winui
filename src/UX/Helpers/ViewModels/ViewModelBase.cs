@@ -1,13 +1,13 @@
-﻿using System.ComponentModel;
-using System.Windows.Input;
-
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.UI.Xaml.Input;
 
 using Seemon.Todo.Contracts.ViewModels;
 using Seemon.Todo.Models.Common;
+
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace Seemon.Todo.Helpers.ViewModels;
 

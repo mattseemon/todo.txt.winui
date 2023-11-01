@@ -14,8 +14,11 @@
         <TextBlock Grid.Row="0" x:Uid="SettingsPage_Title" Style="{StaticResource PageTitleStyle}" />
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0 0 0 24" Padding="0 0 8 0">
             <StackPanel x:Name="ContentArea">
-                <Expander x:Uid="SettingsPage_Appearance" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyTipPlacementMode="Left">
-                    <Grid>
+                <Border BorderThickness="1 1 1 0" CornerRadius="8 8 0 0" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="12">
+                    <TextBlock x:Uid="SettingsPage_Appearance" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                </Border>
+                <Border BorderThickness="1 1 1 1" CornerRadius="0 0 8 8" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" Padding="12">
+                    <Grid Margin="8 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="400" />
@@ -40,15 +43,19 @@
                         <NumberBox Grid.Row="2" Grid.Column="1" Minimum="8" Maximum="72" VerticalAlignment="Center" MinWidth="200" MaxWidth="200" HorizontalAlignment="Left" SpinButtonPlacementMode="Inline" Value="{x:Bind ViewModel.AppSettings.FontSize, Mode=TwoWay}" />
                         <TextBlock Grid.Row="3" Grid.Column="1" Margin="0 6 0 0" TextWrapping="WrapWholeWords" VerticalAlignment="Center" FontFamily="{x:Bind ViewModel.SelectedFont, Mode=OneWay}" FontSize="{x:Bind ViewModel.AppSettings.FontSize, Mode=OneWay}" Text="The quick brown fox jumps over the lazy dog" />
                     </Grid>
-                </Expander>
-                <Expander x:Uid="SettingsPage_Application" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" KeyTipPlacementMode="Left">
-                    <Grid>
+                </Border>
+                <Border BorderThickness="1 1 1 0" CornerRadius="8 8 0 0" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="12" Margin="0 4 0 0">
+                    <TextBlock x:Uid="SettingsPage_Application" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                </Border>
+                <Border BorderThickness="1 1 1 1" CornerRadius="0 0 8 8" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" Padding="12">
+                    <Grid Margin="8 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="400" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="42" />
+                            <RowDefinition Height="42"/>
                             <RowDefinition Height="42"/>
                             <RowDefinition Height="42"/>
                             <RowDefinition Height="42"/>
@@ -70,10 +77,15 @@
                         </NumberBox>
                         <TextBlock Grid.Row="3" Grid.Column="0" x:Uid="SettingsPage_Application_ShowStatusBar" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
                         <ToggleSwitch Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.ShowStatusBar, Mode=TwoWay}" OnContent="" OffContent="" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" x:Uid="SettingsPage_Application_AlwaysOnTop" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
+                        <ToggleSwitch Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.AlwaysOnTop, Mode=TwoWay}" OnContent="" OffContent="" />
                     </Grid>
-                </Expander>
-                <Expander x:Uid="SettingsPage_Task" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" KeyTipPlacementMode="Left">
-                    <Grid>
+                </Border>
+                <Border BorderThickness="1 1 1 0" CornerRadius="8 8 0 0" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="12" Margin="0 4 0 0">
+                    <TextBlock x:Uid="SettingsPage_Task" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                </Border>
+                <Border BorderThickness="1 1 1 1" CornerRadius="0 0 8 8" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" Padding="12">
+                    <Grid Margin="8 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="400" />
@@ -89,7 +101,7 @@
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_Task_AddCreatedDate" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
                         <ToggleSwitch Grid.Row="0" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.AddCreatedDate, Mode=TwoWay}" />
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Confirm before deleting tasks" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="SettingsPage_Task_ConfirmBeforeDeleting" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
                         <ToggleSwitch Grid.Row="1" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.TodoSettings.ConfirmBeleteDelete, Mode=TwoWay}" />
                         <TextBlock Grid.Row="2" Grid.Column="0" x:Uid="SettingsPage_Task_DefaultPriority" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
                         <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{x:Bind ViewModel.Priorities, Mode=OneTime}" VerticalAlignment="Center" MinWidth="200" SelectedItem="{x:Bind ViewModel.SelectedPriority, Mode=TwoWay}" DisplayMemberPath="Description" SelectedValuePath="Value" />
@@ -122,9 +134,12 @@
                             </Button>
                         </Grid>
                     </Grid>
-                </Expander>
-                <Expander x:Uid="SettingsPage_View" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 4 0 0" KeyTipPlacementMode="Left">
-                    <Grid>
+                </Border>
+                <Border BorderThickness="1 1 1 0" CornerRadius="8 8 0 0" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="12" Margin="0 4 0 0">
+                    <TextBlock x:Uid="SettingsPage_View" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                </Border>
+                <Border BorderThickness="1 1 1 1" CornerRadius="0 0 8 8" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" Padding="12">
+                    <Grid Margin="8 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="400" />
@@ -150,7 +165,7 @@
                         <TextBlock Grid.Row="5" Grid.Column="0" x:Uid="SettingsPage_View_ShowHiddenTasks" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" />
                         <ToggleSwitch Grid.Row="5" Grid.Column="1" OnContent="" OffContent="" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.ViewSettings.ShowHiddenTasks, Mode=TwoWay}" />
                     </Grid>
-                </Expander>
+                </Border>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -1,8 +1,8 @@
-﻿using System.Text;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 using Seemon.Todo.Contracts.Services;
+
+using System.Text;
 
 namespace Seemon.Todo.Services;
 

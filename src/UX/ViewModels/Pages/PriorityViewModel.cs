@@ -1,9 +1,9 @@
-﻿using System.Text.RegularExpressions;
-using System.Windows.Input;
-
-using Microsoft.UI.Xaml.Input;
+﻿using Microsoft.UI.Xaml.Input;
 
 using Seemon.Todo.Helpers.ViewModels;
+
+using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 using Windows.System;
 

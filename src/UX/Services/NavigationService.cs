@@ -1,11 +1,11 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Contracts.ViewModels;
 using Seemon.Todo.Helpers.Extensions;
+
+using System.Diagnostics.CodeAnalysis;
 
 namespace Seemon.Todo.Services;
 
