@@ -2,6 +2,7 @@
 layout: default
 title: What is todo.txt?
 last_modified_date: 14-10-2023 10:30
+permalink: /what-is-todo.txt/
 ---
 
 {: .important-title }
