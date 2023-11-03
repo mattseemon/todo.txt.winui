@@ -246,7 +246,11 @@ public class ShellViewModel : ViewModelBase
 
     private void OnClearRecent() => _recentFilesService.ClearAsync();
 
-    private void OnApplicationExit() => Application.Current.Exit();
+    private void OnApplicationExit()
+    {
+        App.HandleClosedEvents = false;
+        Application.Current.Exit();
+    }
 
     private bool CanCopyToClipboard() => _taskService.SelectedTasks.Count > 0;
 

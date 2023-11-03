@@ -6,6 +6,7 @@ using Seemon.Todo.Activation;
 using Seemon.Todo.Contracts.Services;
 using Seemon.Todo.Models.Settings;
 using Seemon.Todo.Services;
+using Seemon.Todo.ViewModels.Controls;
 using Seemon.Todo.ViewModels.Pages;
 using Seemon.Todo.Views.Pages;
 using Seemon.Todo.Views.Windows;
@@ -37,6 +38,8 @@ public partial class App : Application
 
     public static WindowEx MainWindow { get; } = new MainWindow();
 
+    public static bool HandleClosedEvents { get; set; } = false;
+
     public static UIElement? AppTitlebar { get; set; }
 
     public App()
@@ -64,17 +67,19 @@ public partial class App : Application
             services.AddSingleton<ISystemService, SystemService>();
             services.AddSingleton<IRecentFilesService, RecentFilesService>();
             services.AddSingleton<IFileMonitorService, FileMonitorService>();
+            services.AddSingleton<IWindowManagerService, WindowManagerService>();
+            services.AddSingleton<ITaskbarIconService, TaskbarIconService>();
 
             // Core Services
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
-            services.AddTransient<SettingsViewModel>();
-            services.AddTransient<SettingsPage>();
-            services.AddSingleton<MainViewModel>();
-            services.AddTransient<MainPage>();
             services.AddSingleton<ShellViewModel>();
             services.AddTransient<ShellPage>();
+            services.AddSingleton<MainViewModel>();
+            services.AddTransient<MainPage>();
+            services.AddTransient<SettingsViewModel>();
+            services.AddTransient<SettingsPage>();
             services.AddTransient<AboutViewModel>();
             services.AddTransient<AboutPage>();
             services.AddTransient<TaskViewModel>();
@@ -87,10 +92,11 @@ public partial class App : Application
             services.AddTransient<DatePage>();
             services.AddTransient<PostponeViewModel>();
             services.AddTransient<PostponePage>();
+            services.AddTransient<TaskbarIconViewModel>();
 
             // Configuration
             services.Configure<FileSettingsOptions>(context.Configuration.GetSection(nameof(FileSettingsOptions)));
-            services.Configure<ApplicationUrls>(context.Configuration.GetSection("Urls"));
+            services.Configure<ApplicationUrls>(context.Configuration.GetSection(nameof(ApplicationUrls)));
         }).
         Build();
 

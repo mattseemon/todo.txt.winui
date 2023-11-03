@@ -56,5 +56,11 @@ public class AboutViewModel : ViewModelBase
         return version;
     }
 
-    private void OnOpenInBrowser(string parameter) => _systemService.OpenInWebBrowser(_urls[parameter]);
+    private void OnOpenInBrowser(string? parameter)
+    {
+        if (parameter != null)
+        {
+            _systemService.OpenInWebBrowser(_urls[parameter]);
+        }
+    }
 }

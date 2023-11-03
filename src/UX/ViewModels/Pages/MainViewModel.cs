@@ -23,14 +23,15 @@ public class MainViewModel : ViewModelBase, INavigationAware
     private readonly ITaskService _taskService;
     private readonly IRecentFilesService _recentFilesService;
     private readonly ISettingsService _settingsService;
+    private readonly ITaskbarIconService _taskbarIconService;
 
     private readonly AppSettings _appSettings;
     private readonly ViewSettings _viewSettings;
     private readonly FilterSettings _filterSettings;
 
-    private CollectionViewSource _tasksCollectionView = new CollectionViewSource();
-    private ObservableCollection<Models.Task> _filteredTasks = new ObservableCollection<Models.Task>();
-    private ObservableCollection<GroupTaskList> _groupedTasks = new ObservableCollection<GroupTaskList>();
+    private CollectionViewSource _tasksCollectionView = new();
+    private ObservableCollection<Models.Task> _filteredTasks = new();
+    private ObservableCollection<GroupTaskList> _groupedTasks = new();
 
     private FontFamily _fontFamily = FontFamily.XamlAutoFontFamily;
     private double _fontSize;
@@ -65,11 +66,12 @@ public class MainViewModel : ViewModelBase, INavigationAware
     public FilterSettings FilterSettings => _filterSettings;
     public Models.TasksSummary Summary => _tasksSummary;
 
-    public MainViewModel(ITaskService taskService, IRecentFilesService recentFilesService, ISettingsService settingsService)
+    public MainViewModel(ITaskService taskService, IRecentFilesService recentFilesService, ISettingsService settingsService, ITaskbarIconService taskbarIconService)
     {
         _taskService = taskService;
         _recentFilesService = recentFilesService;
         _settingsService = settingsService;
+        _taskbarIconService = taskbarIconService;
 
         _viewSettings = Task.Run(() => _settingsService.GetAsync(Constants.SETTING_VIEW, ViewSettings.Default)).Result;
         _viewSettings.PropertyChanged += OnViewSettingsPropertyChanged;
@@ -117,6 +119,22 @@ public class MainViewModel : ViewModelBase, INavigationAware
         if (e.PropertyName == nameof(AppSettings.FontSize))
         {
             FontSize = _appSettings.FontSize;
+        }
+        if (e.PropertyName == nameof(AppSettings.ShowInNotificationArea))
+        {
+            if (_appSettings.ShowInNotificationArea)
+            {
+                _taskbarIconService.Initialize();
+            }
+            else
+            {
+                _taskbarIconService.Destroy();
+            }
+            App.HandleClosedEvents = _appSettings.ShowInNotificationArea && _appSettings.CloseToNotificationArea;
+        }
+        if (e.PropertyName == nameof(AppSettings.CloseToNotificationArea))
+        {
+            App.HandleClosedEvents = _appSettings.ShowInNotificationArea && _appSettings.CloseToNotificationArea;
         }
     }
 

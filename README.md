@@ -64,6 +64,7 @@ Library | Version
 ------- | -------:
 [CommunityToolkit.Mvvm ](https://github.com/CommunityToolkit/dotnet)|8.2.2
 [CommunityToolkit.WinUI.UI](https://github.com/CommunityToolkit/WindowsCommunityToolkit)|7.1.2
+[H.NotifyIcon.WinUI](https://github.com/HavenDV/H.NotifyIcon/)|2.0.118
 [Microsoft.Extensions.Hosting](https://github.com/dotnet/runtime)|7.0.1
 [Microsoft.Graphics.Win2D](https://microsoft.github.io/Win2D/html/Introduction.htm)|1.0.5.1
 [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)|1.4.2

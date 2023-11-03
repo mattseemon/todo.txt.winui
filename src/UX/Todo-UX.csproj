@@ -37,6 +37,12 @@
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="Assets\Todo.TaskbarIcon.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\Todo.TaskbarIcon.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
@@ -45,6 +51,7 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.118" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
@@ -63,6 +70,9 @@
     <None Update="Assets\Todo-256.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Assets\Todo.TaskbarIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="Versioning\AssemblyInfo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AssemblyInfo.cs</LastGenOutput>

@@ -59,6 +59,9 @@
                             <RowDefinition Height="42"/>
                             <RowDefinition Height="42"/>
                             <RowDefinition Height="42"/>
+                            <RowDefinition Height="42"/>
+                            <RowDefinition Height="42"/>
+                            <RowDefinition Height="42"/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="SettingsPage_Application_AutoRefresh" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
                         <ToggleSwitch Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.AutoRefreshFile, Mode=TwoWay}" OnContent="" OffContent="" />
@@ -79,6 +82,12 @@
                         <ToggleSwitch Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.ShowStatusBar, Mode=TwoWay}" OnContent="" OffContent="" />
                         <TextBlock Grid.Row="4" Grid.Column="0" x:Uid="SettingsPage_Application_AlwaysOnTop" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
                         <ToggleSwitch Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.AlwaysOnTop, Mode=TwoWay}" OnContent="" OffContent="" />
+                        <TextBlock Grid.Row="5" Grid.Column="0" x:Uid="SettingsPage_Application_ShowInNotificationArea" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
+                        <ToggleSwitch Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.ShowInNotificationArea, Mode=TwoWay}" OnContent="" OffContent="" />
+                        <TextBlock Grid.Row="6" Grid.Column="0" x:Uid="SettingsPage_Application_MinimizeToNotifications" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
+                        <ToggleSwitch Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.MinimizeToNotificationArea, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.AppSettings.ShowInNotificationArea, Mode=OneWay}" OnContent="" OffContent="" />
+                        <TextBlock Grid.Row="7" Grid.Column="0" x:Uid="SettingsPage_Application_CloseToNotifications" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" />
+                        <ToggleSwitch Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.AppSettings.CloseToNotificationArea, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.AppSettings.ShowInNotificationArea, Mode=OneWay}" OnContent="" OffContent="" />
                     </Grid>
                 </Border>
                 <Border BorderThickness="1 1 1 0" CornerRadius="8 8 0 0" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="12" Margin="0 4 0 0">
