@@ -75,6 +75,7 @@
                       ScrollViewer.IsHorizontalRailEnabled="True"
                       ScrollViewer.VerticalScrollMode="Enabled"
                       ShowsScrollingPlaceholders="True"
+                      Padding="12 0"
                       helpers:FocusHelper.IsFocused="{x:Bind ViewModel.IsTaskListFocused, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Font, Mode=OneWay}" FontSize="{x:Bind ViewModel.FontSize, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:Task">

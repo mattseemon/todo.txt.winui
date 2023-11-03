@@ -378,7 +378,7 @@
                     </RadioMenuFlyoutItem>
                 </MenuBarItem>
                 <MenuBarItem x:Uid="ShellPage_MenuBarItem_View" KeyTipPlacementMode="Bottom">
-                    <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_View_ShowCalendar" KeyTipPlacementMode="Left" IsChecked="{x:Bind CalendarToggle.IsChecked, Mode=TwoWay, Converter={StaticResource NullableBooleanToBooleanConverter}}">
+                    <ToggleMenuFlyoutItem x:Uid="ShellPage_MenuBarItem_View_ShowCalendar" KeyTipPlacementMode="Left" IsChecked="{x:Bind ViewModel.AppSettings.ShowCalendar, Mode=TwoWay, Converter={StaticResource NullableBooleanToBooleanConverter}}">
                         <ToggleMenuFlyoutItem.KeyboardAccelerators>
                             <KeyboardAccelerator Key="C" Modifiers="Control,Shift" />
                         </ToggleMenuFlyoutItem.KeyboardAccelerators>
@@ -423,12 +423,14 @@
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </AutoSuggestBox>
-            <AppBarToggleButton Grid.Column="3" Icon="Calendar" x:Name="CalendarToggle" x:Uid="ShellPage_AppBarButton_Calendar" KeyTipPlacementMode="Bottom" ToolTipService.Placement="Bottom" Visibility="Visible" >
+            <AppBarToggleButton Grid.Column="3" Icon="Calendar" x:Name="CalendarToggle" x:Uid="ShellPage_AppBarButton_Calendar" IsChecked="{x:Bind ViewModel.AppSettings.ShowCalendar, Mode=TwoWay}" 
+                                Visibility="{x:Bind ViewModel.IsMenuVisible, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                KeyTipPlacementMode="Bottom" ToolTipService.Placement="Bottom" >
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="ShellPage_AppBarButton_Calendar_Tooltip" />
                 </ToolTipService.ToolTip>
             </AppBarToggleButton>
-            <TeachingTip x:Uid="ShellPage_AppBarButton_Calendar_Title" Target="{x:Bind CalendarToggle}" IsOpen="{x:Bind CalendarToggle.IsChecked, Mode=TwoWay, Converter={StaticResource NullableBooleanToBooleanConverter}}">
+            <TeachingTip x:Uid="ShellPage_AppBarButton_Calendar_Title" Target="{x:Bind CalendarToggle}" IsOpen="{x:Bind ViewModel.AppSettings.ShowCalendar, Mode=TwoWay, Converter={StaticResource NullableBooleanToBooleanConverter}}">
                 <TeachingTip.HeroContent>
                     <CalendarView DisplayMode="Month" SelectionMode="None" IsGroupLabelVisible="True" IsOutOfScopeEnabled="False" Margin="0" HorizontalAlignment="Stretch" CornerRadius="0"/>
                 </TeachingTip.HeroContent>

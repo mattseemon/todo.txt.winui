@@ -18,6 +18,10 @@ public class AppSettings : ObservableObject
     private double _fontSize = 14;
     private bool _showStatusBar = true;
     private bool _alwaysOnTop = false;
+    private bool _showCalendar = false;
+    private bool _showInNotificationArea = false;
+    private bool _minimizeToNotificationArea = false;
+    private bool _closeToNotificationArea = false;
 
     public AppSettings() => _recentFiles = new ObservableCollection<RecentFile>();
 
@@ -51,6 +55,18 @@ public class AppSettings : ObservableObject
     [JsonProperty("alwaysOnTop")]
     public bool AlwaysOnTop { get => _alwaysOnTop; set => SetProperty(ref _alwaysOnTop, value); }
 
+    [JsonProperty("showInNotificationArea")]
+    public bool ShowInNotificationArea { get => _showInNotificationArea; set => SetProperty(ref _showInNotificationArea, value); }
+
+    [JsonProperty("minimizeToNotificationArea")]
+    public bool MinimizeToNotificationArea { get => _minimizeToNotificationArea; set => SetProperty(ref _minimizeToNotificationArea, value); }
+
+    [JsonProperty("closeToNotificationArea")]
+    public bool CloseToNotificationArea { get => _closeToNotificationArea; set => SetProperty(ref _closeToNotificationArea, value); }
+
+    [JsonIgnore]
+    public bool ShowCalendar { get => _showCalendar; set => SetProperty(ref _showCalendar, value); }
+
     public static AppSettings Default => new()
     {
         Theme = "Default",
@@ -62,5 +78,8 @@ public class AppSettings : ObservableObject
         FontFamily = string.Empty,
         ShowStatusBar = false,
         AlwaysOnTop = false,
+        ShowInNotificationArea = false,
+        MinimizeToNotificationArea = false,
+        CloseToNotificationArea = false,
     };
 }

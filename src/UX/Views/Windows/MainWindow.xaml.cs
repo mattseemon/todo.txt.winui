@@ -1,6 +1,8 @@
 ﻿using Seemon.Todo.Contracts.Services;
+using Seemon.Todo.Helpers.Common;
 using Seemon.Todo.Helpers.Extensions;
 using Seemon.Todo.Helpers.Views;
+using Seemon.Todo.Models.Settings;
 
 using Windows.UI.ViewManagement;
 
@@ -41,6 +43,14 @@ public sealed partial class MainWindow : WindowEx
 
     private void OnWindowClosed(object sender, Microsoft.UI.Xaml.WindowEventArgs args)
     {
-        App.GetService<IActivationService>().DeactivateAsync();
+        if (App.HandleClosedEvents)
+        {
+            args.Handled = true;
+            this.Hide();
+        }
+        else
+        {
+            App.GetService<IActivationService>().DeactivateAsync();
+        }
     }
 }

@@ -140,7 +140,11 @@ public class SettingsViewModel : ViewModelBase, INavigationAware
     private void OnTextBoxFocusChanged(string? value)
         => _textBoxIsFocused = Convert.ToBoolean(value);
 
-    public void OnNavigatedTo(object parameter) => SelectedTheme = _themeSelectorService.Theme.ToString();
+    public void OnNavigatedTo(object parameter)
+    {
+        SelectedTheme = _themeSelectorService.Theme.ToString();
+        AppSettings.ShowCalendar = false;
+    }
 
     public async void OnNavigatedFrom() => await _settingsService.PersistAsync();
 

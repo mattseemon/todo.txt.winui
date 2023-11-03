@@ -40,6 +40,7 @@ Package|Version|Licenses
 ---|---:|:---:
 [CommunityToolkit.Mvvm](#communitytoolkitmvvm)|8.2.2|MIT
 [CommunityToolkit.WinUI.UI](#communitytoolkitwinuiui)|7.1.2|MIT
+[H.NotifyIcon.WinUI](#hnotifyiconwinui)|2.0.118|MIT
 [Microsoft.Extensions.Hosting](#microsoftextensionshosting)|7.0.1|MIT
 [Microsoft.Graphics.Win2D](#microsoftgraphicswin2d)|1.0.5.1|MIT
 [Microsoft.WindowsAppSDK](#microsoftwindowsappsdk)|1.4.2|MIT
@@ -139,6 +140,44 @@ This library provides various common UI helpers. It is a part of the Windows Com
 
 ---
 
+## H.NotifyIcon.WinUI
+### Description
+This is an implementation of a NotifyIcon (aka system tray icon or taskbar icon) for the WinUI platform.
+### Additional Information
+|Type|Value|
+|---|---|
+|Version|2.0.118|
+|License|MIT|
+|Author|havendv -> Lakritzator and Philipp Sumi |
+|Homepage|https://github.com/HavenDV/H.NotifyIcon/|
+### Declared License(s)
+  * MIT
+    ```
+    MIT License
+
+    Copyright (c) 2020 havendv
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+    ```
+[Back to Top](#complete-list-of-credits-for-todo)
+
+---
 ## Microsoft.Extensions.Hosting
 ### Description
 Hosting and startup infrastructures for applications.

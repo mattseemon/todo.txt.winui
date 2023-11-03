@@ -15,16 +15,18 @@ public class ActivationService : IActivationService
     private readonly IThemeSelectorService _themeSelectorService;
     private readonly ISettingsService _settingsService;
     private readonly IRecentFilesService _recentFilesService;
+    private readonly ITaskbarIconService _taskbarIconService;
     private UIElement? _shell = null;
 
     public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers,
-        IThemeSelectorService themeSelectorService, ISettingsService settingsService, IRecentFilesService recentFilesService)
+        IThemeSelectorService themeSelectorService, ISettingsService settingsService, IRecentFilesService recentFilesService, ITaskbarIconService taskbarIconService)
     {
         _defaultHandler = defaultHandler;
         _activationHandlers = activationHandlers;
         _themeSelectorService = themeSelectorService;
         _settingsService = settingsService;
         _recentFilesService = recentFilesService;
+        _taskbarIconService = taskbarIconService;
     }
 
     public async Task ActivateAsync(object activationArgs)
@@ -39,6 +41,8 @@ public class ActivationService : IActivationService
             App.MainWindow.Content = _shell ?? new Frame();
         }
 
+        _taskbarIconService.Initialize();
+
         // Handle activation via ActivationHandlers.
         await HandleActivationAsync(activationArgs);
 
@@ -51,6 +55,7 @@ public class ActivationService : IActivationService
 
     public async Task DeactivateAsync()
     {
+        _taskbarIconService.Destroy();
         _recentFilesService?.SortAndTrimRecents();
         await _settingsService.PersistAsync();
     }

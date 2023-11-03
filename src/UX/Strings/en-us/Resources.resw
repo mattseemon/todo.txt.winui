@@ -790,4 +790,19 @@
   <data name="AboutPage_Website.Content" xml:space="preserve">
     <value>Todo Website</value>
   </data>
+  <data name="SettingsPage_Application_CloseToNotifications.Text" xml:space="preserve">
+    <value>Close application window to Notifications Area</value>
+  </data>
+  <data name="SettingsPage_Application_MinimizeToNotifications.Text" xml:space="preserve">
+    <value>Minimize application window to Notifications Area</value>
+  </data>
+  <data name="SettingsPage_Application_ShowInNotificationArea.Text" xml:space="preserve">
+    <value>Show Todo in notification area</value>
+  </data>
+  <data name="TBI_Exit.Text" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="TBI_Show.Text" xml:space="preserve">
+    <value>Show Window</value>
+  </data>
 </root>
