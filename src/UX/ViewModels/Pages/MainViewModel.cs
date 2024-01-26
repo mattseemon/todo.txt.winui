@@ -235,6 +235,8 @@ public class MainViewModel : ViewModelBase, INavigationAware
 
         UpdateSummary();
 
+        App.GetService<ShellViewModel>().RaiseCommandCanExecute();
+
         IsTaskListFocused = true;
     }
 
