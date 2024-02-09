@@ -40,13 +40,13 @@ Package|Version|Licenses
 ---|---:|:---:
 [CommunityToolkit.Mvvm](#communitytoolkitmvvm)|8.2.2|MIT
 [CommunityToolkit.WinUI.UI](#communitytoolkitwinuiui)|7.1.2|MIT
-[H.NotifyIcon.WinUI](#hnotifyiconwinui)|2.0.118|MIT
-[Microsoft.Extensions.Hosting](#microsoftextensionshosting)|7.0.1|MIT
-[Microsoft.Graphics.Win2D](#microsoftgraphicswin2d)|1.0.5.1|MIT
-[Microsoft.WindowsAppSDK](#microsoftwindowsappsdk)|1.4.2|MIT
+[H.NotifyIcon.WinUI](#hnotifyiconwinui)|2.0.124|MIT
+[Microsoft.Extensions.Hosting](#microsoftextensionshosting)|8.0.0|MIT
+[Microsoft.Graphics.Win2D](#microsoftgraphicswin2d)|1.1.1|MIT
+[Microsoft.WindowsAppSDK](#microsoftwindowsappsdk)|1.4.4|MIT
 [Microsoft.Xaml.Behaviors.WinUI.Managed](#microsoftxamlbehaviorswinuimanaged)|2.0.9|MIT
 [Newtonsoft.Json](#newtonsoftjson)|13.0.3|MIT
-[WinUIEx](#winuiex)|2.3.2|MIT
+[WinUIEx](#winuiex)|2.3.3|MIT
 
 ## CommunityToolkit.Mvvm
 ### Description
@@ -146,7 +146,7 @@ This is an implementation of a NotifyIcon (aka system tray icon or taskbar icon)
 ### Additional Information
 |Type|Value|
 |---|---|
-|Version|2.0.118|
+|Version|2.0.124|
 |License|MIT|
 |Author|havendv -> Lakritzator and Philipp Sumi |
 |Homepage|https://github.com/HavenDV/H.NotifyIcon/|
@@ -184,7 +184,7 @@ Hosting and startup infrastructures for applications.
 ### Additional Information
 |Type|Value|
 |---|---|
-|Version|7.0.1|
+|Version|8.0.0|
 |License|MIT|
 |Author|Microsoft|
 |Homepage|https://github.com/dotnet/runtime|
@@ -225,7 +225,7 @@ Win2D is an easy-to-use Windows Runtime API for immediate mode 2D graphics rende
 ### Additional Information
 |Type|Value|
 |---|---|
-|Version|1.0.5.1|
+|Version|1.1.1|
 |License|MIT License|
 |Author|Microsoft|
 |Homepage|https://microsoft.github.io/Win2D/html/Introduction.htm|
@@ -266,7 +266,7 @@ The Windows App SDK empowers all Windows Desktop apps with modern Windows UI, AP
 ### Additional Information
 |Type|Value|
 |---|---|
-|Version|1.4.2|
+|Version|1.4.4|
 |License|MIT|
 |Author|Microsoft|
 |Homepage|https://github.com/microsoft/windowsappsdk|
@@ -383,7 +383,7 @@ A set of extension methods and classes to fill some gaps in WinUI 3, mostly arou
 ### Additional Information
 |Type|Value|
 |---|---|
-|Version|2.3.2|
+|Version|2.3.3|
 |License|MIT|
 |Author|Morten Nielsen|
 |Homepage|https://github.com/dotMorten/WinUIEx|
