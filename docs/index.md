@@ -34,4 +34,4 @@ Todo was developed using the below tools and technologies.
  * [.NET Framework](https://docs.microsoft.com/en-gb/dotnet/){:target="_blank"}
 
 ## Minimum System Requirements
-* Windows 10, version 1903 or greater
+* Windows 11, version 22H2 or greater
