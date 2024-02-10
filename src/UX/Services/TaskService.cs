@@ -546,7 +546,7 @@ public class TaskService : ObservableObject, ITaskService
 
                     for (var i = 0; i < 7; i++)
                     {
-                        date = date.AddDays(i);
+                        date = date.AddDays(1);
                         isValid = string.Equals(date.ToString("ddd"), shortDay, StringComparison.CurrentCultureIgnoreCase);
                         if (isValid) break;
                     }
@@ -556,7 +556,7 @@ public class TaskService : ObservableObject, ITaskService
             if (isValid)
             {
                 var replace = pattern == Constants.REGEX_TODO_RELATIVE_DUE_DATE ? $"due:{date.ToTodoDate()}" : $"t:{date.ToTodoDate()}";
-                text = text.Replace(text, replace);
+                text = regex.Replace(text, replace);
             }
         }
         return text;
