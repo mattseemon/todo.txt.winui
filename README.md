@@ -1,7 +1,7 @@
 ![Do Not Use](https://img.shields.io/badge/do_not_use-red?style=for-the-badge)
 ![App Under Construction](https://img.shields.io/badge/app_under_construction-blue?style=for-the-badge)
 ![Not Production Ready](https://img.shields.io/badge/NOT%20PRODUCTION%20READY-red?style=for-the-badge)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui?ref=badge_shield&issueType=license)
+![License](https://img.shields.io/github/license/mattseemon/todo.txt.winui?style=for-the-badge)
 
 ![Todo](./assets/Todo-128.png)
 
@@ -90,7 +90,7 @@ If you want to contribute to the project, check out the guidelines article [here
 
 [Back to Top](#table-of-contents)
 ## License
-![License](https://img.shields.io/github/license/mattseemon/todo.txt.winui?style=for-the-badge)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmattseemon%2Ftodo.txt.winui?ref=badge_shield&issueType=license)
 
 The source code in this repository is covered under the MIT License listed [here](LICENSE]). Feel free to use this in your own projects with attribution!
 
